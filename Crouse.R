@@ -48,8 +48,10 @@ RV
 #to create table 5 (from Crouse 1987)
 tab <- select(table.3, stage_number, class)
 tab_5<- data.frame(tab, stable, RV)
-#---------------- sensitivity analyses 
+#---------------------------------- sensitivity analyses 
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
 (S <- vw.s/as.numeric(v %*% w))
 #elasticity of projection matrices 
+elas <- (A/L1) * S 
+elasticity <- round(elas, 3)
