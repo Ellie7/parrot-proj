@@ -7,15 +7,12 @@ A <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0
 #--------------- population projections 
 #stage structure growth (multiple steps)
 N0 <- 
-years <- 
-N.projections <- matrix(0, nrow = nrow(A), ncol = years + 1)
-N.projections[,1] <- N0 
-for (i in 1:years) N.projections[, i + 1] <- A %*% N.projections[, i]
-
+years <- 10
+N.projections <- matrix(0, nrow = nrow(A), ncol = years + 1) #^not happy yet
 #annual growth rate
 N.totals <- apply(N.projections, 2, sum)
 Rs <- N.totals[-1]/N.totals[-(years + 1)]
-plot(0:(years - 1), Rs, type = "b", xlab = "Year", ylab = "R")
+plot(0:(years - 1), Rs, type = "b", xlab = "Year", ylab = "R") #^not happy yet
 #eigen analysis 
 eigs.A <- eigen(A)
 eigs.A
@@ -32,9 +29,7 @@ for (i in 1:t) R.t[i] <- {
   Nt1 <- A %*% Nt
   R <- sum(Nt1)/sum(Nt)
   R
-}
-#compare result to the point estimate (L1)
-
+} #^not happy until Nt is assigned 
 #calculating the stable stage distribution 
 w <- Re(eigs.A[["vectors"]][, dom.pos])
 ssd <- w / sum(w)
