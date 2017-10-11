@@ -1,5 +1,9 @@
 #Crouse et al. 1987 
 #A STAGE-BASED POPULATION MODEL FOR LOGGERHEAD SEA TURTLES AND IMPLICATIONS FOR CONSERVATION
+install.packages("dplyr")
+install.packages("ggplot2")
+library(dplyr)
+library(ggplot2)
 #recreating table 4
 A <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
               0, 0, 0, 0, 0.0147, 0.6907, 0, 0, 0, 0, 0, 0, 0.0518, 0, 0, 0, 0, 0, 0, 0, 0.8091, 
@@ -33,7 +37,7 @@ for (i in 1:t) R.t[i] <- {
 #calculating the stable stage distribution 
 w <- Re(eigs.A[["vectors"]][, dom.pos])
 ssd <- w / sum(w)
-round(ssd,3)
+stable <- round(ssd,3)
 #0.207 0.670 0.115 0.007 0.000 0.000 0.002 
 #calculating the reproductive value 
 M <- eigen(t(A))
@@ -41,4 +45,11 @@ v <- Re(M$vectors[,which.max(Re(M$values))])
 RV <- v / v[1]
 RV 
 #1.000000   1.400668   5.995523 115.844511 568.780852 507.373040 587.669314
+#to create table 5 (from Crouse 1987)
+tab <- select(table.3, stage_number, class)
+tab_5<- data.frame(tab, stable, RV)
 #---------------- sensitivity analyses 
+#sensitivity of projection matrices 
+vw.s <- v %*% t (w) 
+(S <- vw.s/as.numeric(v %*% w))
+#elasticity of projection matrices 
