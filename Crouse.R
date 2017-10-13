@@ -5,14 +5,20 @@ install.packages("ggplot2")
 library(dplyr)
 library(ggplot2)
 ##making the matrix: 
-mat1 <- matrix(0, nrow = 7, ncol = 7)
+mat1 <- matrix(0, nrow = 7, ncol = 7, byrow = T)
 #fecundity 
-fecundity <- select(table.3, fecundity) 
-#
+fecs <- select(table.3, fecundity)
+mat1[1, 5] <- 127
+mat1[1, 6] <- 4
+mat1[1, 7] <- 80
+#Gs
 pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
-Gi <- (pi^di*(1-pi))/(1-(pi^di))
-
+Gi <- (pi^di*(1-pi))/(1-(pi^di)) 
+round(Gi, 4)
+#Ps
+Pi <- (1-(pi^di))/(1-(pi^di))*pi
+mat1[2:7, 1:6] <-Pi
 #recreating table 4
 A <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
               0, 0, 0, 0, 0.0147, 0.6907, 0, 0, 0, 0, 0, 0, 0.0518, 0, 0, 0, 0, 0, 0, 0, 0.8091, 
