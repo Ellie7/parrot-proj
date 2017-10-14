@@ -56,14 +56,16 @@ A <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0
 
 #--------------- population projections 
 #stage structure growth (multiple steps)
-N0 <- matrix(c(1000,1000,1000,1000,1000,1000,1000,1000), ncol=1)
+N0 <- matrix(c(1000,1000,1000,1000,1000,1000,1000), ncol=1)
 years <- 10
-N.projections <- matrix(0, nrow = nrow(A), ncol = years + 1) #^not happy yet
-N.projections[,1] <- N0
+N.projections <- matrix(0, nrow = nrow(A), ncol = years + 1) 
+N.projections[,1] <- N0 
+for (i in 1:years) N.projections[, i + 1] <- A %*% N.projections[, i] 
+matplot(0:years, t(N.projections), type = "l", lty = 1:3, col = 1, ylab = "Stage Abundance", xlab = "Year")
 #annual growth rate
 N.totals <- apply(N.projections, 2, sum)
 Rs <- N.totals[-1]/N.totals[-(years + 1)]
-plot(0:(years - 1), Rs, type = "b", xlab = "Year", ylab = "R") #^not happy yet
+plot(0:(years - 1), Rs, type = "b", xlab = "Year", ylab = "R") 
 #eigen analysis 
 eigs.A <- eigen(A)
 eigs.A
@@ -80,7 +82,12 @@ for (i in 1:t) R.t[i] <- {
   Nt1 <- A %*% Nt
   R <- sum(Nt1)/sum(Nt)
   R
-} #^not happy until Nt is assigned 
+} 
+#You might need to adjust the number of iterations to make sure the
+#value has stabilised (how can you tell that it has?).
+par(mar = c(5,4,3,2))
+plot(1:t, R.t, type = "b", main = quote("Convergence Toward"* lambda))
+points(t, L1, pch = 19, cex = 1.5)
 #calculating the stable stage distribution 
 w <- Re(eigs.A[["vectors"]][, dom.pos])
 ssd <- w / sum(w)
