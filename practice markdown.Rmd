@@ -6,7 +6,7 @@ output: html_document
 ---
 The code below demonstrates my attempt to re-create the analysis from Crouse's 1987 paper on loggerhead turtle demography. 
 
-## **Creating the Crouse 1987 Matrix** 
+**Creating the Crouse 1987 Matrix** 
 
 Creating a stage-based projection matrix, for each stage, 
 calculating the repro- ductive output (F,), the probability of surviving and growing into the next stage (G,). and the probability of surviving and 
@@ -14,7 +14,10 @@ remaining in the same stage (P,).
 
 ```{r include = FALSE}
 library(dplyr)
+library(knitr)
 table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
+```
+```{r}
 table.3
 fecs <- select(table.3, fecundity)
 #Gs
@@ -52,10 +55,7 @@ is.na(mat1)
 mat1[is.na(mat1)] <- 0
 mat1#almost there  
 ```
-My matrix, almost there, a few numbers are wrong and some of these should be 0 and some are very close to the original value 
-```{r echo = FALSE}
-mat1
-```
+^ My matrix, almost there, a few numbers are wrong and some of these should be 0 and some are very close to the original value 
 **Recreating Table 4**
 Using their matrix for calculations in the meantime 
 ```{r}
@@ -69,23 +69,24 @@ A
 eigs.A <- eigen(A)
 eigs.A
 ```
-Finding the first eigenvalue (finite rate of increase)
+**Finding the first eigenvalue (finite rate of increase)**
 ```{r echo = FALSE} 
 dom.pos <- which.max(eigs.A[["values"]])
 L1 <- Re(eigs.A[["values"]][dom.pos])
 L1
 ```
 **Power method** 
-
-t <- 20
-Nt <- N0/sum(N0)
-R.t <- numeric(t)
-for (i in 1:t) R.t[i] <- {
-  Nt1 <- A %*% Nt
-  R <- sum(Nt1)/sum(Nt)
-  R
-} #^not happy until Nt is assigned (can't find data in paper)
-
+```{r}
+# t <- 20
+# Nt <- N0/sum(N0)
+# R.t <- numeric(t)
+# for (i in 1:t) R.t[i] <- {
+#  Nt1 <- A %*% Nt
+#  R <- sum(Nt1)/sum(Nt)
+#  R
+# } 
+#^not happy until Nt is assigned (can't find data in paper)
+```
 **Calculating the stable stage distribution** 
 ```{r echo = FALSE}
 w <- Re(eigs.A[["vectors"]][, dom.pos])
@@ -104,5 +105,6 @@ RV
 ```{r echo = FALSE}
 tab <- select(table.3, stage_number, class)
 tab_5<- data.frame(tab, stable, RV)
-tab_5
+colnames(tab_5) <- c("Stage number", "Stage Class", "Stable stage distribution (Dominant eigenvector)", "Reproductive values (left eigenvector)" )
+kable(tab_5, caption = "Table 5. Stable stage distribution and reproductive values for the loggerhead population matrix given in Table 4.")
 ```
