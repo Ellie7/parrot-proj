@@ -1,0 +1,58 @@
+---
+title: "Crouse 1987 Analysis"
+author: "Ellie"
+date: "14 October 2017"
+output: html_document
+---
+The code below demonstrates my attempt to re-create the analysis from Crouse's 1987 paper on loggerhead turtle demography. 
+
+## **Creating the Crouse 1987 Matrix** 
+
+Creating a stage-based projection matrix, for each stage, 
+calculating the repro- ductive output (F,), the probability of surviving and growing into the next stage (G,). and the probability of surviving and 
+remaining in the same stage (P,).
+
+```{r echo = FALSE}
+library(dplyr)
+table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
+table.3
+fecs <- select(table.3, fecundity)
+#Gs
+pi <- select(table.3, annual_survivorship)
+di <-select(table.3, stage_duration)
+Gi <- (pi^di*(1-pi))/(1-(pi^di)) 
+Gi <- round(Gi, 4)
+#Ps
+Pi <- (1-(pi^di))/(1-(pi^di))*pi
+life_table <- data.frame(fecs, Gi, Pi)
+##making the matrix: 
+mat1 <- matrix(NA, nrow = 7, ncol = 7, byrow = T) 
+#fill with fecundity 
+mat1[1,] <- life_table$fecundity 
+#add Ps 
+mat1[2,2] <- Pi$annual_survivorship[2]
+mat1[3,3] <- Pi$annual_survivorship[3]
+mat1[4,4] <- Pi$annual_survivorship[4]
+mat1[5,5] <- Pi$annual_survivorship[5]
+mat1[6,6] <- Pi$annual_survivorship[6]
+mat1[7,7] <- Pi$annual_survivorship[7]
+mat1
+#add Gs 
+mat1[2,1] <- Gi$annual_survivorship[1]
+mat1[3,2] <- Gi$annual_survivorship[2]
+mat1[4,3] <- Gi$annual_survivorship[3]
+mat1[5,4] <- Gi$annual_survivorship[4]
+mat1[6,5] <- Gi$annual_survivorship[5]
+mat1[7,6] <- Gi$annual_survivorship[6] 
+mat1
+#remove NAs
+#shows location of NAs
+is.na(mat1)
+#replaces NAs with 0s
+mat1[is.na(mat1)] <- 0
+mat1#almost there  
+```
+
+
+
+
