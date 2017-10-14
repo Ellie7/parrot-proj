@@ -4,7 +4,8 @@ install.packages("dplyr")
 install.packages("ggplot2")
 library(dplyr)
 library(ggplot2)
-
+table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
+table.3
 #----------------- Creating a stage-based projection matrix, for each stage, 
 #calculating the repro- ductive output (F,), the probability of surviving and 
 #growing into the next stage (G,). and the probability of surviving and 
@@ -18,7 +19,6 @@ Gi <- (pi^di*(1-pi))/(1-(pi^di))
 Gi <- round(Gi, 4)
 #Ps
 Pi <- (1-(pi^di))/(1-(pi^di))*pi
-mat1[2:7, 1:6] <-Pi
 life_table <- data.frame(fecs, Gi, Pi)
 ##making the matrix: 
 mat1 <- matrix(NA, nrow = 7, ncol = 7, byrow = T) 
