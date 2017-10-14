@@ -2,8 +2,10 @@
 #A STAGE-BASED POPULATION MODEL FOR LOGGERHEAD SEA TURTLES AND IMPLICATIONS FOR CONSERVATION
 install.packages("dplyr")
 install.packages("ggplot2")
+install.packages("xtable")
 library(dplyr)
 library(ggplot2)
+library(xtable)
 table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
 table.3
 #----------------- Creating a stage-based projection matrix, for each stage, 
@@ -92,6 +94,7 @@ RV
 #to create table 5 (from Crouse 1987)
 tab <- select(table.3, stage_number, class)
 tab_5<- data.frame(tab, stable, RV)
+
 #---------------------------------- sensitivity analyses 
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
