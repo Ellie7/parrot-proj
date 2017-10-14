@@ -56,9 +56,10 @@ A <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0
 
 #--------------- population projections 
 #stage structure growth (multiple steps)
-N0 <- 
+N0 <- matrix(c(1000,1000,1000,1000,1000,1000,1000,1000), ncol=1)
 years <- 10
 N.projections <- matrix(0, nrow = nrow(A), ncol = years + 1) #^not happy yet
+N.projections[,1] <- N0
 #annual growth rate
 N.totals <- apply(N.projections, 2, sum)
 Rs <- N.totals[-1]/N.totals[-(years + 1)]
