@@ -4,13 +4,13 @@ install.packages("dplyr")
 install.packages("ggplot2")
 library(dplyr)
 library(ggplot2)
-##making the matrix: 
-mat1 <- matrix(NA, nrow = 7, ncol = 7, byrow = T)
-#fecundity 
+
+#----------------- Creating a stage-based projection matrix, for each stage, 
+#calculating the repro- ductive output (F,), the probability of surviving and 
+#growing into the next stage (G,). and the probability of surviving and 
+#remaining in the same stage (P,).
+#Fs
 fecs <- select(table.3, fecundity)
-mat1[1,] <- table.3$fecuncity[5:7]
-mat1[1, 6] <- 4
-mat1[1, 7] <- 80
 #Gs
 pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
@@ -20,7 +20,6 @@ Gi <- round(Gi, 4)
 Pi <- (1-(pi^di))/(1-(pi^di))*pi
 mat1[2:7, 1:6] <-Pi
 life_table <- data.frame(fecs, Gi, Pi)
-
 ##making the matrix: 
 mat1 <- matrix(NA, nrow = 7, ncol = 7, byrow = T) 
 #fill with fecundity 
@@ -46,13 +45,13 @@ mat1
 is.na(mat1)
 #replaces NAs with 0s
 mat1[is.na(mat1)] <- 0
-mat1
-
+mat1#almost there 
 
 #recreating table 4
 A <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
               0, 0, 0, 0, 0.0147, 0.6907, 0, 0, 0, 0, 0, 0, 0.0518, 0, 0, 0, 0, 0, 0, 0, 0.8091, 
               0, 0, 0, 0, 0, 0, 0, 0.8091, 0.8089), nr=7, byrow = TRUE) 
+
 #--------------- population projections 
 #stage structure growth (multiple steps)
 N0 <- 
