@@ -18,7 +18,6 @@ library(knitr)
 table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
 ```
 ```{r}
-table.3
 fecs <- select(table.3, fecundity)
 #Gs
 pi <- select(table.3, annual_survivorship)
@@ -103,12 +102,13 @@ for (i in 1:t) R.t[i] <- {
 } 
 ```
 You might need to adjust the number of iterations to make sure the value has stabilised (how can you tell that it has?).
+Can you do it by creating the convergence towards lambda plot? 
 ```{r}
 par(mar = c(5,4,3,2))
 plot(1:t, R.t, type = "b", main = quote("Convergence Toward"* lambda))
 points(t, L1, pch = 19, cex = 1.5)
 ```
-^graph shows immediate convergence to lambda, don't know whats wrong 
+^graph shows immediate convergence to lambda, don't know whats wrong and I think it should be converging to 0.945031? 
 **Calculating the stable stage distribution** 
 ```{r echo = FALSE}
 w <- Re(eigs.A[["vectors"]][, dom.pos])

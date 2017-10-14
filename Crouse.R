@@ -109,7 +109,8 @@ kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive
 #---------------------------------- sensitivity analyses 
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
-(S <- vw.s/as.numeric(v %*% w))
+S <- (S <- vw.s/as.numeric(v %*% w)) 
+plot(, Rs, type = "b", xlab = "Year", ylab = "R") 
 #elasticity of projection matrices 
 elas <- (A/L1) * S 
 elasticity <- round(elas, 3)
