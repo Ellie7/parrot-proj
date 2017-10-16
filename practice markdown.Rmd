@@ -2,7 +2,9 @@
 title: "Crouse 1987 Analysis"
 author: "Ellie"
 date: "14 October 2017"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 The code below demonstrates my attempt to re-create the analysis from Crouse's 1987 paper on loggerhead turtle demography. 
 
@@ -63,7 +65,7 @@ A <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0
               0, 0, 0, 0, 0, 0, 0, 0.8091, 0.8089), nr=7, byrow = TRUE)  
 A
 ```
-#stage structure growth (multiple steps)
+**Stage structure growth (multiple steps)**
 ```{r echo = FALSE}
 N0 <- matrix(c(1000,1000,1000,1000,1000,1000,1000), ncol=1)
 years <- 10
@@ -108,7 +110,8 @@ par(mar = c(5,4,3,2))
 plot(1:t, R.t, type = "b", main = quote("Convergence Toward"* lambda))
 points(t, L1, pch = 19, cex = 1.5)
 ```
-^graph shows immediate convergence to lambda, don't know whats wrong and I think it should be converging to 0.945031? 
+graph shows immediate convergence to lambda, don't know whats wrong and I think it should be converging to 0.945031? 
+
 **Calculating the stable stage distribution** 
 ```{r echo = FALSE}
 w <- Re(eigs.A[["vectors"]][, dom.pos])
