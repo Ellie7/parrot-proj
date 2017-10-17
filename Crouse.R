@@ -17,10 +17,10 @@ fecs <- select(table.3, fecundity)
 pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
 #Ps
-Pi <- (1-(pi^di))/(1-(pi^di))*pi
-Pi <- (1-(pi^(di^-1)))/(1-(pi^di))*pi
+Pi <- ((1-(pi^di))/(1-(pi^di)))*pi
+Pi <- (1-(pi^di^-1))/(1-(pi^di))*pi
 #Gs
-Gi <- (pi^di*(1-pi))/(1-(pi^di)) 
+Gi <- ((pi^di)*(1-pi))/(1-(pi^di)) 
 Gi <- round(Gi, 4)
 #life table (parts of anyway)
 life_table <- data.frame(fecs, Gi, Pi)
@@ -29,11 +29,11 @@ mat1 <- matrix(NA, nrow = 7, ncol = 7, byrow = T)
 #fill with fecundity 
 mat1[1,] <- life_table$fecundity 
 #add Ps 
-mat1[2,2] <- 0 # stage duration 1 year therefore none remain in same stage 
+mat1[2,2] <- Pi$annual_survivorship[2] 
 mat1[3,3] <- Pi$annual_survivorship[3]
 mat1[4,4] <- Pi$annual_survivorship[4]
-mat1[5,5] <- 0 # stage duration 1 year therefore none remain in same stage
-mat1[6,6] <- 0 # stage duration 1 year therefore none remain in same stage
+mat1[5,5] <- 0 #stage duration 1 year therefore none remain in same stage
+mat1[6,6] <- 0 #stage duration 1 year therefore none remain in same stage
 mat1[7,7] <- Pi$annual_survivorship[7]
 mat1
 #add Gs 
