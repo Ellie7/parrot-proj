@@ -17,7 +17,7 @@ fecs <- select(table.3, fecundity)
 pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
 #Ps
-Pi <- ((1-(pi^di))/(1-(pi^di)))*pi
+Pi <- ((1-(pi^di))/(1-(pi^di)))*pi #weirdly without the di^-1 the Pi values are closer to those in Crouses paper 
 Pi <- (1-(pi^di^-1))/(1-(pi^di))*pi
 #Gs
 Gi <- ((pi^di)*(1-pi))/(1-(pi^di)) 
