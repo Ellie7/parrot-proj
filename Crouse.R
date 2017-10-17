@@ -6,6 +6,8 @@ install.packages("knitr")
 library(dplyr)
 library(ggplot2) 
 library(knitr)
+table.3 <- read.csv("~/Parrot/table 3 from crouse.csv")
+View(table.3)
 parrot-proj/table 3 from crouse.csv
 table.3
 #----------------- Creating a stage-based projection matrix, for each stage, 
