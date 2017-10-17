@@ -6,7 +6,7 @@ install.packages("knitr")
 library(dplyr)
 library(ggplot2) 
 library(knitr)
-table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
+parrot-proj/table 3 from crouse.csv
 table.3
 #----------------- Creating a stage-based projection matrix, for each stage, 
 #calculating the repro- ductive output (F,), the probability of surviving and 
