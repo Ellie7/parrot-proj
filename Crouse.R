@@ -19,8 +19,7 @@ fecs <- select(table.3, fecundity)
 pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
 #Ps
-Pi <- ((1-(pi^di))/(1-(pi^di)))*pi #weirdly without the di^-1 the Pi values are closer to those in Crouses paper 
-Pi <- (1-(pi^di^-1))/(1-(pi^di))*pi
+Pi <- (1-(pi^(di^-1)))/(1-(pi^di))*pi
 #Gs
 Gi <- ((pi^di)*(1-pi))/(1-(pi^di)) 
 Gi <- round(Gi, 4)
@@ -64,8 +63,10 @@ N0 <- matrix(c(1000,1000,1000,1000,1000,1000,1000), ncol=1)
 years <- 10
 N.projections <- matrix(0, nrow = nrow(A), ncol = years + 1) 
 N.projections[,1] <- N0 
-for (i in 1:years) N.projections[, i + 1] <- A %*% N.projections[, i] 
-matplot(0:years, t(N.projections), type = "l", lty = 1:3, col = 1, ylab = "Stage Abundance", xlab = "Year")
+for (i in 1:years) 
+  {N.projections[, i + 1] <- A %*% N.projections[, i] 
+matplot(0:years, t(N.projections), type = "l", lty = 1:3, 
+        col = 1, ylab = "Stage Abundance", xlab = "Year")}
 #annual growth rate
 N.totals <- apply(N.projections, 2, sum)
 Rs <- N.totals[-1]/N.totals[-(years + 1)]
