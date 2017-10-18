@@ -16,17 +16,20 @@ table.3
 #remaining in the same stage (P,).
 #Fs
 fecs <- select(table.3, fecundity)
+
+#starting values 
 pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
-di <- select()
+
 #Ps
-Pi <- ((1-(pi^(di^-1)))/(1-(pi^di)))*pi
-
-
-
+Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
 #Gs
-Gi <- ((pi^di)*(1-pi))/(1-(pi^di)) 
+Gi <- ((pi^di)*(1 - pi))/(1 - (pi^di)) 
+Gi <- round(Gi, 4) 
+
+Gi <- ((pi^di)*(1 - pi))/(1 - (pi^di))  
 Gi <- round(Gi, 4)
+
 #life table (parts of anyway)
 life_table <- data.frame(fecs, Gi, Pi)
 ##making the matrix: 
