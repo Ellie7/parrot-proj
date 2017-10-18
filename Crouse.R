@@ -22,16 +22,17 @@ di <-select(table.3, stage_duration)
 #Ps
 Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
 Pi <- round(Pi, 4)
+#P1              0.0000
+#P2              0.7198 (Crouse = 0.7370)
+#P3              0.6535 (Crouse = 0.6610)
+#P4              0.6675 (Crouse = 0.6907)
+#P5              0.0000
+#P6              0.0000
+#P7              0.8086 (Crouse = 0.8089)
+
 #Gs
 Gi <- (pi^di*(1 - pi))/(1 - pi^di) 
 Gi <- round(Gi, 4) 
-
-Gi <- ((pi^di)*(1 - pi))/(1 - (pi^di))  
-Gi <- round(Gi, 4) 
-
-Gi <- ((pi^di)*(1 - pi))/(1 - (pi^di))  
-Gi <- round(Gi, 4)
-
 #life table (parts of anyway)
 life_table <- data.frame(fecs, Gi, Pi)
 ##making the matrix: 
@@ -93,7 +94,8 @@ L1
 t <- 20
 Nt <- N0/sum(N0)
 R.t <- numeric(t)
-for (i in 1:t) R.t[i] <- {
+for (i in 1:t) R.t[i] 
+<- {
   Nt1 <- A %*% Nt
   R <- sum(Nt1)/sum(Nt)
   R
