@@ -15,11 +15,14 @@ table.3
 #growing into the next stage (G,). and the probability of surviving and 
 #remaining in the same stage (P,).
 #Fs
-fecs <- select(table.3, fecundity)
-pi <- select(table.3, annual_survivorship)
-di <-select(table.3, stage_duration)
+fecs <- select(table.3.exp, fecundity)
+pi <- select(table.3.exp, annual_survivorship)
+di <-select(table.3.exp, stage_duration)
 #Ps
-Pi <- (1-(pi^(di^-1)))/(1-(pi^di))*pi
+Pi <- ((1-pi^(di^-1))/(1-pi^di))*pi
+
+
+
 #Gs
 Gi <- ((pi^di)*(1-pi))/(1-(pi^di)) 
 Gi <- round(Gi, 4)
