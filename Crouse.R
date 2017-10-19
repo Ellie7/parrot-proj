@@ -6,7 +6,7 @@ install.packages("knitr")
 library(dplyr)
 library(ggplot2) 
 library(knitr)
-table.3 <- read.csv("~/Parrot/table 3 from crouse.csv")
+table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
 View(table.3)
 parrot-proj/table 3 from crouse.csv
 table.3
@@ -22,13 +22,14 @@ di <-select(table.3, stage_duration)
 #Ps
 Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
 Pi <- round(Pi, 4)
-#P1              0.0000
-#P2              0.7198 (Crouse = 0.7370)
-#P3              0.6535 (Crouse = 0.6610)
-#P4              0.6675 (Crouse = 0.6907)
-#P5              0.0000
-#P6              0.0000
-#P7              0.8086 (Crouse = 0.8089)
+# Pi's
+#1              0.0000
+#2              0.7371
+#3              0.6611
+#4              0.6907
+#5              0.0000
+#6              0.0000
+#7              0.8086
 
 #Gs
 Gi <- (pi^di*(1 - pi))/(1 - pi^di) 
@@ -62,9 +63,9 @@ is.na(mat1)
 #replaces NAs with 0s
 mat1[is.na(mat1)] <- 0
 mat1#almost there 
-
+A <- mat1
 #recreating table 4
-A <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
+B <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
               0, 0, 0, 0, 0.0147, 0.6907, 0, 0, 0, 0, 0, 0, 0.0518, 0, 0, 0, 0, 0, 0, 0, 0.8091, 
               0, 0, 0, 0, 0, 0, 0, 0.8091, 0.8089), nr=7, byrow = TRUE) 
 
@@ -94,17 +95,14 @@ L1
 t <- 20
 Nt <- N0/sum(N0)
 R.t <- numeric(t)
-for (i in 1:t) R.t[i] 
-<- {
+for (i in 1:t) R.t[i] <- {
   Nt1 <- A %*% Nt
   R <- sum(Nt1)/sum(Nt)
   R
 } 
 #You might need to adjust the number of iterations to make sure the
 #value has stabilised (how can you tell that it has?).
-par(mar = c(5,4,3,2))
-plot(1:t, R.t, type = "b", main = quote("Convergence Toward"* lambda))
-points(t, L1, pch = 19, cex = 1.5)
+ggplot()
 #calculating the stable stage distribution 
 w <- Re(eigs.A[["vectors"]][, dom.pos])
 ssd <- w / sum(w)
