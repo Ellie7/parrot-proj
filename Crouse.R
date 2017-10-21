@@ -1,8 +1,5 @@
 #Crouse et al. 1987 
 #A STAGE-BASED POPULATION MODEL FOR LOGGERHEAD SEA TURTLES AND IMPLICATIONS FOR CONSERVATION
-install.packages("dplyr")
-install.packages("ggplot2")
-install.packages("knitr")
 library(dplyr)
 library(ggplot2) 
 library(knitr)
@@ -21,7 +18,7 @@ pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
 #Ps
 Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
-Pi <- round(Pi, 4)
+Pi <- print(Pi, 4)
 # Pi's
 #1              0.0000
 #2              0.7371
@@ -33,7 +30,7 @@ Pi <- round(Pi, 4)
 
 #Gs
 Gi <- (pi^di*(1 - pi))/(1 - pi^di) 
-Gi <- round(Gi, 4) 
+Gi <- print(Gi, 4) 
 #life table (parts of anyway)
 life_table <- data.frame(fecs, Gi, Pi)
 ##making the matrix: 
