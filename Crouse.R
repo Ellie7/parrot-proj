@@ -160,8 +160,15 @@ kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
 S <- (S <- vw.s/as.numeric(v %*% w)) 
-ggplot()
-plot(, Rs, type = "b", xlab = "Year", ylab = "R") 
 #elasticity of projection matrices 
 elas <- (A/L1) * S 
 elasticity <- round(elas, 3)
+### figure 3 - plot the proportional sensitivity to changes in F, P and G 
+stage <- c(1:7)
+F <- c(elasticity[1, 1:7])
+P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3], elasticity[4,4], elasticity[5,5], elasticity[6,6], elasticity[7,7])
+G <- c(elasticity[2,1], elasticity[3,2], elasticity[4,3], elasticity[5,4], elasticity[6,5], elasticity[7,6], 0)
+sensitvities <- data.frame(stage, F, P, G)
+sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens.csv")
+ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
++ scale_x(breaks=c(1,2,3,4,5,6,7))
