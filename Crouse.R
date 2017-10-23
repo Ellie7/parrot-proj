@@ -61,25 +61,40 @@ mat1[is.na(mat1)] <- 0
 mat1#almost there 
 A <- mat1
 ### making a function which creates the matrix 
-function (stagedat, fruitdat, seeddat) 
+function (table.3) 
 {
-  fecs <- tapply(fruitdat$Y2004, fruitdat$Stage, mean)/2
-  seed.freqs <- table(seeddat[, 1])
-  seedfates <- seed.freqs/length(seeddat[, 1])
-  seedfates
-  mat1 <- matrix(0, nrow = 5, ncol = 5)
-  for (i in 2:5) {
-    for (j in 2:5) mat1[i, j] <- {
-      x <- subset(stagedat, stagedat$Y2003 == j)
+  fecs <- select(table.3, fecundity)
+  pi <- select(table.3, annual_survivorship)
+  di <-select(table.3, stage_duration)
+  Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
+  Gi <- (pi^di*(1 - pi))/(1 - pi^di)
+  mat1 <- matrix(0, nrow = 7, ncol = 7)
+  for (i in 2:7) {
+    for (j in 2:7) mat1[i, j] <- {
+      x <- subset(stage_duration, stage_duration == j)
       jT <- nrow(x)
-      iT <- sum(x$Y2004 == i)
+      iT <- sum(x$stage_duration == i)
       iT/jT
     }
   }
-  mat1[1, 1] <- seedfates[2]
-  mat1[2, 1] <- seedfates[3]
-  mat1[1, 4] <- fecs[1]
-  mat1[1, 5] <- fecs[2]
+  #add Fs
+  mat1[1,] <- life_table$fecundity 
+  #add Ps 
+  mat1[1,1] <- Pi$annual_survivorship[1] 
+  mat1[2,2] <- Pi$annual_survivorship[2] 
+  mat1[3,3] <- Pi$annual_survivorship[3]
+  mat1[4,4] <- Pi$annual_survivorship[4]
+  mat1[5,5] <- Pi$annual_survivorship[5]
+  mat1[6,6] <- Pi$annual_survivorship[6]
+  mat1[7,7] <- Pi$annual_survivorship[7]
+  mat1
+  #add Gs 
+  mat1[2,1] <- Gi$annual_survivorship[1]
+  mat1[3,2] <- Gi$annual_survivorship[2]
+  mat1[4,3] <- Gi$annual_survivorship[3]
+  mat1[5,4] <- Gi$annual_survivorship[4]
+  mat1[6,5] <- Gi$annual_survivorship[5]
+  mat1[7,6] <- Gi$annual_survivorship[6] 
   return(mat1)
 }
 
