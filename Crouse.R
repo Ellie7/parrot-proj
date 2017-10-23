@@ -156,6 +156,13 @@ colnames(tab_5) <- c("Stage number", "Stage Class", "Stable stage distribution (
 tab_5
 kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive values (v') for the loggerhead population matrix given in Table 4.")
 
+### figure 1 
+#changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history 
+#caculating r determined in the baseline run of the matrix
+r <- log(L1)
+rs <- log(eigs.A$values)
+
+
 #---------------------------------- sensitivity analyses 
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
