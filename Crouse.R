@@ -3,6 +3,7 @@
 library(dplyr)
 library(ggplot2) 
 library(knitr)
+library(primer)
 table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
 View(table.3)
 parrot-proj/table 3 from crouse.csv
@@ -18,7 +19,6 @@ pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
 #Ps
 Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
-Pi <- print(Pi, 4)
 # Pi's
 #1              0.0000
 #2              0.7371
@@ -30,7 +30,6 @@ Pi <- print(Pi, 4)
 
 #Gs
 Gi <- (pi^di*(1 - pi))/(1 - pi^di) 
-Gi <- print(Gi, 4) 
 #life table (parts of anyway)
 life_table <- data.frame(fecs, Gi, Pi)
 ##making the matrix: 
@@ -61,8 +60,31 @@ is.na(mat1)
 mat1[is.na(mat1)] <- 0
 mat1#almost there 
 A <- mat1
+### making a function which creates the matrix 
+function (stagedat, fruitdat, seeddat) 
+{
+  fecs <- tapply(fruitdat$Y2004, fruitdat$Stage, mean)/2
+  seed.freqs <- table(seeddat[, 1])
+  seedfates <- seed.freqs/length(seeddat[, 1])
+  seedfates
+  mat1 <- matrix(0, nrow = 5, ncol = 5)
+  for (i in 2:5) {
+    for (j in 2:5) mat1[i, j] <- {
+      x <- subset(stagedat, stagedat$Y2003 == j)
+      jT <- nrow(x)
+      iT <- sum(x$Y2004 == i)
+      iT/jT
+    }
+  }
+  mat1[1, 1] <- seedfates[2]
+  mat1[2, 1] <- seedfates[3]
+  mat1[1, 4] <- fecs[1]
+  mat1[1, 5] <- fecs[2]
+  return(mat1)
+}
+
 #recreating table 4
-B <- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
+B<- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
               0, 0, 0, 0, 0.0147, 0.6907, 0, 0, 0, 0, 0, 0, 0.0518, 0, 0, 0, 0, 0, 0, 0, 0.8091, 
               0, 0, 0, 0, 0, 0, 0, 0.8091, 0.8089), nr=7, byrow = TRUE) 
 
@@ -103,7 +125,8 @@ ggplot()
 #calculating the stable stage distribution 
 w <- Re(eigs.A[["vectors"]][, dom.pos])
 ssd <- w / sum(w)
-stable <- round(ssd,3)
+stable <- ssd*100
+stable <- round(stable, 2)
 #0.207 0.670 0.115 0.007 0.000 0.000 0.002 
 #calculating the reproductive value 
 M <- eigen(t(A))
@@ -122,6 +145,7 @@ kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
 S <- (S <- vw.s/as.numeric(v %*% w)) 
+ggplot()
 plot(, Rs, type = "b", xlab = "Year", ylab = "R") 
 #elasticity of projection matrices 
 elas <- (A/L1) * S 
