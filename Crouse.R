@@ -105,8 +105,8 @@ B<- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.
 
 #--------------- population projections 
 #stage structure growth (multiple steps)
-N0 <- matrix(c(1000,1000,1000,1000,1000,1000,1000), ncol=1)
-years <- 10
+N0 <- matrix(c(10000,10000,10000,10000,10000,10000,10000), ncol=1)
+years <- 20
 N.projections <- matrix(0, nrow = nrow(A), ncol = years + 1) 
 N.projections[,1] <- N0 
 for (i in 1:years) 
