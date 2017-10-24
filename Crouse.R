@@ -163,7 +163,7 @@ r <- log(L1)
 rs <- log(eigs.A$values)
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 changes <- data.frame(stage, rs)
-ggplot(changes,aes(x = stage, y = rs)) + geom_bar(stat = "identity")
+ggplot(changes, aes(x = stage, y = rs)) + geom()
 
 #---------------------------------- sensitivity analyses 
 #sensitivity of projection matrices 
