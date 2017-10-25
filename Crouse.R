@@ -116,7 +116,6 @@ matplot(0:years, t(N.projections), type = "l", lty = 1:3,
 #annual growth rate
 N.totals <- apply(N.projections, 2, sum)
 Rs <- N.totals[-1]/N.totals[-(years + 1)]
-plot(0:(years - 1), Rs, type = "b", xlab = "Year", ylab = "R") 
 #eigen analysis 
 eigs.A <- eigen(A)
 eigs.A
@@ -124,7 +123,7 @@ eigs.A
 dom.pos <- which.max(eigs.A[["values"]])
 L1 <- Re(eigs.A[["values"]][dom.pos])
 L1
-#=0.945031
+#=0.9451619
 #power method
 t <- 20
 Nt <- N0/sum(N0)
@@ -148,7 +147,7 @@ M <- eigen(t(A))
 v <- Re(M$vectors[,which.max(Re(M$values))])
 RV <- v / v[1]
 RV 
-#1.000000   1.400668   5.995523 115.844511 568.780852 507.373040 587.669314
+#1.000000   1.400863   5.997875 115.559274 567.386379 505.836132 585.956078
 #to create table 5 (from Crouse 1987)
 tab <- select(table.3, stage_number, class)
 tab_5<- data.frame(tab, stable, RV)
@@ -179,5 +178,5 @@ P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3], elasticity[4,4], elast
 G <- c(elasticity[2,1], elasticity[3,2], elasticity[4,3], elasticity[5,4], elasticity[6,5], elasticity[7,6], 0)
 sensitvities <- data.frame(stage, F, P, G)
 sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens.csv")
-ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
-+ scale_x(breaks=c(1,2,3,4,5,6,7))
+fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
+fig.3
