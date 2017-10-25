@@ -159,10 +159,11 @@ kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive
 #changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history 
 #caculating r determined in the baseline run of the matrix
 r <- log(L1)
-rs <- log(eigs.A$values)
+exp <- (Re(eigs.A[["values"]]))^2
+rs <- sqrt(exp)
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 changes <- data.frame(stage, rs)
-ggplot(changes, aes(x = stage, y = rs)) + geom()
+ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
 
 #---------------------------------- sensitivity analyses 
 #sensitivity of projection matrices 
