@@ -188,7 +188,8 @@ fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + g
 Changes in rate of increase r resulting from sim- ulated changes in fecundity and survival of individual life history stages in the loggerhead population matrix (remaining components held constant). The dashed line represents the r determined in the baseline run on the initial matrix. 
 ```{r}
 r <- log(L1)
-rs <- log(eigs.A$values)
+exp <- (Re(eigs.A[["values"]]))^2
+rs <- sqrt(exp)
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 changes <- data.frame(stage, rs)
 ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
