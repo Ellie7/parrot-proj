@@ -3,6 +3,7 @@ title: "Crouse 1987 Analysis"
 author: "Ellie"
 date: "14 October 2017"
 output:
+  word_document: default
   pdf_document: default
   html_document: default
 ---
@@ -13,14 +14,14 @@ The code below demonstrates my attempt to re-create the analysis from Crouse's 1
 Creating a stage-based projection matrix, for each stage, 
 calculating the repro- ductive output (F,), the probability of surviving and growing into the next stage (G,). and the probability of surviving and 
 remaining in the same stage (P,).
+This code needs the csv files 'table 3 from crouse' and 'sens'
 
 ```{r include = FALSE}
 library(dplyr)
 library(knitr)
-parrot-proj/table 3 from crouse.csv
+library(ggplot2)
 table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
-```
-```{r}
+sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens.csv")
 fecs <- select(table.3, fecundity)
 #starting values 
 pi <- select(table.3, annual_survivorship)
@@ -67,7 +68,12 @@ is.na(mat1)
 #replaces NAs with 0s
 mat1[is.na(mat1)] <- 0
 mat1#almost there 
-A <- mat1  
+A <- mat1
+```
+**Table 4** 
+Stage-class population matrix for loggerhead sea turtles based on the life table presented in Table 3. For the general form of the matrix and formulae for calculating the matrix elements see Theoretical Population Projections. 
+```{r}
+A
 ```
 **Have started trying to make a function for 'matrixing'**
 ```{r}
@@ -108,21 +114,13 @@ A <- mat1
 # }
 ```
 **Stage structure growth (multiple steps)**
-```{r echo = FALSE}
+```{r include = FALSE}
 N0 <- matrix(c(10000,10000,10000,10000,10000,10000,10000), ncol=1)
 years <- 20
 N.projections <- matrix(0, nrow = nrow(A), ncol = years + 1) 
 N.projections[,1] <- N0 
-for (i in 1:years) 
-  {N.projections[, i + 1] <- A %*% N.projections[, i] 
-matplot(0:years, t(N.projections), type = "l", lty = 1:3, 
-        col = 1, ylab = "Stage Abundance", xlab = "Year")}
-```
-**Annual growth rate**
-```{r echo = FALSE}
 N.totals <- apply(N.projections, 2, sum)
 Rs <- N.totals[-1]/N.totals[-(years + 1)]
-plot(0:(years - 1), Rs, type = "b", xlab = "Year", ylab = "R") 
 ```
 **Eigen analysis** 
 ```{r echo = FALSE} 
@@ -136,7 +134,8 @@ L1 <- Re(eigs.A[["values"]][dom.pos])
 L1
 ```
 **Power method** 
-using N0 <- matrix(c(1000,1000,1000,1000,1000,1000,1000), ncol=1) as a subsitute for actual data 
+
+using N0 <- matrix(c(10000,10000,10000,10000,10000,10000,10000), ncol=1) as a subsitute for actual data 
 ```{r}
 t <- 20
 Nt <- N0/sum(N0)
@@ -147,15 +146,6 @@ for (i in 1:t) R.t[i] <- {
   R
 } 
 ```
-You might need to adjust the number of iterations to make sure the value has stabilised (how can you tell that it has?).
-Can you do it by creating the convergence towards lambda plot? 
-```{r}
-par(mar = c(5,4,3,2))
-plot(1:t, R.t, type = "b", main = quote("Convergence Toward"* lambda))
-points(t, L1, pch = 19, cex = 1.5)
-```
-graph shows immediate convergence to lambda, don't know whats wrong and I think it should be converging to 0.945031? 
-
 **Calculating the stable stage distribution** 
 ```{r echo = FALSE}
 w <- Re(eigs.A[["vectors"]][, dom.pos])
@@ -175,5 +165,28 @@ RV
 tab <- select(table.3, stage_number, class)
 tab_5<- data.frame(tab, stable, RV)
 colnames(tab_5) <- c("Stage number", "Stage Class", "Stable stage distribution (Dominant eigenvector)", "Reproductive values (left eigenvector)" )
-kable(tab_5, caption = "Table 5. Stable stage distribution and reproductive values for the loggerhead population matrix given in Table 4.")
+kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive values (v') for the loggerhead population matrix given in Table 4.")
+```
+
+**Sensitivity analyses**
+```{r echo = FALSE}
+#sensitivity of projection matrices 
+vw.s <- v %*% t (w) 
+S <- (S <- vw.s/as.numeric(v %*% w)) 
+#elasticity of projection matrices 
+elas <- (A/L1) * S 
+elasticity <- round(elas, 3)
+### figure 3 - plot the proportional sensitivity to changes in F, P and G 
+stage <- c(1:7)
+F <- c(elasticity[1, 1:7])
+P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3], elasticity[4,4], elasticity[5,5], elasticity[6,6], elasticity[7,7])
+G <- c(elasticity[2,1], elasticity[3,2], elasticity[4,3], elasticity[5,4], elasticity[6,5], elasticity[7,6], 0)
+sensitvities <- data.frame(stage, F, P, G)
+fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
+```
+**Figure 3** 
+The elasticity, or proportional sensitivity of lambda to changes in fecundity, F, survival while remainging in the same stage (P) and survival with growth (G). Because the elasticities of this matriz sum to 1, they can be compared directly in terms of their contribution to the population growth rate r. 
+
+```{r echo = FALSE}
+fig.3
 ```
