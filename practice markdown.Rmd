@@ -184,6 +184,15 @@ G <- c(elasticity[2,1], elasticity[3,2], elasticity[4,3], elasticity[5,4], elast
 sensitvities <- data.frame(stage, F, P, G)
 fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 ```
+**Figure 1**
+Changes in rate of increase r resulting from sim- ulated changes in fecundity and survival of individual life history stages in the loggerhead population matrix (remaining components held constant). The dashed line represents the r determined in the baseline run on the initial matrix. 
+```{r}
+r <- log(L1)
+rs <- log(eigs.A$values)
+stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
+changes <- data.frame(stage, rs)
+ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
+```
 **Figure 3** 
 The elasticity, or proportional sensitivity of lambda to changes in fecundity, F, survival while remainging in the same stage (P) and survival with growth (G). Because the elasticities of this matriz sum to 1, they can be compared directly in terms of their contribution to the population growth rate r. 
 
