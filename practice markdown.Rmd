@@ -17,24 +17,35 @@ remaining in the same stage (P,).
 ```{r include = FALSE}
 library(dplyr)
 library(knitr)
-table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
+parrot-proj/table 3 from crouse.csv
 ```
 ```{r}
 fecs <- select(table.3, fecundity)
-#Gs
+#starting values 
 pi <- select(table.3, annual_survivorship)
 di <-select(table.3, stage_duration)
-Gi <- (pi^di*(1-pi))/(1-(pi^di)) 
-Gi <- round(Gi, 4)
 #Ps
-Pi <- (1-(pi^di))/(1-(pi^di))*pi
+Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
+# Pi's
+#1              0.0000
+#2              0.7371
+#3              0.6611
+#4              0.6907
+#5              0.0000
+#6              0.0000
+#7              0.8086
+
+#Gs
+Gi <- (pi^di*(1 - pi))/(1 - pi^di) 
+#life table (parts of anyway)
 life_table <- data.frame(fecs, Gi, Pi)
 ##making the matrix: 
 mat1 <- matrix(NA, nrow = 7, ncol = 7, byrow = T) 
 #fill with fecundity 
 mat1[1,] <- life_table$fecundity 
 #add Ps 
-mat1[2,2] <- Pi$annual_survivorship[2]
+mat1[1,1] <- Pi$annual_survivorship[1] 
+mat1[2,2] <- Pi$annual_survivorship[2] 
 mat1[3,3] <- Pi$annual_survivorship[3]
 mat1[4,4] <- Pi$annual_survivorship[4]
 mat1[5,5] <- Pi$annual_survivorship[5]
@@ -54,9 +65,9 @@ mat1
 is.na(mat1)
 #replaces NAs with 0s
 mat1[is.na(mat1)] <- 0
-mat1#almost there  
+mat1#almost there 
+A <- mat1  
 ```
-^ My matrix, almost there, a few numbers are wrong and some of these should be 0 and some are very close to the original value 
 **Recreating Table 4**
 Using their matrix for calculations in the meantime 
 ```{r}
