@@ -61,25 +61,21 @@ mat1[is.na(mat1)] <- 0
 mat1#almost there 
 A <- mat1
 ### making a function which creates the matrix 
-function (table.3) 
+lifetable <- table.3
+myFunc <- function (lifetable) 
 {
-  fecs <- select(table.3, fecundity)
-  pi <- select(table.3, annual_survivorship)
-  di <-select(table.3, stage_duration)
+  fecs <- select(lifetable, fecundity)
+  pi <- select(lifetable, annual_survivorship)
+  di <-select(lifetable, stage_duration)
   Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
   Gi <- (pi^di*(1 - pi))/(1 - pi^di)
   mat1 <- matrix(0, nrow = 7, ncol = 7)
   for (i in 2:7) {
-    for (j in 2:7) mat1[i, j] <- {
-      x <- subset(stage_duration, stage_duration == j)
-      jT <- nrow(x)
-      iT <- sum(x$stage_duration == i)
-      iT/jT
-    }
+    for (j in 2:7) mat1[i, j]
   }
   #add Fs
   mat1[1,] <- life_table$fecundity 
-  #add Ps 
+  #add Ps (diagonals)
   mat1[1,1] <- Pi$annual_survivorship[1] 
   mat1[2,2] <- Pi$annual_survivorship[2] 
   mat1[3,3] <- Pi$annual_survivorship[3]
@@ -88,7 +84,7 @@ function (table.3)
   mat1[6,6] <- Pi$annual_survivorship[6]
   mat1[7,7] <- Pi$annual_survivorship[7]
   mat1
-  #add Gs 
+  #add Gs (off-diagonals)
   mat1[2,1] <- Gi$annual_survivorship[1]
   mat1[3,2] <- Gi$annual_survivorship[2]
   mat1[4,3] <- Gi$annual_survivorship[3]
@@ -97,6 +93,8 @@ function (table.3)
   mat1[7,6] <- Gi$annual_survivorship[6] 
   return(mat1)
 }
+
+myFunc(lifetable) 
 
 #recreating table 4
 B<- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
