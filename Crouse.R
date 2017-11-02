@@ -74,7 +74,7 @@ myFunc <- function (lifetable)
     for (j in 2:7) mat1[i, j]
   }
   #add Fs
-  mat1[1,] <- life_table$fecundity 
+  mat1[1,] <- lifetable$fecundity 
   #add Ps (diagonals)
   mat1[1,1] <- Pi$annual_survivorship[1] 
   mat1[2,2] <- Pi$annual_survivorship[2] 
@@ -153,16 +153,6 @@ colnames(tab_5) <- c("Stage number", "Stage Class", "Stable stage distribution (
 tab_5
 kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive values (v') for the loggerhead population matrix given in Table 4.")
 
-### figure 1 
-#changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history 
-#caculating r determined in the baseline run of the matrix
-r <- log(L1)
-exp <- (Re(eigs.A[["values"]]))^2
-rs <- sqrt(exp)
-stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
-changes <- data.frame(stage, rs)
-ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
-
 #---------------------------------- sensitivity analyses 
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
@@ -178,4 +168,27 @@ G <- c(elasticity[2,1], elasticity[3,2], elasticity[4,3], elasticity[5,4], elast
 sensitvities <- data.frame(stage, F, P, G)
 sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens.csv")
 fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
-fig.3
+fig.3 
+#-------------- Calculating changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history stages in the loggerhead population matrix 
+### figure 1 
+#changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history 
+#caculating r determined in the baseline run of the matrix
+table.3.50 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 surv fec altered .csv")
+View(table.3.50)
+#first recalculate eigenvalues for a 50% decrease in survivorship & 50% decrease in fecundity
+lifetable <- table.3.50
+A <- myFunc(lifetable)
+eigs.A <- eigen(A)
+eigs.A
+#finding the first eigenvalue (finite rate of increase)
+dom.pos <- which.max(eigs.A[["values"]])
+L1N <- Re(eigs.A[["values"]][dom.pos]) #N for survivorship to distibuish from initial matrix 
+L1N #=0.404809 
+
+
+r <- log(L1)
+exp <- (Re(eigs.A[["values"]]))^2
+rs <- sqrt(exp)
+stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
+changes <- data.frame(stage, rs)
+ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
