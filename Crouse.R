@@ -4,6 +4,8 @@ library(dplyr)
 library(ggplot2) 
 library(knitr)
 library(primer)
+library(Rmisc)
+library(agricolae)
 table.3 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 from crouse.csv")
 View(table.3)
 parrot-proj/table 3 from crouse.csv
@@ -122,6 +124,8 @@ dom.pos <- which.max(eigs.A[["values"]])
 L1 <- Re(eigs.A[["values"]][dom.pos])
 L1
 #=0.9451619
+r <- log(L1)
+# r = -0.056399
 #power method
 t <- 20
 Nt <- N0/sum(N0)
@@ -187,10 +191,8 @@ L1N #=0.4046335
 lambda <- eigs.A[["values"]]
 exp <- (Re(eigs.A[["values"]]))^2
 rs <- log(sqrt(exp))
-
-
-
-
+#------------------- Plotting Figure 1 
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 changes <- data.frame(stage, rs)
-ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
+ggplot(changes, aes(x = stage, y = rs)) + geom_bar(stat = "identity")+ labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") + geom_hline(aes(yintercept=-0.056399), linetype = "dashed", size = 0.75) + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())+ expand_limits(y=1)+ theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) 
+#^ if its not all on one line it errors its weird
