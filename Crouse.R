@@ -183,7 +183,8 @@ eigs.A
 #finding the first eigenvalue (finite rate of increase)
 dom.pos <- which.max(eigs.A[["values"]])
 L1N <- Re(eigs.A[["values"]][dom.pos]) #N for survivorship to distibuish from initial matrix 
-L1N #=0.404809 
+L1N #=0.4046335  
+eigs.A[["values"]]
 
 
 r <- log(L1)
