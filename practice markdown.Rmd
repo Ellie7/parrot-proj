@@ -9,7 +9,7 @@ output:
 ---
 The code below demonstrates my attempt to re-create the analysis from Crouse's 1987 paper on loggerhead turtle demography. 
 
-**Creating the Crouse 1987 Matrix** 
+#Creating the Crouse 1987 Matrix
 
 Creating a stage-based projection matrix, for each stage, 
 calculating the repro- ductive output (F,), the probability of surviving and growing into the next stage (G,). and the probability of surviving and 
@@ -168,7 +168,7 @@ colnames(tab_5) <- c("Stage number", "Stage Class", "Stable stage distribution (
 kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive values (v') for the loggerhead population matrix given in Table 4.")
 ```
 
-**Sensitivity analyses**
+##Sensitivity analyses
 ```{r echo = FALSE}
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
@@ -192,7 +192,7 @@ exp <- (Re(eigs.A[["values"]]))^2
 rs <- sqrt(exp)
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 changes <- data.frame(stage, rs)
-ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
+#ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
 ```
 **Figure 3** 
 The elasticity, or proportional sensitivity of lambda to changes in fecundity, F, survival while remainging in the same stage (P) and survival with growth (G). Because the elasticities of this matriz sum to 1, they can be compared directly in terms of their contribution to the population growth rate r. 
