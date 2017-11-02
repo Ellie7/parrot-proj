@@ -184,12 +184,13 @@ eigs.A
 dom.pos <- which.max(eigs.A[["values"]])
 L1N <- Re(eigs.A[["values"]][dom.pos]) #N for survivorship to distibuish from initial matrix 
 L1N #=0.4046335  
-eigs.A[["values"]]
-
-
-r <- log(L1)
+lambda <- eigs.A[["values"]]
 exp <- (Re(eigs.A[["values"]]))^2
-rs <- sqrt(exp)
+rs <- log(sqrt(exp))
+
+
+
+
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 changes <- data.frame(stage, rs)
 ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
