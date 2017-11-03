@@ -72,10 +72,7 @@ myFunc <- function (lifetable)
   Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
   Gi <- (pi^di*(1 - pi))/(1 - pi^di)
   mat1 <- matrix(0, nrow = 7, ncol = 7)
-  for (i in 2:7) {
-    for (j in 2:7) mat1[i, j]
-  }
-  #add Fs
+    #add Fs
   mat1[1,] <- lifetable$fecundity 
   #add Ps (diagonals)
   mat1[1,1] <- Pi$annual_survivorship[1] 
@@ -180,8 +177,7 @@ fig.3
 table.3.50 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 surv fec altered .csv")
 View(table.3.50)
 #first recalculate eigenvalues for a 50% decrease in survivorship & 50% decrease in fecundity
-lifetable <- table.3.50
-A <- myFunc(lifetable)
+A <- myFunc(table.3.50)
 eigs.A <- eigen(A)
 eigs.A
 #finding the first eigenvalue (finite rate of increase)
@@ -202,8 +198,7 @@ View(table.3.increase)
 table.3.exp <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 surv fec increased exp.csv")
 View(table.3.exp)
 #first recalculate eigenvalues for a 50% decrease in survivorship & 50% decrease in fecundity
-lifetable <- table.3.exp
-B <- myFunc(lifetable)
+B <- myFunc(table.3.exp)
 eigs.B <- eigen(B)
 eigs.B
 #finding the first eigenvalue (finite rate of increase)
