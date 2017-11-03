@@ -189,8 +189,8 @@ dom.pos <- which.max(eigs.A[["values"]])
 L1N <- Re(eigs.A[["values"]][dom.pos]) #N for survivorship to distibuish from initial matrix 
 L1N #=0.4046335  
 lambda <- eigs.A[["values"]]
-exp <- (Re(eigs.A[["values"]]))^2
-rs <- log(sqrt(exp))
+exp <- (Re(eigs.A[["values"]]))^2 #without doing ^2 for some reason get "Warning message: In log(lambdas) : NaNs produced"
+rs <- log(sqrt(exp)) # sqrt to remove ^2 (see line above for explanation)
 #------------------- Plotting Figure 1a
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 changes <- data.frame(stage, rs)
@@ -211,8 +211,8 @@ dom.pos <- which.max(eigs.B[["values"]])
 L1N <- Re(eigs.B[["values"]][dom.pos]) #N for survivorship to distibuish from initial matrix 
 L1N #=  
 lambda <- eigs.B[["values"]]
-exp <- (Re(eigs.B[["values"]]))^2
-rs <- log(sqrt(exp))
+exp <- (Re(eigs.B[["values"]]))^2 #without doing ^2 for some reason get "Warning message: In log(lambdas) : NaNs produced"
+rs <- log(sqrt(exp)) # sqrt to remove ^2 (see line above for explanation)
 #------------------- Plotting Figure 1 
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 changes <- data.frame(stage, rs)
