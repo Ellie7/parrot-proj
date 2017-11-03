@@ -174,7 +174,7 @@ sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens
 fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 
 #-------------- Calculating changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history stages in the loggerhead population matrix 
-### figure 1 
+### figure 1 (a)
 #changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history 
 #caculating r determined in the baseline run of the matrix
 table.3.50 <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 surv fec altered .csv")
@@ -190,6 +190,28 @@ L1N <- Re(eigs.A[["values"]][dom.pos]) #N for survivorship to distibuish from in
 L1N #=0.4046335  
 lambda <- eigs.A[["values"]]
 exp <- (Re(eigs.A[["values"]]))^2
+rs <- log(sqrt(exp))
+#------------------- Plotting Figure 1a
+stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
+changes <- data.frame(stage, rs)
+ggplot(changes, aes(x = stage, y = rs)) + geom_bar(stat = "identity")+ labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") + geom_hline(aes(yintercept=-0.056399), linetype = "dashed", size = 0.75) + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())+ expand_limits(y=1)+ theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) 
+#^ if its not all on one line it errors its weird 
+### Figure 1 (b)
+table.3.increase <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 surv fec increased .csv")
+View(table.3.increase)
+table.3.exp <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/table 3 surv fec increased exp.csv")
+View(table.3.exp)
+#first recalculate eigenvalues for a 50% decrease in survivorship & 50% decrease in fecundity
+lifetable <- table.3.exp
+B <- myFunc(lifetable)
+eigs.B <- eigen(B)
+eigs.B
+#finding the first eigenvalue (finite rate of increase)
+dom.pos <- which.max(eigs.B[["values"]])
+L1N <- Re(eigs.B[["values"]][dom.pos]) #N for survivorship to distibuish from initial matrix 
+L1N #=  
+lambda <- eigs.B[["values"]]
+exp <- (Re(eigs.B[["values"]]))^2
 rs <- log(sqrt(exp))
 #------------------- Plotting Figure 1 
 stage <- c("Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
