@@ -168,34 +168,22 @@ sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens
 fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 
 #-------------- Calculating changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history stages in the loggerhead population matrix 
-changes_survival <- mutate(table.3, survival= annual_survivorship[1:7] * 0.5)
-changes_fecundity <- mutate(table.3, fecund = fecundity * 0.5)
-changes <- 
-mutate(changes_survival, annual_survivorship = (survival[1] + annual_survivorship[2:7]))
-
-change_in_survival <- function(table.3, change = 0.5){
-  chang <- annual_survivorship*change
-  return(chang)
-}
-
-change_in_survival(table.3)
-
-name.of.function <- function(argument1, argument2) {
-  statements
-  return(something)
-}
-
-lapply(table.3, annual_survivorship * 0.5)
-
-change_fun <- function(annual_survivorship, change = 0.5){
-  annual_survivorship*change
-}
-
-change_fun <- function(x, change = 0.5){
-  survival <- select(table.3, annual_survivorship)
-  stage <- select(table.3, stage_number)
-  survival_change <- survival*change
-    }
-
-change_fun(table.3)
-
+#decresing fecundity and survival by 50%
+table.3_fecAdjust<-mutate(table.3, fecundity = 0.5*fecundity)
+table.3_Surv1Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "1", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv2Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "2", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv3Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "3", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv4Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "4", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv5Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "5", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv6Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "6", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv7Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "7", annual_survivorship * 0.5, annual_survivorship * 1))
+#50% increase in fecundity or an increase in survivorship to 1.0.
+table.3_fecAdjust<-mutate(table.3, fecundity = 1.5*fecundity)
+table.3_Surv1Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "1", annual_survivorship == "1", annual_survivorship))
+table.3_Surv2Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "2", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv3Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "3", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv4Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "4", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv5Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "5", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv6Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "6", annual_survivorship * 0.5, annual_survivorship * 1))
+table.3_Surv7Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "7", annual_survivorship * 0.5, annual_survivorship * 1))
+#
