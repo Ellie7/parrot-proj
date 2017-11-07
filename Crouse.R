@@ -179,13 +179,13 @@ table.3_Surv6Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number ==
 table.3_Surv7Adj <- mutate(table.3, annual_survivorship = ifelse(stage_number == "7", annual_survivorship * 0.5, annual_survivorship * 1))
 #50% increase in fecundity or an increase in survivorship to 1.0.
 table.3_fecInc<-mutate(table.3, fecundity = 1.5*fecundity)
-table.3_Surv1Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "1", annual_survivorship == 1.0, annual_survivorship * 1)) # not working yet
-table.3_Surv2Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "2", annual_survivorship == 1.0, annual_survivorship * 1))
-table.3_Surv3Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "3", annual_survivorship == 1.0, annual_survivorship * 1))
-table.3_Surv4Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "4", annual_survivorship == 1.0, annual_survivorship * 1))
-table.3_Surv5Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "5", annual_survivorship == 1.0, annual_survivorship * 1))
-table.3_Surv6Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "6", annual_survivorship == 1.0, annual_survivorship * 1))
-table.3_Surv7Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "7", annual_survivorship == 1.0, annual_survivorship * 1))
+table.3_Surv1Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "1", (0.999-annual_survivorship+annual_survivorship), annual_survivorship * 1)) # not working yet
+table.3_Surv2Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "2", (1-annual_survivorship+annual_survivorship), annual_survivorship * 1))
+table.3_Surv3Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "3", (1-annual_survivorship+annual_survivorship), annual_survivorship * 1))
+table.3_Surv4Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "4", (1-annual_survivorship+annual_survivorship), annual_survivorship * 1))
+table.3_Surv5Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "5", (1-annual_survivorship+annual_survivorship), annual_survivorship * 1))
+table.3_Surv6Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "6", (1-annual_survivorship+annual_survivorship), annual_survivorship * 1))
+table.3_Surv7Inc <- mutate(table.3, annual_survivorship = ifelse(stage_number == "7", (1-annual_survivorship+annual_survivorship), annual_survivorship * 1))
 #eigenanalysis 
 #decreases 
 AFd <- myFunc(table.3_fecAdjust) 
