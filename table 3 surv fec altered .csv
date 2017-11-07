@@ -1,0 +1,8 @@
+stage_number,class,size,stage_duration,annual_survivorship,fecundity
+1,eggs_hatchlings ,,1,0.33735,0
+2,small_juveniles,,7,0.39285,0
+3,large_juveniles,,8,0.3379,0
+4,subadults,,6,0.37125,0
+5,novice_breeders,,1,0.40455,63.5
+6,1st-yr_remigrants,,1,0.40455,2
+7,mature_breeders,,31,0.40445,40
