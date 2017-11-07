@@ -195,9 +195,7 @@ change_fun <- function(x, change = 0.5){
   survival <- select(table.3, annual_survivorship)
   stage <- select(table.3, stage_number)
   survival_change <- survival*change
-  
-  }
+    }
 
 change_fun(table.3)
-
 
