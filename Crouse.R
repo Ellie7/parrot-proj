@@ -171,6 +171,48 @@ sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens
 fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 
 #-------------- Calculating changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history stages in the loggerhead population matrix 
+mutate(table.3, (annual_survivorship[1:7] * 0.5))
+
+name.of.function <- function(argument1, argument2) {
+  statements
+  return(something)
+}
+
+lapply(table.3, annual_survivorship * 0.5)
+
+change_fun <- function(annual_survivorship, change = 0.5){
+  annual_survivorship*change
+}
+
+change_fun <- function(x, change = 0.5){
+  survival <- select(table.3, annual_survivorship)
+  stage <- select(table.3, stage_number)
+  survival_change <- survival*change
+  
+  }
+
+change_fun(table.3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### figure 1 (a)
 #changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history 
 #caculating r determined in the baseline run of the matrix
@@ -179,7 +221,7 @@ View(table.3.50)
 #first recalculate eigenvalues for a 50% decrease in survivorship & 50% decrease in fecundity
 A <- myFunc(table.3.50)
 eigs.A <- eigen(A)
-eigs.A
+eigs.A 
 #finding the first eigenvalue (finite rate of increase)
 dom.pos <- which.max(eigs.A[["values"]])
 L1N <- Re(eigs.A[["values"]][dom.pos]) #N for survivorship to distibuish from initial matrix 
