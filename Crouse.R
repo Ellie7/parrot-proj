@@ -171,7 +171,17 @@ sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens
 fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 
 #-------------- Calculating changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history stages in the loggerhead population matrix 
-mutate(table.3, (annual_survivorship[1:7] * 0.5))
+changes_survival <- mutate(table.3, survival= annual_survivorship[1:7] * 0.5)
+changes_fecundity <- mutate(table.3, fecund = fecundity * 0.5)
+changes <- 
+mutate(changes_survival, annual_survivorship = (survival[1] + annual_survivorship[2:7]))
+
+change_in_survival <- function(table.3, change = 0.5){
+  chang <- annual_survivorship*change
+  return(chang)
+}
+
+change_in_survival(table.3)
 
 name.of.function <- function(argument1, argument2) {
   statements
@@ -192,25 +202,6 @@ change_fun <- function(x, change = 0.5){
   }
 
 change_fun(table.3)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ### figure 1 (a)
