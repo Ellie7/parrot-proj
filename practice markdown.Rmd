@@ -7,14 +7,14 @@ output:
   pdf_document: default
   html_document: default
 ---
-The code below demonstrates my attempt to re-create the analysis from Crouse's 1987 paper on loggerhead turtle demography. 
+The code below is my re-creation of the analysis from Crouse's 1987 paper on loggerhead turtle demography. 
 
 #Creating the Crouse 1987 Matrix
 
 Creating a stage-based projection matrix, for each stage, 
-calculating the repro- ductive output (F,), the probability of surviving and growing into the next stage (G,). and the probability of surviving and 
+calculating the repro- ductive output (F,), the probability of surviving and growing into the next stage (G,) and the probability of surviving and 
 remaining in the same stage (P,).
-This code needs the csv files 'table 3 from crouse' and 'sens'
+This code needs the csv files 'table 3 from crouse' and 'sens'.
 
 ```{r include = FALSE}
 library(dplyr)
@@ -283,7 +283,7 @@ graph <- ggplot(table_decrease, aes(x = stage_class, y = rs)) + geom_bar(stat = 
 graph1 <- graph + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") + geom_hline(aes(yintercept=-0.056399), linetype = "dashed", size = 0.75)  
 graph2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())+ expand_limits(y = -0.25, x = 0.2)
 figure1a <- graph2 + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = c("Fecundity", "Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders"))
-figure1a 
+
 stage_class <- c("Fecundity", "Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders")
 lambdas<- c(LFi, L1i, L2i, L3i, L4i, L5i, L6i, L7i)
 rs <- log(lambdas)
@@ -292,9 +292,57 @@ graph <- ggplot(table_decrease, aes(x = stage_class, y = rs)) + geom_bar(stat = 
 graph1 <- graph + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") + geom_hline(aes(yintercept=-0.056399), linetype = "dashed", size = 0.75)  
 graph2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())+ expand_limits(y = -0.25, x = 0.2)
 figure1b <- graph2 + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = c("Fecundity", "Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders"))
+figure1a 
 figure1b 
 #ggplot(changes, aes(x = stage, y = rs)) + geom_bar()
 ```
+**Figure 2** 
+These conditions, a 6-yr decrease or increase in tthe age of reproductive maturity, were simulated (Fig. 2) by subtracting and adding 2 yr to the 
+calculations of P, and G, for each of the three immature stages. 
+In fact, a mere 3-yr reduction in the age of first repro- duction, well within the bounds of the growth estimates available, 
+comes very close to halting the decline in this population
+```{r echo = FALSE}
+#-------------- Calculating changes in rate of increase r resulting from subtracting and adding 2 yr to the 
+#calculations of P, and G, for each of the three immature stages.
+table.3_i6 <- mutate(table.3, stage_duration = ifelse(stage_number == "2", stage_duration + 2, stage_duration * 1))
+table.3_in6 <- mutate(table.3_i6, stage_duration = ifelse(stage_number == "3", stage_duration + 2, stage_duration * 1))#for some reasion had to do each separately for it work
+table.3_inc6 <- mutate(table.3_in6,stage_duration = ifelse(stage_number =="4", stage_duration + 2, stage_duration * 1))#final table for increased by 6 
+table.3_d6 <- mutate(table.3, stage_duration = ifelse(stage_number == "2", stage_duration - 2, stage_duration * 1))
+table.3_de6 <- mutate(table.3_d6, stage_duration = ifelse(stage_number == "3", stage_duration - 2, stage_duration * 1))
+table.3_dec6 <- mutate(table.3_de6,stage_duration = ifelse(stage_number =="4", stage_duration - 2, stage_duration * 1))
+table.3_d3 <- mutate(table.3, stage_duration = ifelse(stage_number == "2", stage_duration - 1, stage_duration * 1))
+table.3_de3 <- mutate(table.3_d3, stage_duration = ifelse(stage_number == "3", stage_duration - 1, stage_duration * 1))
+table.3_dec3 <- mutate(table.3_de3,stage_duration = ifelse(stage_number =="4", stage_duration - 1, stage_duration * 1))
+#applying my matrix function to the 3 new tables 
+mat28 <- myFunc(table.3_inc6) 
+mat16 <- myFunc(table.3_dec6) 
+mat19 <- myFunc(table.3_dec3)
+#eigenanalyses 
+eigs.mat28 <- eigen(mat28)
+eigs.mat16 <- eigen(mat16)
+eigs.mat19 <- eigen(mat19)
+#finding the first eigenvalue (finite rate of increase)
+dom.pos28 <- which.max(eigs.mat28[["values"]])
+L28 <- Re(eigs.mat28[["values"]][dom.pos28])
+dom.pos16 <- which.max(eigs.mat16[["values"]])
+L16 <- Re(eigs.mat16[["values"]][dom.pos16])
+dom.pos19 <- which.max(eigs.mat19[["values"]])
+L19 <- Re(eigs.mat19[["values"]][dom.pos19])
+#finding r
+r28 <- log(L28)
+r16 <- log(L16)
+r19 <- log(L19)
+#plotting 
+age <- c(16, 19, 22, 28)
+lambdas<- c(L16, L19, L1, L28)
+rs <- log(lambdas)
+table_agerep <- data.frame(age, rs)
+graph <- ggplot(table_agerep, aes(x = age, y = rs)) + geom_line(size=1) + geom_point(size=2)
+graph1 <- graph + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate of Increase (r)") + geom_hline(aes(yintercept=0), size = 0.5)  
+figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+figure2
+```
+
 **Figure 3** 
 The elasticity, or proportional sensitivity of lambda to changes in fecundity, F, survival while remainging in the same stage (P) and survival with growth (G). Because the elasticities of this matrix sum to 1, they can be compared directly in terms of their contribution to the population growth rate r. 
 
