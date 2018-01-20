@@ -92,7 +92,7 @@ myFunc <- function (lifetable)
 
 myFunc(lifetable) 
 
-#recreating table 4
+# manually recreating table 4
 B<- matrix(c(0, 0, 0, 0, 127, 4, 80, 0.6747, 0.7370, 0, 0,0, 0, 0, 0, 0.0486, 0.6610, 0, 0, 
               0, 0, 0, 0, 0.0147, 0.6907, 0, 0, 0, 0, 0, 0, 0.0518, 0, 0, 0, 0, 0, 0, 0, 0.8091, 
               0, 0, 0, 0, 0, 0, 0, 0.8091, 0.8089), nr=7, byrow = TRUE) 
@@ -119,6 +119,7 @@ L1 <- Re(eigs.A[["values"]][dom.pos])
 L1
 #=0.9451619
 r <- log(L1)
+r
 # r = -0.056399
 #power method
 t <- 20
@@ -131,7 +132,7 @@ for (i in 1:t) R.t[i] <- {
 } 
 #You might need to adjust the number of iterations to make sure the
 #value has stabilised (how can you tell that it has?).
-ggplot()
+
 #calculating the stable stage distribution 
 w <- Re(eigs.A[["vectors"]][, dom.pos])
 ssd <- w / sum(w)
@@ -277,12 +278,82 @@ graph2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=elem
 figure1b <- graph2 + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = c("Fecundity", "Eggs/Hatchlings", "Small Juveniles", "Large Juveniles", "Subadults", "Novice Breeders", "1st-yr Remigrants", "Mature Breeders"))
 figure1b 
 
+##### figure 2 
+#These conditions, a 6-yr decrease or increase in tthe age of reproductive maturity, were simulated (Fig. 2) by subtracting and adding 2 yr to the 
+#calculations of P, and G, for each of the three immature stages. 
+# In fact, a mere 3-yr reduction in the age of first repro- duction, well within the bounds of the growth estimates available, 
+#comes very close to halting the decline in this population
+#-------------- Calculating changes in rate of increase r resulting from subtracting and adding 2 yr to the 
+#calculations of P, and G, for each of the three immature stages.
+table.3_i6 <- mutate(table.3, stage_duration = ifelse(stage_number == "2", stage_duration + 2, stage_duration * 1))
+table.3_in6 <- mutate(table.3_i6, stage_duration = ifelse(stage_number == "3", stage_duration + 2, stage_duration * 1))#for some reasion had to do each separately for it work
+table.3_inc6 <- mutate(table.3_in6,stage_duration = ifelse(stage_number =="4", stage_duration + 2, stage_duration * 1))#final table for increased by 6 
+table.3_d6 <- mutate(table.3, stage_duration = ifelse(stage_number == "2", stage_duration - 2, stage_duration * 1))
+table.3_de6 <- mutate(table.3_d6, stage_duration = ifelse(stage_number == "3", stage_duration - 2, stage_duration * 1))
+table.3_dec6 <- mutate(table.3_de6,stage_duration = ifelse(stage_number =="4", stage_duration - 2, stage_duration * 1))
+table.3_d3 <- mutate(table.3, stage_duration = ifelse(stage_number == "2", stage_duration - 1, stage_duration * 1))
+table.3_de3 <- mutate(table.3_d3, stage_duration = ifelse(stage_number == "3", stage_duration - 1, stage_duration * 1))
+table.3_dec3 <- mutate(table.3_de3,stage_duration = ifelse(stage_number =="4", stage_duration - 1, stage_duration * 1))
+#applying my matrix function to the 3 new tables 
+mat28 <- myFunc(table.3_inc6) 
+mat16 <- myFunc(table.3_dec6) 
+mat19 <- myFunc(table.3_dec3)
+#eigenanalyses 
+eigs.mat28 <- eigen(mat28)
+eigs.mat16 <- eigen(mat16)
+eigs.mat19 <- eigen(mat19)
+#finding the first eigenvalue (finite rate of increase)
+dom.pos28 <- which.max(eigs.mat28[["values"]])
+L28 <- Re(eigs.mat28[["values"]][dom.pos28])
+dom.pos16 <- which.max(eigs.mat16[["values"]])
+L16 <- Re(eigs.mat16[["values"]][dom.pos16])
+dom.pos19 <- which.max(eigs.mat19[["values"]])
+L19 <- Re(eigs.mat19[["values"]][dom.pos19])
+#finding r
+r28 <- log(L28)
+r16 <- log(L16)
+r19 <- log(L19)
+#plotting 
+age <- c(16, 19, 22, 28)
+lambdas<- c(L16, L19, L1, L28)
+rs <- log(lambdas)
+table_agerep <- data.frame(age, rs)
+graph <- ggplot(table_agerep, aes(x = age, y = rs)) + geom_line(size=1) + geom_point(size=2)
+graph1 <- graph + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate of Increase (r)") + geom_hline(aes(yintercept=0), size = 0.5)  
+figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+figure2
 
 ### figure 4 
-#(a) The elasticity, or proportional sensitivity, of XA, to changes in annual stage-specific survival probability pi. (b) The elasticity of X,,, to 
+#(a) The elasticity, or proportional sensitivity, of XA, to changes in annual stage-specific survival probability pi. (b) The elasticity of lambda to 
 #changes in stage duration di. Elasticity in stage duration is negative because stage duration and population growth rates r are inversely related.
-
-
+#sensitivity of projection matrices 
+#In this model, P, and G, are derived parameters; they depend on both stage-specific annual survival probability p and stage duration d. 
+#We have also calculated the elasticities of lambda with respect to these parameters
+#sensitivity of projection matrices
+#eigen analysis 
+eigs.B <- eigen(B)
+eigs.B
+#finding first eigenvalue
+w <- Re(eigs.A[["vectors"]][, dom.pos])
+L1 <- Re(eigs.A[["values"]][dom.pos])
+#calculating reproductive value
+M <- eigen(t(A))
+v <- Re(M$vectors[,which.max(Re(M$values))])
+vw.s <- v %*% t (w) 
+S <- (S <- vw.s/as.numeric(v %*% w)) 
+#elasticity of projection matrices 
+elas <- (B/L1) * S 
+elasticity <- round(elas, 3)
+### figure 3 - plot the proportional sensitivity to changes in F, P and G 
+stage <- c(1:7)
+F <- c(elasticity[1, 1:7])
+P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3], elasticity[4,4], elasticity[5,5], elasticity[6,6], elasticity[7,7])
+G <- c(elasticity[2,1], elasticity[3,2], elasticity[4,3], elasticity[5,4], elasticity[6,5], elasticity[7,6], 0)
+sensitvities <- data.frame(stage, F, P, G)
+sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens.csv")
+fig.4a <- ggplot(sens, aes(x = stage, y = sens)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
+fig.4 
+#-----
 
 
 
