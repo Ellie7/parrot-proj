@@ -73,3 +73,9 @@ chickenFunc <- function (lifetable)
 }
 
 chickenFunc(chicken) 
+
+############ Application 1: simulated elasticity and regression metrics 
+#1 random selection of vital rates 
+#tortoise 
+rnorm(100, mean = sx, sd = ssd) #x = mean, SD = standard deviation 
+
