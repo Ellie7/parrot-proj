@@ -39,10 +39,17 @@ tortoiseFunc <- function (lifetable)
   matrix1[6,5] <- offdiags$s[5]
   matrix1[7,6] <- offdiags$s[6] 
   matrix1[8,7] <- offdiags$s[7] 
+  #remove NAs
+  #shows location of NAs
+  is.na(matrix1)
+  #replaces NAs with 0s
+  matrix1[is.na(matrix1)] <- 0
+  matrix1#almost there 
   return(matrix1)
 }
 
-tortoiseFunc(tortoise) 
+tort_matrix <- tortoiseFunc(tortoise) 
+tort_matrix
 
 #Creating a stage-based projection matrix for prairie chicken 
 lifetable <- chicken 
