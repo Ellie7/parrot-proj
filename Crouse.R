@@ -155,6 +155,7 @@ kable(tab_5, caption = "Table 5. Stable stage distribution (wJ) and reproductive
 
 #---------------------------------- sensitivity analyses 
 
+#figure 1
 #-------------- Calculating changes in rate of increase r resulting from simulated changes in fecundity and survival of individual life history 
 #stages in the loggerhead population matrix 
 #decresing fecundity and survival by 50%
