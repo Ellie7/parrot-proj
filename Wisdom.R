@@ -78,11 +78,11 @@ chickenFunc(chicken)
 #1 random selection of vital rates 
 #tortoise 
 #s
-s1 <- rnorm(100, mean = (tortoise$s[1]), sd = (tortoise$ssd[1])) #mean, SD = standard deviation 
-s2 <- rnorm(100, mean = (tortoise$s[2]), sd = (tortoise$ssd[2]))
-s3 <- rnorm(100, mean = (tortoise$s[3]), sd = (tortoise$ssd[3]))
-s4 <- rnorm(100, mean = (tortoise$s[4]), sd = (tortoise$ssd[4]))
-s5 <- rnorm(100, mean = (tortoise$s[5]), sd = (tortoise$ssd[5]))
+s1 <- rnorm(100, mean = (tortoise$s[1]), sd = (tortoise$ssd[1])) # presumably an r-norm distribution 
+s2 <- rnorm(100, mean = (tortoise$s[2]), sd = (tortoise$ssd[2])) # needs to be a Beta distrubtion for all rates other than reproductive
+s3 <- rnorm(100, mean = (tortoise$s[3]), sd = (tortoise$ssd[3])) # rates which need to be sampled from a log-normal distribution 
+s4 <- rnorm(100, mean = (tortoise$s[4]), sd = (tortoise$ssd[4])) # presumably can keep most of code and just change function
+s5 <- rnorm(100, mean = (tortoise$s[5]), sd = (tortoise$ssd[5])) # outside of the brackets? 
 s6 <- rnorm(100, mean = (tortoise$s[6]), sd = (tortoise$ssd[6]))
 s7 <- rnorm(100, mean = (tortoise$s[7]), sd = (tortoise$ssd[7]))
 s8 <- rnorm(100, mean = (tortoise$s[8]), sd = (tortoise$ssd[8]))
