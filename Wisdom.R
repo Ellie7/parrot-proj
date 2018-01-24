@@ -151,14 +151,12 @@ tortFunc <- function(tortoise)
   s7 <- rnorm(1, mean = (tortoise$s[7]), sd = (tortoise$ssd[7]))
   s8 <- rnorm(1, mean = (tortoise$s[8]), sd = (tortoise$ssd[8]))
   #g 
-  g1 <- rnorm(1, mean = (tortoise$g[1]), sd = (tortoise$gsd[1])) 
   g2 <- rnorm(1, mean = (tortoise$g[2]), sd = (tortoise$gsd[2]))
   g3 <- rnorm(1, mean = (tortoise$g[3]), sd = (tortoise$gsd[3]))
   g4 <- rnorm(1, mean = (tortoise$g[4]), sd = (tortoise$gsd[4]))
   g5 <- rnorm(1, mean = (tortoise$g[5]), sd = (tortoise$gsd[5]))
   g6 <- rnorm(1, mean = (tortoise$g[6]), sd = (tortoise$gsd[6]))
   g7 <- rnorm(1, mean = (tortoise$g[7]), sd = (tortoise$gsd[7]))
-  g8 <- rnorm(1, mean = (tortoise$g[8]), sd = (tortoise$gsd[8]))
   #m
   m6 <- rnorm(1, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
   m7 <- rnorm(1, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
@@ -176,7 +174,7 @@ tortFunc <- function(tortoise)
   matrix1[5,5] <- (s5*(1-g5)) 
   matrix1[6,6] <- (s6*(1-g6)) 
   matrix1[7,7] <- (s7*(1-g7)) 
-  matrix1[8,8] <- (s8*(1-g8)) 
+  matrix1[8,8] <- s8 
   matrix1
   #add Gs (off-diagonals)
   matrix1[2,1] <- s1
@@ -186,8 +184,7 @@ tortFunc <- function(tortoise)
   matrix1[6,5] <- s5*g5
   matrix1[7,6] <- s6*g6
   matrix1[8,7] <- s7*g7
-  matrix1[8,8] <- s8
-  #remove NAs
+    #remove NAs
   #shows location of NAs
   is.na(matrix1)
   #replaces NAs with 0s
