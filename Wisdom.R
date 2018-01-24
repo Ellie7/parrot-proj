@@ -77,5 +77,28 @@ chickenFunc(chicken)
 ############ Application 1: simulated elasticity and regression metrics 
 #1 random selection of vital rates 
 #tortoise 
-rnorm(100, mean = sx, sd = ssd) #x = mean, SD = standard deviation 
+#s
+s1 <- rnorm(100, mean = (tortoise$s[1]), sd = (tortoise$ssd[1])) #mean, SD = standard deviation 
+s2 <- rnorm(100, mean = (tortoise$s[2]), sd = (tortoise$ssd[2]))
+s3 <- rnorm(100, mean = (tortoise$s[3]), sd = (tortoise$ssd[3]))
+s4 <- rnorm(100, mean = (tortoise$s[4]), sd = (tortoise$ssd[4]))
+s5 <- rnorm(100, mean = (tortoise$s[5]), sd = (tortoise$ssd[5]))
+s6 <- rnorm(100, mean = (tortoise$s[6]), sd = (tortoise$ssd[6]))
+s7 <- rnorm(100, mean = (tortoise$s[7]), sd = (tortoise$ssd[7]))
+s8 <- rnorm(100, mean = (tortoise$s[8]), sd = (tortoise$ssd[8]))
+#g 
+g1 <- rnorm(100, mean = (tortoise$g[1]), sd = (tortoise$gsd[1])) 
+g2 <- rnorm(100, mean = (tortoise$g[2]), sd = (tortoise$gsd[2]))
+g3 <- rnorm(100, mean = (tortoise$g[3]), sd = (tortoise$gsd[3]))
+g4 <- rnorm(100, mean = (tortoise$g[4]), sd = (tortoise$gsd[4]))
+g5 <- rnorm(100, mean = (tortoise$g[5]), sd = (tortoise$gsd[5]))
+g6 <- rnorm(100, mean = (tortoise$g[6]), sd = (tortoise$gsd[6]))
+g7 <- rnorm(100, mean = (tortoise$g[7]), sd = (tortoise$gsd[7]))
+g8 <- rnorm(100, mean = (tortoise$g[8]), sd = (tortoise$gsd[8]))
+#m
+m6 <- rnorm(100, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
+m7 <- rnorm(100, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
+m8 <- rnorm(100, mean = (tortoise$m[8]), sd = (tortoise$msd[8]))
 
+#chicken 
+sc1 <- rnorm(100, mean = (chicken$s[1]), sd = (chicken$ssd[1]))
