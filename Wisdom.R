@@ -11,6 +11,7 @@ View(chicken)
 tortoise <- read.csv("C:/Users/Ellie/OneDrive/Documents/1 UNIVERSITY/Level 4/Project & Dissertation/Wisdom 2000/desert tortoise means sd .csv")
 View(tortoise)
 
+################################################################ Steps 1-2 (as labelled in original paper)
 #Creating a stage-based projection matrix for desert tortoise 
 lifetable <- tortoise
 tortoiseFunc <- function (lifetable) 
@@ -184,7 +185,7 @@ tortFunc <- function(tortoise)
   matrix1[6,5] <- s5*g5
   matrix1[7,6] <- s6*g6
   matrix1[8,7] <- s7*g7
-    #remove NAs
+  #remove NAs
   #shows location of NAs
   is.na(matrix1)
   #replaces NAs with 0s
@@ -192,4 +193,17 @@ tortFunc <- function(tortoise)
   matrix1#almost there 
   return(matrix1)}
 
-tortFunc(tortoise)
+tortFunc(tortoise) #tortFunc returns a different matrix each time 
+
+############################################################################ Step 3
+#the process is excecuted 1000 times, resulting in 1000 matrix replicates
+# of vital rates and matrix elements for a given species 
+
+############################################################################ Step 4 
+#lambda and lower level elasticities associated with each vital rate 
+# calculated at a stable stage ditribution
+
+############################################################################ Step 5
+#Data across replicates were analyzed to estimate effects of each 
+# vtial rate on lambda 
+
