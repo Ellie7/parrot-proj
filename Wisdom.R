@@ -86,6 +86,7 @@ s5 <- rnorm(100, mean = (tortoise$s[5]), sd = (tortoise$ssd[5])) # outside of th
 s6 <- rnorm(100, mean = (tortoise$s[6]), sd = (tortoise$ssd[6])) #have googled a beta function but confused by the shape parameter bit 
 s7 <- rnorm(100, mean = (tortoise$s[7]), sd = (tortoise$ssd[7]))
 s8 <- rnorm(100, mean = (tortoise$s[8]), sd = (tortoise$ssd[8]))
+rbeta(100, shape1 = (tortoise$s[1]), shape2 = (tortoise$ssd[1]))#use rbeta function? maybe shape 1 = minimum shape 2 = maxmimum 
 #g 
 g1 <- rnorm(100, mean = (tortoise$g[1]), sd = (tortoise$gsd[1])) 
 g2 <- rnorm(100, mean = (tortoise$g[2]), sd = (tortoise$gsd[2]))
@@ -111,3 +112,4 @@ mc2 <- rnorm(100, mean = (chicken$m[5]), sd = (chicken$msd[5]))
 mc3 <- rnorm(100, mean = (chicken$m[6]), sd = (chicken$msd[6]))
 mc4 <- rnorm(100, mean = (chicken$m[7]), sd = (chicken$msd[7]))
 mc5 <- rnorm(100, mean = (chicken$m[7]), sd = (chicken$msd[7]))
+
