@@ -49,7 +49,7 @@ tortoiseFunc <- function (lifetable)
 }
 
 tort_matrix <- tortoiseFunc(tortoise) 
-tort_matrix
+tort_matrix #matrix with mean valyes 
 
 #Creating a stage-based projection matrix for prairie chicken 
 lifetable <- chicken 
@@ -113,3 +113,86 @@ mc3 <- rnorm(100, mean = (chicken$m[6]), sd = (chicken$msd[6]))
 mc4 <- rnorm(100, mean = (chicken$m[7]), sd = (chicken$msd[7]))
 mc5 <- rnorm(100, mean = (chicken$m[7]), sd = (chicken$msd[7]))
 
+############ making a function which produces a matrix based on randomly selected vital rates 
+chickFunc <- function (chicken) 
+{ sc1 <- rnorm(1, mean = (chicken$s[1]), sd = 0.0129)  
+sc2 <- rnorm(1, mean = (chicken$s[5]), sd = (chicken$ssd[5])) 
+sc3 <- rnorm(1, mean = (chicken$s[6]), sd = (chicken$ssd[6]))
+sc4 <- rnorm(1, mean = (chicken$s[7]), sd = (chicken$ssd[7]))
+#m 
+mc2 <- rnorm(1, mean = (chicken$m[5]), sd = (chicken$msd[5]))
+mc3 <- rnorm(1, mean = (chicken$m[6]), sd = (chicken$msd[6]))
+mc4 <- rnorm(1, mean = (chicken$m[7]), sd = (chicken$msd[7]))
+mc5 <- rnorm(1, mean = (chicken$m[7]), sd = (chicken$msd[7]))
+matrix2 <- matrix(0, nrow = 4, ncol = 4)
+#add sxmx
+matrix2[1,1] <- (sc1*mc2) 
+matrix2[1,2] <- (sc2*mc3)
+matrix2[1,3] <- (sc3*mc4)
+matrix2[1,4] <- (sc4*mc5)
+#add s(mxc$m[7]))
+matrix2[2,1] <- sc1
+matrix2[3,2] <- sc2
+matrix2[4,3] <- sc3
+matrix2[4,4] <- sc4
+return(matrix2)
+}
+
+chickFunc(chicken) #chickFunc returns a different matrix each time 
+
+tortFunc <- function(tortoise)
+{ #s
+  s1 <- rnorm(1, mean = (tortoise$s[1]), sd = (tortoise$ssd[1])) # presumably an r-norm distribution 
+  s2 <- rnorm(1, mean = (tortoise$s[2]), sd = (tortoise$ssd[2])) # needs to be a Beta distrubtion for all rates other than reproductive
+  s3 <- rnorm(1, mean = (tortoise$s[3]), sd = (tortoise$ssd[3])) # rates which need to be sampled from a log-normal distribution 
+  s4 <- rnorm(1, mean = (tortoise$s[4]), sd = (tortoise$ssd[4])) # presumably can keep most of code and just change function
+  s5 <- rnorm(1, mean = (tortoise$s[5]), sd = (tortoise$ssd[5])) # outside of the brackets? 
+  s6 <- rnorm(1, mean = (tortoise$s[6]), sd = (tortoise$ssd[6])) #have googled a beta function but confused by the shape parameter bit 
+  s7 <- rnorm(1, mean = (tortoise$s[7]), sd = (tortoise$ssd[7]))
+  s8 <- rnorm(1, mean = (tortoise$s[8]), sd = (tortoise$ssd[8]))
+  #g 
+  g1 <- rnorm(1, mean = (tortoise$g[1]), sd = (tortoise$gsd[1])) 
+  g2 <- rnorm(1, mean = (tortoise$g[2]), sd = (tortoise$gsd[2]))
+  g3 <- rnorm(1, mean = (tortoise$g[3]), sd = (tortoise$gsd[3]))
+  g4 <- rnorm(1, mean = (tortoise$g[4]), sd = (tortoise$gsd[4]))
+  g5 <- rnorm(1, mean = (tortoise$g[5]), sd = (tortoise$gsd[5]))
+  g6 <- rnorm(1, mean = (tortoise$g[6]), sd = (tortoise$gsd[6]))
+  g7 <- rnorm(1, mean = (tortoise$g[7]), sd = (tortoise$gsd[7]))
+  g8 <- rnorm(1, mean = (tortoise$g[8]), sd = (tortoise$gsd[8]))
+  #m
+  m6 <- rnorm(1, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
+  m7 <- rnorm(1, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
+  m8 <- rnorm(1, mean = (tortoise$m[8]), sd = (tortoise$msd[8]))
+  #make matrix
+  matrix1 <- matrix(0, nrow = 8, ncol = 8)
+  #add Fs
+  matrix1[1,6] <- m6
+  matrix1[1,7] <- m7
+  matrix1[1,8] <- m8
+  #add Ps (diagonals)
+  matrix1[2,2] <- (s2*(1-g2)) 
+  matrix1[3,3] <- (s3*(1-g3)) 
+  matrix1[4,4] <- (s4*(1-g4)) 
+  matrix1[5,5] <- (s5*(1-g5)) 
+  matrix1[6,6] <- (s6*(1-g6)) 
+  matrix1[7,7] <- (s7*(1-g7)) 
+  matrix1[8,8] <- (s8*(1-g8)) 
+  matrix1
+  #add Gs (off-diagonals)
+  matrix1[2,1] <- s1
+  matrix1[3,2] <- s2*g2
+  matrix1[4,3] <- s3*g3
+  matrix1[5,4] <- s4*g4
+  matrix1[6,5] <- s5*g5
+  matrix1[7,6] <- s6*g6
+  matrix1[8,7] <- s7*g7
+  matrix1[8,8] <- s8
+  #remove NAs
+  #shows location of NAs
+  is.na(matrix1)
+  #replaces NAs with 0s
+  matrix1[is.na(matrix1)] <- 0
+  matrix1#almost there 
+  return(matrix1)}
+
+tortFunc(tortoise)
