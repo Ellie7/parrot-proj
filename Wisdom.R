@@ -83,7 +83,7 @@ s2 <- rnorm(100, mean = (tortoise$s[2]), sd = (tortoise$ssd[2])) # needs to be a
 s3 <- rnorm(100, mean = (tortoise$s[3]), sd = (tortoise$ssd[3])) # rates which need to be sampled from a log-normal distribution 
 s4 <- rnorm(100, mean = (tortoise$s[4]), sd = (tortoise$ssd[4])) # presumably can keep most of code and just change function
 s5 <- rnorm(100, mean = (tortoise$s[5]), sd = (tortoise$ssd[5])) # outside of the brackets? 
-s6 <- rnorm(100, mean = (tortoise$s[6]), sd = (tortoise$ssd[6]))
+s6 <- rnorm(100, mean = (tortoise$s[6]), sd = (tortoise$ssd[6])) #have googled a beta function but confused by the shape parameter bit 
 s7 <- rnorm(100, mean = (tortoise$s[7]), sd = (tortoise$ssd[7]))
 s8 <- rnorm(100, mean = (tortoise$s[8]), sd = (tortoise$ssd[8]))
 #g 
@@ -101,4 +101,13 @@ m7 <- rnorm(100, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
 m8 <- rnorm(100, mean = (tortoise$m[8]), sd = (tortoise$msd[8]))
 
 #chicken 
-sc1 <- rnorm(100, mean = (chicken$s[1]), sd = (chicken$ssd[1]))
+#s
+sc1 <- rnorm(100, mean = (chicken$s[1]), sd = 0.129) #0.129 is mean standard deviation for stage 1, didn't know how to correctly calculate ssd for 
+sc2 <- rnorm(100, mean = (chicken$s[5]), sd = (chicken$ssd[5])) # this stage as the survival is from the multiplication of  s1a, s1b and s1c
+sc3<- rnorm(100, mean = (chicken$s[6]), sd = (chicken$ssd[6]))
+sc4 <- rnorm(100, mean = (chicken$s[7]), sd = (chicken$ssd[7]))
+#m 
+mc2 <- rnorm(100, mean = (chicken$m[5]), sd = (chicken$msd[5]))
+mc3 <- rnorm(100, mean = (chicken$m[6]), sd = (chicken$msd[6]))
+mc4 <- rnorm(100, mean = (chicken$m[7]), sd = (chicken$msd[7]))
+mc5 <- rnorm(100, mean = (chicken$m[7]), sd = (chicken$msd[7]))
