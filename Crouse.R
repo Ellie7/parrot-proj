@@ -333,17 +333,62 @@ sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens
 fig.3 <- ggplot(sens, aes(x = stage, y = sens, colour = supp, shape = supp)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 
 
-
 ############# figure 4 
 #(a) The elasticity, or proportional sensitivity, of XA, to changes in annual stage-specific survival probability pi. (b) The elasticity of lambda to 
 #changes in stage duration di. Elasticity in stage duration is negative because stage duration and population growth rates r are inversely related.
 #sensitivity of projection matrices 
 #In this model, P, and G, are derived parameters; they depend on both stage-specific annual survival probability p and stage duration d. 
 #We have also calculated the elasticities of lambda with respect to these parameters
+#change p values
+life_pi1 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "1", annual_survivorship * 1.05, annual_survivorship * 1))
+life_pd1 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "1", annual_survivorship * 0.95, annual_survivorship * 1))
+life_pi2 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "2", annual_survivorship * 1.05, annual_survivorship * 1))
+life_pd2 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "2", annual_survivorship * 0.95, annual_survivorship * 1))
+life_pi3 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "3", annual_survivorship * 1.05, annual_survivorship * 1))
+life_pd3 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "3", annual_survivorship * 0.95, annual_survivorship * 1))
+life_pi4 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "4", annual_survivorship * 1.05, annual_survivorship * 1))
+life_pd4 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "4", annual_survivorship * 0.95, annual_survivorship * 1))
+life_pi5 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "5", annual_survivorship * 1.05, annual_survivorship * 1))
+life_pd5 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "5", annual_survivorship * 0.95, annual_survivorship * 1))
+life_pi6 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "6", annual_survivorship * 1.05, annual_survivorship * 1))
+life_pd6 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "6", annual_survivorship * 0.95, annual_survivorship * 1))
+life_pi7 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "7", annual_survivorship * 1.05, annual_survivorship * 1))
+life_pd7 <- mutate(lifetable, annual_survivorship = ifelse(stage_number == "7", annual_survivorship * 0.95, annual_survivorship * 1))
+#ds increasing and decreasing by 5% 
+life_di1 <- mutate(lifetable, stage_duration = ifelse(stage_number == "1", annual_survivorship * 1.05, annual_survivorship * 1))
+life_dd1 <- mutate(lifetable, stage_duration = ifelse(stage_number == "1", annual_survivorship * 0.95, annual_survivorship * 1))
+life_di2 <- mutate(lifetable, stage_duration = ifelse(stage_number == "2", annual_survivorship * 1.05, annual_survivorship * 1))
+life_dd2 <- mutate(lifetable, stage_duration = ifelse(stage_number == "2", annual_survivorship * 0.95, annual_survivorship * 1))
+life_di3 <- mutate(lifetable, stage_duration = ifelse(stage_number == "3", annual_survivorship * 1.05, annual_survivorship * 1))
+life_dd3 <- mutate(lifetable, stage_duration = ifelse(stage_number == "3", annual_survivorship * 0.95, annual_survivorship * 1))
+life_di4 <- mutate(lifetable, stage_duration = ifelse(stage_number == "4", annual_survivorship * 1.05, annual_survivorship * 1))
+life_dd4 <- mutate(lifetable, stage_duration = ifelse(stage_number == "4", annual_survivorship * 0.95, annual_survivorship * 1))
+life_di1 <- mutate(lifetable, stage_duration = ifelse(stage_number == "5", annual_survivorship * 1.05, annual_survivorship * 1))
+life_dd1 <- mutate(lifetable, stage_duration = ifelse(stage_number == "5", annual_survivorship * 0.95, annual_survivorship * 1))
+life_di2 <- mutate(lifetable, stage_duration = ifelse(stage_number == "6", annual_survivorship * 1.05, annual_survivorship * 1))
+life_dd2 <- mutate(lifetable, stage_duration = ifelse(stage_number == "6", annual_survivorship * 0.95, annual_survivorship * 1))
+life_di3 <- mutate(lifetable, stage_duration = ifelse(stage_number == "7", annual_survivorship * 1.05, annual_survivorship * 1))
+life_dd3 <- mutate(lifetable, stage_duration = ifelse(stage_number == "7", annual_survivorship * 0.95, annual_survivorship * 1))
+#make new matrices
+mat_pi1 <- myFunc(life_pi1)
+mat_pd1 <- myFunc(life_pd1)
+mat_pi2 <- myFunc(life_pi2)
+mat_pd2 <- myFunc(life_pd2)
+mat_pi3 <- myFunc(life_pi3)
+mat_pd3 <- myFunc(life_pd3)
+mat_pi4 <- myFunc(life_pi4)
+mat_pd4 <- myFunc(life_pd4)
+mat_pi5 <- myFunc(life_pi5)
+mat_pd15 <- myFunc(life_pd5)
+mat_pi6<- myFunc(life_pi6)
+mat_pd6 <- myFunc(life_pd6)
+mat_pi7 <- myFunc(life_pi7)
+mat_pd7 <- myFunc(life_pd7) 
+
 #sensitivity of projection matrices
 #eigen analysis 
-eigs.B <- eigen(B)
-eigs.B
+dom.pos.di1 <- which.max(eigs.[["values"]])
+LFd <- Re(eigs.AFd[["values"]][dom.pos.Fd]) 
 #finding first eigenvalue
 w <- Re(eigs.A[["vectors"]][, dom.pos])
 L1 <- Re(eigs.A[["values"]][dom.pos])
@@ -365,6 +410,7 @@ sens <- read.csv("~/1 UNIVERSITY/Level 4/Project & Dissertation/Crouse 1987/sens
 fig.4a <- ggplot(sens, aes(x = stage, y = sens)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.4 
 #-----
+
 
 
 
