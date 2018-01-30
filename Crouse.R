@@ -561,17 +561,17 @@ Sd7 <- vw.sd7/as.numeric(vd7 %*% wd7)
 vw.sdd1 <- vdd1 %*% t (wdd1)
 Sdd1 <- vw.sdd1/as.numeric(vdd1 %*% wdd1)
 vw.sdd2 <- vdd2 %*% t (wdd2)
-Sd2 <- vw.sd2/as.numeric(vddd2 %*% wdd2)
-vw.sd3 <- vdd3 %*% t (wdd3)
-Sd3 <- vw.sdd3/as.numeric(vdd3 %*% wdd3)
-vw.sd4 <- vdd4 %*% t (wdd4)
-Sd4 <- vw.sd4/as.numeric(vdd4 %*% wdd4)
-vw.sd5 <- vdd5 %*% t (wdd5)
-Sd5 <- vw.sdd5/as.numeric(vdd5 %*% wdd5)
-vw.sd6 <- vdd6 %*% t (wdd6)
-Sd6 <- vw.sd6/as.numeric(vdd6 %*% wdd6)
-vw.sd7 <- vdd7 %*% t (wdd7)
-Sd7 <- vw.sd7/as.numeric(vdd7 %*% wdd7)
+Sdd2 <- vw.sdd2/as.numeric(vdd2 %*% wdd2)
+vw.sdd3 <- vdd3 %*% t (wdd3)
+Sdd3 <- vw.sdd3/as.numeric(vdd3 %*% wdd3)
+vw.sdd4 <- vdd4 %*% t (wdd4)
+Sdd4 <- vw.sd4/as.numeric(vdd4 %*% wdd4)
+vw.sdd5 <- vdd5 %*% t (wdd5)
+Sdd5 <- vw.sdd5/as.numeric(vdd5 %*% wdd5)
+vw.sdd6 <- vdd6 %*% t (wdd6)
+Sdd6 <- vw.sd6/as.numeric(vdd6 %*% wdd6)
+vw.sdd7 <- vdd7 %*% t (wdd7)
+Sdd7 <- vw.sdd7/as.numeric(vdd7 %*% wdd7)
 #elasticity of projection matrices 
 elasd1 <- (mat_pd1/Lpd1) * Sd1
 elasticity1 <- round(elas, 3)
@@ -588,14 +588,34 @@ elasticity6 <- round(elas, 3)
 elasd7 <- (mat_pd7/Lpd1) * Sd7
 elasticity7 <- round(elas, 3)
 
+#elasticity of projection matrices for changes in d 
+elasdd1 <- (mat_dd1/Ldd1) * Sdd1
+elasticityd1 <- round(elas, 3)
+elasdd2 <- (mat_dd2/Ldd1) * Sdd2
+elasticityd2 <- round(elas, 3)
+elasdd3 <- (mat_dd3/Ldd1) * Sdd3
+elasticityd3 <- round(elas, 3)
+elasdd4 <- (mat_dd4/Ldd1) * Sdd4
+elasticityd4 <- round(elas, 3)
+elasdd5 <- (mat_dd5/Ldd1) * Sdd5
+elasticityd5 <- round(elas, 3)
+elasdd6 <- (mat_dd6/Ldd1) * Sdd6
+elasticityd6 <- round(elas, 3)
+elasdd7 <- (mat_dd7/Ldd1) * Sdd7
+elasticityd7 <- round(elas, 3)
+
 ### figure 3 - plot the proportional sensitivity to changes in F, P and G 
 stage <- c(1:7)
 P <- c(elasticity1[1,1], elasticity2[2,2], elasticity3[3,3], elasticity4[4,4], elasticity5[5,5], elasticity6[6,6], elasticity7[7,7])
 sensi <- data.frame(stage, P)
 fig.4a <- ggplot(sensi, aes(x = stage, y = P)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.4a 
-#-----
 
+stage <- c(1:7)
+P <- c(elasticityd1[1,1], elasticityd2[2,2], elasticityd3[3,3], elasticityd4[4,4], elasticityd5[5,5], elasticityd6[6,6], elasticityd7[7,7])
+sensi <- data.frame(stage, P)
+fig.4b <- ggplot(sensi, aes(x = stage, y = P)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
+fig.4b 
 
 
 
