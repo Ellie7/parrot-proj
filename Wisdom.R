@@ -195,7 +195,7 @@ tortFunc <- function(tortoise)
 
 tortFunc(tortoise) #tortFunc returns a different matrix each time 
 
-############################################################################ Step 3
+########################################################################### Step 3
 #the process is excecuted 1000 times, resulting in 1000 matrix replicates
 # of vital rates and matrix elements for a given species 
 
