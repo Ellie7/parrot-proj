@@ -339,20 +339,58 @@ fig.3
 #sensitivity of projection matrices 
 #In this model, P, and G, are derived parameters; they depend on both stage-specific annual survival probability p and stage duration d. 
 #We have also calculated the elasticities of lambda with respect to these parameters
+## Alternative approach: make small change to vital rate, determine corresponding change in lambda
+
+sens_vr <- lapply(1:7, function(x) {
+  td <- table.3 %>% mutate(surv_adj = ifelse(stage_duration == x, annual_survivorship*1.01, annual_survivorship),
+                              surv_diff = surv_adj - annual_survivorship,
+                              dur_adj = ifelse(stage == x, stage_duration*1.01, stage_duration),
+                              dur_diff = dur_adj - stage_duration)
+  
+  A <- with(td, createProjectionMatrix(surv_adj, fecundity, stage_duration))
+  eig <- eigen(A, symmetric = FALSE)
+  lam_adj <- Re(eig$values[1])
+  sens_surv <- (lam_adj - lambda)/td$surv_diff[x]
+  elas_surv <- sens_surv*td$annual_survivorship[x]/lambda
+  
+  A <- with(td, createProjectionMatrix(annual_survivorship, fecundity, dur_adj))
+  eig <- eigen(A, symmetric = FALSE)
+  lam_adj <- Re(eig$values[1])
+  sens_dur <- (lam_adj - lambda)/td$dur_diff[x]
+  elas_dur <- sens_dur*td$stage_length[x]/lambda
+  
+  data.frame(stage = x, vr = c("D", "S"), sens = c(sens_dur, sens_surv), elas = c(elas_dur, elas_surv))
+})
+sens_vr <- do.call(rbind, sens_vr) %>%
+  mutate(vr = factor(vr, levels = c("S", "D"), label = c("Survival", "Stage duration")))
+
+## ---- sens-plot-output-vr-simple ----
+
+## Plot sensitivities
+ggplot(sens_vr, aes(stage, sens)) +
+  geom_point(pch = 1) +
+  facet_wrap(~vr, ncol = 1, scales = "free") +
+  labs(x = "Stage", y = "Sensitivity") +
+  theme_bw() +
+  theme(aspect.ratio = 1.3)
+
+## ---- elas-plot-output-vr-simple ----
+
+## Plot elasticities
+ggplot(sens_vr, aes(stage, elas)) +
+  geom_point(pch = 1) +
+  facet_wrap(~vr, scales = "free") +
+  labs(x = "Stage", y = "Elasticity") +
+  theme_bw() +
+  theme(aspect.ratio = 1.3)
+
+ggplot(sens_vr, aes(stage, elas)) +
+  geom_point() +
+  facet_wrap(~vr) +
+  labs(x = "Stage", y = "Elasticity") +
+  theme_bw() 
 
 
-### figure 4 - plot the proportional sensitivity to changes in survival probability, p, and stage duration, d. 
-stage <- c(1:7)
-P <- c(elasticity1[1,1], elasticity2[2,2], elasticity3[3,3], elasticity4[4,4], elasticity5[5,5], elasticity6[6,6], elasticity7[7,7])
-sensi <- data.frame(stage, P)
-fig.4a <- ggplot(sensi, aes(x = stage, y = P)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
-fig.4a 
-
-stage <- c(1:7)
-P <- c(elasticityd1[1,1], elasticityd2[2,2], elasticityd3[3,3], elasticityd4[4,4], elasticityd5[5,5], elasticityd6[6,6], elasticityd7[7,7])
-sensi <- data.frame(stage, P)
-fig.4b <- ggplot(sensi, aes(x = stage, y = P)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
-fig.4b 
 
 
 
