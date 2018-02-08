@@ -264,4 +264,17 @@ elasticityd5 <- round(elas, 3)
 elasdd6 <- (mat_dd6/Ldd1) * Sdd6
 elasticityd6 <- round(elas, 3)
 elasdd7 <- (mat_dd7/Ldd1) * Sdd7
-elasticityd7 <- round(elas, 3)
+elasticityd7 <- round(elas, 3) 
+
+### figure 4 - plot the proportional sensitivity to changes in survival probability, p, and stage duration, d. 
+stage <- c(1:7)
+P <- c(elasticity1[1,1], elasticity2[2,2], elasticity3[3,3], elasticity4[4,4], elasticity5[5,5], elasticity6[6,6], elasticity7[7,7])
+sensi <- data.frame(stage, P)
+fig.4a <- ggplot(sensi, aes(x = stage, y = P)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
+fig.4a 
+
+stage <- c(1:7)
+P <- c(elasticityd1[1,1], elasticityd2[2,2], elasticityd3[3,3], elasticityd4[4,4], elasticityd5[5,5], elasticityd6[6,6], elasticityd7[7,7])
+sensi <- data.frame(stage, P)
+fig.4b <- ggplot(sensi, aes(x = stage, y = P)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
+fig.4b 
