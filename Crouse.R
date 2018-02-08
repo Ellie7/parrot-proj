@@ -339,12 +339,87 @@ fig.3
 #sensitivity of projection matrices 
 #In this model, P, and G, are derived parameters; they depend on both stage-specific annual survival probability p and stage duration d. 
 #We have also calculated the elasticities of lambda with respect to these parameters
+
+
+###########----------------------------------- Tamora's experiment 1 
+## Elasticity of lambda to stage-specific survival and stage duration
+
+## 1. Stage-specific survival
+
+## ---- elas-surv-pd ----
+## Calculate partial derivatives of P and G with respect to survival
+d <- table.3$stage_duration
+p <- table.3$annual_survivorship
+dP_dp <- (1 - d*p^(d-1) + (d-1)*p^d)/(1-p^d)^2
+dG_dp <- (d*p^(d-1) - (d+1)*p^d + p^(2*d))/(1-p^d)^2
+
+## ---- elas-surv-calc ----
+## Create the matrix of partial derivatives and set the diagonal to dP_dp and
+## the sub-diagonal to dG_dp
+D <- diag(dP_dp)
+diag(D[-1,-length(p)]) <- dG_dp[1:(length(p)-1)]
+
+## Elasticity calculation
+E_surv <- (p/lambda) * colSums(S * D)
+
+## ---- elas-surv-plot ----
+## Plot elasticity
+elas <- data.frame(stage = 1:7, surv = E_surv)
+p1 <- ggplot(elas, aes(x = stage, y = surv)) +
+  geom_point(pch = 1) +
+  geom_line(size = 0.1) +
+  xlab("Stage") +
+  ylab("Elasticity") +
+  scale_x_discrete(limits = 1:7) +
+  theme_classic()
+p1
+
+## ---- elas-vr-other ----
+
+## Following Caswell 2001
+P <- diag(A)
+G <- c(diag(A[-1,-dim(A)[1]]), 0)
+
+# Vaguely following p233, doesn't seem to work
+#(P/lambda) * select(filter(Edata, param_type == "P"), e) + (G/lambda) * select(filter(Edata, param_type == "G"), e)
+
+#(turtleData$surv/(turtleData$stage_length*lambda))*(select(filter(Edata, param_type == "G"), e) - select(filter(Edata, param_type == "P"), e))
+
+# Using Caswell p219-220 (9.43) and (9.46)
+# This is the right pattern but not the same values as Fig 4 of Crouse et al.
+deltaV <- c(diff(turtleData$repro_val),0)
+Esurv <- with(turtleData, (surv/lambda)*(Re((repro_val+deltaV/stage_length)*stage_dist)/mean_repro))
+
+# This is way off mark - need to calculate growth transition from stage duration
+Edur <- with(turtleData, (1/(stage_length*lambda))*surv*stage_dist*deltaV/mean_repro)
+
+# Plot elasticities for raw parameters
+elas <- data.frame(stage = 1:7, surv = Esurv, dur = Edur)
+p1 <- ggplot(elas, aes(x = stage, y = surv)) +
+  geom_point(pch = 1) +
+  geom_line(size = 0.1) +
+  xlab("Stage") +
+  ylab("Elasticity") +
+  scale_x_discrete(limits = 1:7) +
+  theme_classic()
+p2 <- ggplot(elas, aes(x = stage, y = dur)) +
+  geom_point(pch = 1) +
+  geom_line(size = 0.1) +
+  xlab("Stage") +
+  ylab("Elasticity") +
+  scale_x_discrete(limits = 1:7) +
+  theme_classic()
+
+## ---- elas-plot-output ----
+grid.arrange(p1, p2, ncol=1)
+
+###########----------------------------------- Tamora's experiment 2 
 ## Alternative approach: make small change to vital rate, determine corresponding change in lambda
 
 sens_vr <- lapply(1:7, function(x) {
-  td <- table.3 %>% mutate(surv_adj = ifelse(stage_duration == x, annual_survivorship*1.01, annual_survivorship),
+  td <- table.3 %>% mutate(surv_adj = ifelse(stage_duration == x, annual_survivorship*1.01, annual_survivorship), 
                               surv_diff = surv_adj - annual_survivorship,
-                              dur_adj = ifelse(stage == x, stage_duration*1.01, stage_duration),
+                              dur_adj = ifelse(stage == x, stage_duration*1.01, stage_duration), 
                               dur_diff = dur_adj - stage_duration)
   
   A <- with(td, createProjectionMatrix(surv_adj, fecundity, stage_duration))
@@ -383,15 +458,5 @@ ggplot(sens_vr, aes(stage, elas)) +
   labs(x = "Stage", y = "Elasticity") +
   theme_bw() +
   theme(aspect.ratio = 1.3)
-
-ggplot(sens_vr, aes(stage, elas)) +
-  geom_point() +
-  facet_wrap(~vr) +
-  labs(x = "Stage", y = "Elasticity") +
-  theme_bw() 
-
-
-
-
 
 
