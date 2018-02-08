@@ -1,0 +1,8 @@
+stage,class,min.size,max.size,min.age,max.age,surv,fecund
+1,"eggs, hatchlings",0,10,0,1,0.6747,0
+2,small juveniles,10.1,58,1,8,0.7857,0
+3,large juveniles,58.1,80,8,16,0.6758,0
+4,subadults,80.1,87,16,22,0.7425,0
+5,novice breeders,87.1,200,22,23,0.8091,127
+6,1st year remigrants,87.1,200,23,24,0.8091,4
+7,mature breeders,87.1,200,24,55,0.8089,80
