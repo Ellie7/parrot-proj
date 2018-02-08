@@ -6,7 +6,7 @@ library(knitr)
 library(primer)
 library(Rmisc)
 library(agricolae)
-read.csv("table 3 from crouse.csv")
+table.3 <- read.csv("table 3 from crouse.csv")
 #----------------- Creating a stage-based projection matrix, for each stage, 
 #calculating the repro- ductive output (F,), the probability of surviving and 
 #growing into the next stage (G,). and the probability of surviving and 
@@ -604,7 +604,7 @@ elasticityd6 <- round(elas, 3)
 elasdd7 <- (mat_dd7/Ldd1) * Sdd7
 elasticityd7 <- round(elas, 3)
 
-### figure 3 - plot the proportional sensitivity to changes in F, P and G 
+### figure 4 - plot the proportional sensitivity to changes in survival probability, p, and stage duration, d. 
 stage <- c(1:7)
 P <- c(elasticity1[1,1], elasticity2[2,2], elasticity3[3,3], elasticity4[4,4], elasticity5[5,5], elasticity6[6,6], elasticity7[7,7])
 sensi <- data.frame(stage, P)
