@@ -5,6 +5,7 @@ library(ggplot2)
 library(knitr)
 library(primer)
 library(Rmisc)
+library(gridExtra)
 library(agricolae)
 table.3 <- read.csv("table 3 from crouse.csv")
 #----------------- Creating a stage-based projection matrix, for each stage, 
@@ -417,27 +418,27 @@ grid.arrange(p1, p2, ncol=1)
 ## Alternative approach: make small change to vital rate, determine corresponding change in lambda
 
 sens_vr <- lapply(1:7, function(x) {
-  td <- table.3 %>% mutate(surv_adj = ifelse(stage_duration == x, annual_survivorship*1.01, annual_survivorship), 
+  td <- table.3 %>% mutate(surv_adj = ifelse(stage_duration == x, annual_survivorship*1.005, annual_survivorship), 
                               surv_diff = surv_adj - annual_survivorship,
-                              dur_adj = ifelse(stage == x, stage_duration*1.01, stage_duration), 
+                              dur_adj = ifelse(stage == x, stage_duration*1.005, stage_duration), 
                               dur_diff = dur_adj - stage_duration)
   
   A <- with(td, createProjectionMatrix(surv_adj, fecundity, stage_duration))
   eig <- eigen(A, symmetric = FALSE)
   lam_adj <- Re(eig$values[1])
-  sens_surv <- (lam_adj - lambda)/td$surv_diff[x]
-  elas_surv <- sens_surv*td$annual_survivorship[x]/lambda
+  sens_surv <- (lam_adj - L1)/td$surv_diff[x]
+  elas_surv <- sens_surv*td$annual_survivorship[x]/L1
   
   A <- with(td, createProjectionMatrix(annual_survivorship, fecundity, dur_adj))
   eig <- eigen(A, symmetric = FALSE)
   lam_adj <- Re(eig$values[1])
-  sens_dur <- (lam_adj - lambda)/td$dur_diff[x]
-  elas_dur <- sens_dur*td$stage_length[x]/lambda
+  sens_dur <- (lam_adj - L1)/td$dur_diff[x] #L1 changed from lambda
+  elas_dur <- sens_dur*td$stage_length[x]/L1
   
   data.frame(stage = x, vr = c("D", "S"), sens = c(sens_dur, sens_surv), elas = c(elas_dur, elas_surv))
 })
 sens_vr <- do.call(rbind, sens_vr) %>%
-  mutate(vr = factor(vr, levels = c("S", "D"), label = c("Survival", "Stage duration")))
+  mutate(vr = factor(vr, levels = c("S", "D"), label = c("Survival", "Stage duration"))) #my S is not happy producing NAs
 
 ## ---- sens-plot-output-vr-simple ----
 
@@ -458,5 +459,5 @@ ggplot(sens_vr, aes(stage, elas)) +
   labs(x = "Stage", y = "Elasticity") +
   theme_bw() +
   theme(aspect.ratio = 1.3)
-
+#graph not working beacuse sens_vr S is not happy 
 
