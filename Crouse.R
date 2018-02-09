@@ -118,6 +118,7 @@ eigs.A
 dom.pos <- which.max(eigs.A[["values"]])
 L1 <- Re(eigs.A[["values"]][dom.pos])
 L1
+lambda <- Re(eigs.A$values[1])
 #=0.9451619
 #finding r 
 r <- log(L1)
@@ -426,14 +427,14 @@ sens_vr <- lapply(1:7, function(x) {
   A <- with(td, createProjectionMatrix(surv_adj, fecundity, stage_duration))
   eig <- eigen(A, symmetric = FALSE)
   lam_adj <- Re(eig$values[1])
-  sens_surv <- (lam_adj - L1)/td$surv_diff[x]
-  elas_surv <- sens_surv*td$annual_survivorship[x]/L1
+  sens_surv <- (lam_adj - lambda)/td$surv_diff[x]
+  elas_surv <- sens_surv*td$annual_survivorship[x]/lambda
   
   A <- with(td, createProjectionMatrix(annual_survivorship, fecundity, dur_adj))
   eig <- eigen(A, symmetric = FALSE)
   lam_adj <- Re(eig$values[1])
-  sens_dur <- (lam_adj - L1)/td$dur_diff[x] #L1 changed from lambda
-  elas_dur <- sens_dur*td$stage_length[x]/L1
+  sens_dur <- (lam_adj - lambda)/td$dur_diff[x] 
+  elas_dur <- sens_dur*td$stage_duration[x]/lambda
   
   data.frame(stage = x, vr = c("D", "S"), sens = c(sens_dur, sens_surv), elas = c(elas_dur, elas_surv))
 })
