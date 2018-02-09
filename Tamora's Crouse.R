@@ -253,9 +253,9 @@ grid.arrange(p1, p2, ncol=1)
 ## Alternative approach: make small change to vital rate, determine corresponding change in lambda
 
 sens_vr <- lapply(1:7, function(x) {
-  td <- turtleData %>% mutate(surv_adj = ifelse(stage == x, surv*1.01, surv),
+  td <- turtleData %>% mutate(surv_adj = ifelse(stage == x, surv*1.005, surv),
                               surv_diff = surv_adj - surv,
-                              dur_adj = ifelse(stage == x, stage_length*1.01, stage_length),
+                              dur_adj = ifelse(stage == x, stage_length*1.005, stage_length),
                               dur_diff = dur_adj - stage_length)
   
   A <- with(td, createProjectionMatrix(surv_adj, fecund, stage_length))
