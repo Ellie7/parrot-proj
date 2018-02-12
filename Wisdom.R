@@ -144,21 +144,21 @@ chickFunc(chicken) #chickFunc returns a different matrix each time
 
 tortFunc <- function(tortoise)
 { #s
-  s1 <- rbeta(100, shape1 = (tortoise$s[1]), shape2 = (tortoise$ssd[1]))  
-  s2 <- rbeta(100, shape1 = (tortoise$s[2]), shape2 = (tortoise$ssd[2])) 
-  s3 <- rbeta(100, shape1 = (tortoise$s[3]), shape2 = (tortoise$ssd[3]))  
-  s4 <- rbeta(100, shape1 = (tortoise$s[4]), shape2 = (tortoise$ssd[4])) 
-  s5 <- rbeta(100, shape1 = (tortoise$s[5]), shape2 = (tortoise$ssd[5]))  
-  s6 <- rbeta(100, shape1 = (tortoise$s[6]), shape2 = (tortoise$ssd[6]))  
-  s7 <- rbeta(100, shape1 = (tortoise$s[7]), shape2 = (tortoise$ssd[7]))
-  s8 <- rbeta(100, shape1 = (tortoise$s[8]), shape2 = (tortoise$ssd[8]))
+  s1 <- betaval((tortoise$s[1]), (tortoise$ssd[1]), fx=runif(1)) # betaval returns a random beta value 
+  s2 <- betaval((tortoise$s[2]), (tortoise$ssd[2]), fx=runif(1)) # usage: betaval(mn, sdev, fx=runif(1))
+  s3 <- betaval((tortoise$s[3]), (tortoise$ssd[3]), fx=runif(1))
+  s4 <- betaval((tortoise$s[4]), (tortoise$ssd[4]), fx=runif(1))
+  s5 <- betaval((tortoise$s[5]), (tortoise$ssd[5]), fx=runif(1))
+  s6 <- betaval((tortoise$s[6]), (tortoise$ssd[6]), fx=runif(1))
+  s7 <- betaval((tortoise$s[7]), (tortoise$ssd[7]), fx=runif(1))
+  s8 <- betaval((tortoise$s[8]), (tortoise$ssd[8]), fx=runif(1))
   #g 
-  g2 <- rbeta(100, shape1 = (tortoise$g[2]), shape2 = (tortoise$gsd[2])) 
-  g3 <- rbeta(100, shape1 = (tortoise$g[3]), shape2 = (tortoise$gsd[3])) 
-  g4 <- rbeta(100, shape1 = (tortoise$g[4]), shape2 = (tortoise$gsd[4])) 
-  g5 <- rbeta(100, shape1 = (tortoise$g[5]), shape2 = (tortoise$gsd[5]))  
-  g6 <- rbeta(100, shape1 = (tortoise$g[6]), shape2 = (tortoise$gsd[6]))  
-  g7 <- rbeta(100, shape1 = (tortoise$g[7]), shape2 = (tortoise$gsd[7]))
+  g2 <- betaval((tortoise$g[2]), (tortoise$gsd[2]), fx=runif(1))
+  g3 <- betaval((tortoise$g[3]), (tortoise$gsd[3]), fx=runif(1))
+  g4 <- betaval((tortoise$g[4]), (tortoise$gsd[4]), fx=runif(1))
+  g5 <- betaval((tortoise$g[5]), (tortoise$gsd[5]), fx=runif(1))
+  g6 <- betaval((tortoise$g[6]), (tortoise$gsd[6]), fx=runif(1))
+  g7 <- betaval((tortoise$g[7]), (tortoise$gsd[7]), fx=runif(1))
   #m
   m6 <- rnorm(1, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
   m7 <- rnorm(1, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
@@ -194,9 +194,7 @@ tortFunc <- function(tortoise)
   matrix1#almost there 
   return(matrix1)}
 
-tortFunc(tortoise) #tortFunc returns a different matrix each time 
-# since i replaced the log norm with beta distribution getting error messages 
-
+tortFunc(tortoise) #tortFunc returns a different matrix each time drawn from beta & lognorm distributions 
 
 ########################################################################### Step 3
 #the process is excecuted 1000 times, resulting in 1000 matrix replicates
