@@ -8,6 +8,7 @@ library(primer)
 library(Rmisc)
 library(agricolae)
 library(popbio)
+library(MASS)
 library(PerformanceAnalytics) #from online tutorial for rbeta
 library(ExtDist)#from online tutorial #package ‘ExtDist’ is not available (for R version 3.4.2)
 chicken <- read.csv("chicken means sd .csv")
@@ -98,6 +99,24 @@ tortFunc <- function(tortoise)
 
 tortFunc(tortoise) #tortFunc returns a different matrix each time drawn from beta & lognorm distributions 
 #currently erroring: "Error during wrapup: Standard deviation too high for beta distribution" 
+
+# Generating correlated vital rates using an estimated correlation between matrix between vital rates 
+# using chapter 8, box 8.6 matlab code from Morris & Doak 2002 
+#----- simulation parameters
+#parameters for two vital rates  (s and m)
+# a beta and a lognormal 
+vrmeans <- c(0.0945, 0.445, 0.51, 0.284) # means
+vrvars <- c(0, (0.081^2), (0.079^2), (0.090^2)) # variances #^2 because standard deviation is the square root of the variance 
+
+#minimum and maximum values for each vital rate 
+# zeros are palceholders for rates that are not stretched betas
+vrmins <- c(0, 0, 0, 0)
+vrmaxs <- c(0, 0, 0, 0) 
+#then a full correlation matrix 
+
+#
+
+mvrnorm(n = 1, mu, Sigma, tol = 1e-6, empirical = FALSE, EISPACK = FALSE) # from online 
 
 ########################################################################### Step 3
 #the process is excecuted 1000 times, resulting in 1000 matrix replicates
