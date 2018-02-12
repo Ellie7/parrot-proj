@@ -92,14 +92,12 @@ s6 <- betaval((tortoise$s[6]), (tortoise$ssd[6]), fx=runif(1))
 s7 <- betaval((tortoise$s[7]), (tortoise$ssd[7]), fx=runif(1))
 s8 <- betaval((tortoise$s[8]), (tortoise$ssd[8]), fx=runif(1))
 #g 
-g1 <- betaval((tortoise$g[1]), (tortoise$gsd[1]), fx=runif(1))
 g2 <- betaval((tortoise$g[2]), (tortoise$gsd[2]), fx=runif(1))
 g3 <- betaval((tortoise$g[3]), (tortoise$gsd[3]), fx=runif(1))
 g4 <- betaval((tortoise$g[4]), (tortoise$gsd[4]), fx=runif(1))
 g5 <- betaval((tortoise$g[5]), (tortoise$gsd[5]), fx=runif(1))
 g6 <- betaval((tortoise$g[6]), (tortoise$gsd[6]), fx=runif(1))
 g7 <- betaval((tortoise$g[7]), (tortoise$gsd[7]), fx=runif(1))
-g8 <- betaval((tortoise$g[8]), (tortoise$gsd[8]), fx=runif(1))
 #m
 m6 <- rnorm(100, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
 m7 <- rnorm(100, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
@@ -107,10 +105,10 @@ m8 <- rnorm(100, mean = (tortoise$m[8]), sd = (tortoise$msd[8]))
 
 #chicken 
 #s
-sc1 <- betaval((chicken$s[1]), (chicken$ssd[1]), fx=runif(1)) #0.129 is mean standard deviation for stage 1, didn't know how to correctly calculate ssd for
-sc2 <- betaval((chicken$s[5]), (chicken$ssd[1]), fx=runif(1)) # this stage as the survival is from the multiplication of  s1a, s1b and s1c
-sc3 <- betaval((chicken$s[6]), (chicken$ssd[1]), fx=runif(1))
-sc4 <- betaval((chicken$s[7]), (chicken$ssd[1]), fx=runif(1))
+sc1 <- betaval((chicken$s[1]), 0.129, fx=runif(1)) #0.129 is mean standard deviation for stage 1, didn't know how to correctly calculate ssd for
+sc2 <- betaval((chicken$s[5]), (chicken$ssd[5]), fx=runif(1)) # this stage as the survival is from the multiplication of  s1a, s1b and s1c
+sc3 <- betaval((chicken$s[6]), (chicken$ssd[6]), fx=runif(1))
+sc4 <- betaval((chicken$s[7]), (chicken$ssd[7]), fx=runif(1))
 #m 
 mc2 <- rnorm(100, mean = (chicken$m[5]), sd = (chicken$msd[5]))
 mc3 <- rnorm(100, mean = (chicken$m[6]), sd = (chicken$msd[6]))
@@ -119,10 +117,10 @@ mc5 <- rnorm(100, mean = (chicken$m[7]), sd = (chicken$msd[7]))
 
 ############ making a function which produces a matrix based on randomly selected vital rates 
 chickFunc <- function (chicken) 
-{ sc1 <- rnorm(1, mean = (chicken$s[1]), sd = 0.0129)  
-sc2 <- rnorm(1, mean = (chicken$s[5]), sd = (chicken$ssd[5])) 
-sc3 <- rnorm(1, mean = (chicken$s[6]), sd = (chicken$ssd[6]))
-sc4 <- rnorm(1, mean = (chicken$s[7]), sd = (chicken$ssd[7]))
+{ sc1 <- betaval((chicken$s[1]), 0.129, fx=runif(1)) #0.129 is mean standard deviation for stage 1, didn't know how to correctly calculate ssd for
+sc2 <- betaval((chicken$s[5]), (chicken$ssd[5]), fx=runif(1)) # this stage as the survival is from the multiplication of  s1a, s1b and s1c
+sc3 <- betaval((chicken$s[6]), (chicken$ssd[6]), fx=runif(1))
+sc4 <- betaval((chicken$s[7]), (chicken$ssd[7]), fx=runif(1))
 #m 
 mc2 <- rnorm(1, mean = (chicken$m[5]), sd = (chicken$msd[5]))
 mc3 <- rnorm(1, mean = (chicken$m[6]), sd = (chicken$msd[6]))
@@ -155,14 +153,12 @@ tortFunc <- function(tortoise)
   s7 <- rbeta(100, shape1 = (tortoise$s[7]), shape2 = (tortoise$ssd[7]))
   s8 <- rbeta(100, shape1 = (tortoise$s[8]), shape2 = (tortoise$ssd[8]))
   #g 
-  g1 <- rbeta(100, shape1 = (tortoise$g[1]), shape2 = (tortoise$gsd[1]))  
   g2 <- rbeta(100, shape1 = (tortoise$g[2]), shape2 = (tortoise$gsd[2])) 
   g3 <- rbeta(100, shape1 = (tortoise$g[3]), shape2 = (tortoise$gsd[3])) 
   g4 <- rbeta(100, shape1 = (tortoise$g[4]), shape2 = (tortoise$gsd[4])) 
   g5 <- rbeta(100, shape1 = (tortoise$g[5]), shape2 = (tortoise$gsd[5]))  
   g6 <- rbeta(100, shape1 = (tortoise$g[6]), shape2 = (tortoise$gsd[6]))  
   g7 <- rbeta(100, shape1 = (tortoise$g[7]), shape2 = (tortoise$gsd[7]))
-  g8 <- rbeta(100, shape1 = (tortoise$g[8]), shape2 = (tortoise$gsd[8]))
   #m
   m6 <- rnorm(1, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
   m7 <- rnorm(1, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
