@@ -105,7 +105,7 @@ tortFunc(tortoise) #tortFunc returns a different matrix each time drawn from bet
 #----- simulation parameters
 #parameters for two vital rates  (s and m)
 # a beta and a lognormal 
-vrmeans <- c(0.0945, 0.445, 0.51, 0.284) # means
+vrmeans <- c(0.0945, 0.445, 0.51, 0.284) # means for survival only atm, in book method is for three vital rates 
 vrvars <- c(0, (0.081^2), (0.079^2), (0.090^2)) # variances #^2 because standard deviation is the square root of the variance 
 
 #minimum and maximum values for each vital rate 
@@ -113,8 +113,14 @@ vrvars <- c(0, (0.081^2), (0.079^2), (0.090^2)) # variances #^2 because standard
 vrmins <- c(0, 0, 0, 0)
 vrmaxs <- c(0, 0, 0, 0) 
 #then a full correlation matrix 
+cor(vrmeans, vrvars)
+#find the number of vital rates
 
-#
+#find the eigen values (D) and eigenvectors (W) of the correlation matrix 
+
+#calculate C12 the marix to use to make correlated standard normal variates from uncorrelated ones
+C12 <- W*(sqrt(abs(D)))*W 
+#loop to do each years vita rates 
 
 mvrnorm(n = 1, mu, Sigma, tol = 1e-6, empirical = FALSE, EISPACK = FALSE) # from online 
 
@@ -128,7 +134,26 @@ mvrnorm(n = 1, mu, Sigma, tol = 1e-6, empirical = FALSE, EISPACK = FALSE) # from
 #lambda and lower level elasticities associated with each vital rate 
 # calculated at a stable stage ditribution
 
+A <- matrix
+#eigen analysis 
+eigs.A <- eigen(A)
+eigs.A
+#finding the first eigenvalue (finite rate of increase)
+dom.pos <- which.max(eigs.A[["values"]])
+L1 <- Re(eigs.A[["values"]][dom.pos])
+L1
+lambda <- Re(eigs.A$values[1])
+
+#finding r 
+r <- log(L1)
+r
+
+#calculating the stable stage distribution 
+w <- Re(eigs.A[["vectors"]][, dom.pos])
+ssd <- w / sum(w)
+stable <- ssd*100
+
 ############################################################################ Step 5
 #Data across replicates were analyzed to estimate effects of each 
-# vtial rate on lambda 
+# vital rate on lambda 
 
