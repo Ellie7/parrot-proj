@@ -90,14 +90,14 @@ s6 <- rbeta(100, shape1 = (tortoise$s[6]), shape2 = (tortoise$ssd[6]))
 s7 <- rbeta(100, shape1 = (tortoise$s[7]), shape2 = (tortoise$ssd[7]))
 s8 <- rbeta(100, shape1 = (tortoise$s[8]), shape2 = (tortoise$ssd[8]))
 #g 
-g1 <- rbeta(100, shape1 = (tortoise$s[1]), shape2 = (tortoise$ssd[1]))  
-g2 <- rbeta(100, shape1 = (tortoise$s[2]), shape2 = (tortoise$ssd[2])) 
-g3 <- rbeta(100, shape1 = (tortoise$s[3]), shape2 = (tortoise$ssd[3])) 
-g4 <- rbeta(100, shape1 = (tortoise$s[4]), shape2 = (tortoise$ssd[4])) 
-g5 <- rbeta(100, shape1 = (tortoise$s[5]), shape2 = (tortoise$ssd[5]))  
-g6 <- rbeta(100, shape1 = (tortoise$s[6]), shape2 = (tortoise$ssd[6]))  
-g7 <- rbeta(100, shape1 = (tortoise$s[7]), shape2 = (tortoise$ssd[7]))
-g8 <- rbeta(100, shape1 = (tortoise$s[8]), shape2 = (tortoise$ssd[8]))
+g1 <- rbeta(100, shape1 = (tortoise$g[1]), shape2 = (tortoise$gsd[1]))  
+g2 <- rbeta(100, shape1 = (tortoise$g[2]), shape2 = (tortoise$gsd[2])) 
+g3 <- rbeta(100, shape1 = (tortoise$g[3]), shape2 = (tortoise$gsd[3])) 
+g4 <- rbeta(100, shape1 = (tortoise$g[4]), shape2 = (tortoise$gsd[4])) 
+g5 <- rbeta(100, shape1 = (tortoise$g[5]), shape2 = (tortoise$gsd[5]))  
+g6 <- rbeta(100, shape1 = (tortoise$g[6]), shape2 = (tortoise$gsd[6]))  
+g7 <- rbeta(100, shape1 = (tortoise$g[7]), shape2 = (tortoise$gsd[7]))
+g8 <- rbeta(100, shape1 = (tortoise$g[8]), shape2 = (tortoise$gsd[8]))
 #m
 m6 <- rnorm(100, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
 m7 <- rnorm(100, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
@@ -105,10 +105,10 @@ m8 <- rnorm(100, mean = (tortoise$m[8]), sd = (tortoise$msd[8]))
 
 #chicken 
 #s
-sc1 <- rnorm(100, mean = (chicken$s[1]), sd = 0.129) #0.129 is mean standard deviation for stage 1, didn't know how to correctly calculate ssd for 
-sc2 <- rnorm(100, mean = (chicken$s[5]), sd = (chicken$ssd[5])) # this stage as the survival is from the multiplication of  s1a, s1b and s1c
-sc3<- rnorm(100, mean = (chicken$s[6]), sd = (chicken$ssd[6]))
-sc4 <- rnorm(100, mean = (chicken$s[7]), sd = (chicken$ssd[7]))
+sc1 <- rbeta(n=100, shape1 = ((chicken$s[1])+1.29), shape2 = ((chicken$s[1])-1.29)) #0.129 is mean standard deviation for stage 1, didn't know how to correctly calculate ssd for
+sc2 <- rbeta(100, shape1 = (chicken$s[5])+(chicken$ssd[5]), shape2 = (chicken$s[5])-(chicken$ssd[5])) # this stage as the survival is from the multiplication of  s1a, s1b and s1c
+sc3 <- rbeta(100, shape1 = (chicken$s[6])+(chicken$ssd[6]), shape2 = (chicken$s[6])-(chicken$ssd[6]))
+sc4 <- rbeta(100, shape1 = (chicken$s[7])+(chicken$ssd[7]), shape2 = (chicken$s[7])-(chicken$ssd[7]))
 #m 
 mc2 <- rnorm(100, mean = (chicken$m[5]), sd = (chicken$msd[5]))
 mc3 <- rnorm(100, mean = (chicken$m[6]), sd = (chicken$msd[6]))
@@ -144,21 +144,23 @@ chickFunc(chicken) #chickFunc returns a different matrix each time
 
 tortFunc <- function(tortoise)
 { #s
-  s1 <- rnorm(1, mean = (tortoise$s[1]), sd = (tortoise$ssd[1])) # presumably an r-norm distribution 
-  s2 <- rnorm(1, mean = (tortoise$s[2]), sd = (tortoise$ssd[2])) # needs to be a Beta distrubtion for all rates other than reproductive
-  s3 <- rnorm(1, mean = (tortoise$s[3]), sd = (tortoise$ssd[3])) # rates which need to be sampled from a log-normal distribution 
-  s4 <- rnorm(1, mean = (tortoise$s[4]), sd = (tortoise$ssd[4])) # presumably can keep most of code and just change function
-  s5 <- rnorm(1, mean = (tortoise$s[5]), sd = (tortoise$ssd[5])) # outside of the brackets? 
-  s6 <- rnorm(1, mean = (tortoise$s[6]), sd = (tortoise$ssd[6])) #have googled a beta function but confused by the shape parameter bit 
-  s7 <- rnorm(1, mean = (tortoise$s[7]), sd = (tortoise$ssd[7]))
-  s8 <- rnorm(1, mean = (tortoise$s[8]), sd = (tortoise$ssd[8]))
+  s1 <- rbeta(100, shape1 = (tortoise$s[1]), shape2 = (tortoise$ssd[1]))  
+  s2 <- rbeta(100, shape1 = (tortoise$s[2]), shape2 = (tortoise$ssd[2])) 
+  s3 <- rbeta(100, shape1 = (tortoise$s[3]), shape2 = (tortoise$ssd[3]))  
+  s4 <- rbeta(100, shape1 = (tortoise$s[4]), shape2 = (tortoise$ssd[4])) 
+  s5 <- rbeta(100, shape1 = (tortoise$s[5]), shape2 = (tortoise$ssd[5]))  
+  s6 <- rbeta(100, shape1 = (tortoise$s[6]), shape2 = (tortoise$ssd[6]))  
+  s7 <- rbeta(100, shape1 = (tortoise$s[7]), shape2 = (tortoise$ssd[7]))
+  s8 <- rbeta(100, shape1 = (tortoise$s[8]), shape2 = (tortoise$ssd[8]))
   #g 
-  g2 <- rnorm(1, mean = (tortoise$g[2]), sd = (tortoise$gsd[2]))
-  g3 <- rnorm(1, mean = (tortoise$g[3]), sd = (tortoise$gsd[3]))
-  g4 <- rnorm(1, mean = (tortoise$g[4]), sd = (tortoise$gsd[4]))
-  g5 <- rnorm(1, mean = (tortoise$g[5]), sd = (tortoise$gsd[5]))
-  g6 <- rnorm(1, mean = (tortoise$g[6]), sd = (tortoise$gsd[6]))
-  g7 <- rnorm(1, mean = (tortoise$g[7]), sd = (tortoise$gsd[7]))
+  g1 <- rbeta(100, shape1 = (tortoise$g[1]), shape2 = (tortoise$gsd[1]))  
+  g2 <- rbeta(100, shape1 = (tortoise$g[2]), shape2 = (tortoise$gsd[2])) 
+  g3 <- rbeta(100, shape1 = (tortoise$g[3]), shape2 = (tortoise$gsd[3])) 
+  g4 <- rbeta(100, shape1 = (tortoise$g[4]), shape2 = (tortoise$gsd[4])) 
+  g5 <- rbeta(100, shape1 = (tortoise$g[5]), shape2 = (tortoise$gsd[5]))  
+  g6 <- rbeta(100, shape1 = (tortoise$g[6]), shape2 = (tortoise$gsd[6]))  
+  g7 <- rbeta(100, shape1 = (tortoise$g[7]), shape2 = (tortoise$gsd[7]))
+  g8 <- rbeta(100, shape1 = (tortoise$g[8]), shape2 = (tortoise$gsd[8]))
   #m
   m6 <- rnorm(1, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
   m7 <- rnorm(1, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
@@ -195,6 +197,8 @@ tortFunc <- function(tortoise)
   return(matrix1)}
 
 tortFunc(tortoise) #tortFunc returns a different matrix each time 
+# since i replaced the log norm with beta distribution getting error messages 
+
 
 ########################################################################### Step 3
 #the process is excecuted 1000 times, resulting in 1000 matrix replicates
