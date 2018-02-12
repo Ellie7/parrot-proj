@@ -81,24 +81,23 @@ chickenFunc(chicken)
 #1 random selection of vital rates 
 #tortoise 
 #s
-s1 <- rnorm(100, mean = (tortoise$s[1]), sd = (tortoise$ssd[1])) # presumably an r-norm distribution 
-s2 <- rnorm(100, mean = (tortoise$s[2]), sd = (tortoise$ssd[2])) # needs to be a Beta distrubtion for all rates other than reproductive
-s3 <- rnorm(100, mean = (tortoise$s[3]), sd = (tortoise$ssd[3])) # rates which need to be sampled from a log-normal distribution 
-s4 <- rnorm(100, mean = (tortoise$s[4]), sd = (tortoise$ssd[4])) # presumably can keep most of code and just change function
-s5 <- rnorm(100, mean = (tortoise$s[5]), sd = (tortoise$ssd[5])) # outside of the brackets? 
-s6 <- rnorm(100, mean = (tortoise$s[6]), sd = (tortoise$ssd[6])) #have googled a beta function but confused by the shape parameter bit 
-s7 <- rnorm(100, mean = (tortoise$s[7]), sd = (tortoise$ssd[7]))
-s8 <- rnorm(100, mean = (tortoise$s[8]), sd = (tortoise$ssd[8]))
-rbeta(100, shape1 = (tortoise$s[1]), shape2 = (tortoise$ssd[1]))#use rbeta function? maybe shape 1 = minimum shape 2 = maxmimum 
+s1 <- rbeta(100, shape1 = (tortoise$s[1]), shape2 = (tortoise$ssd[1]))  
+s2 <- rbeta(100, shape1 = (tortoise$s[2]), shape2 = (tortoise$ssd[2])) 
+s3 <- rbeta(100, shape1 = (tortoise$s[3]), shape2 = (tortoise$ssd[3]))  
+s4 <- rbeta(100, shape1 = (tortoise$s[4]), shape2 = (tortoise$ssd[4])) 
+s5 <- rbeta(100, shape1 = (tortoise$s[5]), shape2 = (tortoise$ssd[5]))  
+s6 <- rbeta(100, shape1 = (tortoise$s[6]), shape2 = (tortoise$ssd[6]))  
+s7 <- rbeta(100, shape1 = (tortoise$s[7]), shape2 = (tortoise$ssd[7]))
+s8 <- rbeta(100, shape1 = (tortoise$s[8]), shape2 = (tortoise$ssd[8]))
 #g 
-g1 <- rnorm(100, mean = (tortoise$g[1]), sd = (tortoise$gsd[1])) 
-g2 <- rnorm(100, mean = (tortoise$g[2]), sd = (tortoise$gsd[2]))
-g3 <- rnorm(100, mean = (tortoise$g[3]), sd = (tortoise$gsd[3]))
-g4 <- rnorm(100, mean = (tortoise$g[4]), sd = (tortoise$gsd[4]))
-g5 <- rnorm(100, mean = (tortoise$g[5]), sd = (tortoise$gsd[5]))
-g6 <- rnorm(100, mean = (tortoise$g[6]), sd = (tortoise$gsd[6]))
-g7 <- rnorm(100, mean = (tortoise$g[7]), sd = (tortoise$gsd[7]))
-g8 <- rnorm(100, mean = (tortoise$g[8]), sd = (tortoise$gsd[8]))
+g1 <- rbeta(100, shape1 = (tortoise$s[1]), shape2 = (tortoise$ssd[1]))  
+g2 <- rbeta(100, shape1 = (tortoise$s[2]), shape2 = (tortoise$ssd[2])) 
+g3 <- rbeta(100, shape1 = (tortoise$s[3]), shape2 = (tortoise$ssd[3])) 
+g4 <- rbeta(100, shape1 = (tortoise$s[4]), shape2 = (tortoise$ssd[4])) 
+g5 <- rbeta(100, shape1 = (tortoise$s[5]), shape2 = (tortoise$ssd[5]))  
+g6 <- rbeta(100, shape1 = (tortoise$s[6]), shape2 = (tortoise$ssd[6]))  
+g7 <- rbeta(100, shape1 = (tortoise$s[7]), shape2 = (tortoise$ssd[7]))
+g8 <- rbeta(100, shape1 = (tortoise$s[8]), shape2 = (tortoise$ssd[8]))
 #m
 m6 <- rnorm(100, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
 m7 <- rnorm(100, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
