@@ -417,6 +417,52 @@ grid.arrange(p1, p2, ncol=1)
 
 ###########----------------------------------- Tamora's experiment 2 
 ## Alternative approach: make small change to vital rate, determine corresponding change in lambda
+createProjectionMatrix <- function (surv, fec, d = NULL) {
+  ## Create a stage-based population projection matrix
+  
+  ## Args:
+  ##   surv: Stage-based survivorship estimates.
+  ##   fec: Stage-based fecundity estimates.
+  ##   d: Length of stages. If NULL the matrix reduces to an age-based projection matrix (Leslie matrix).
+  
+  ## Returns: Projection matrix A in which diagonal elements indicate the
+  ## probability of remaining in a given stage; sub-diagonal elements indicate
+  ## the probability of surviving and growing into the next stage; and the
+  ## first row indicates the contribution to newborns from each stage.
+  
+  dimA <- length(surv)
+  ## expect fec to have same length
+  if (length(fec) != dimA)
+    stop("expecting equal length survival and fecundity estimates")
+  
+  if (is.null(d)) {
+    d <- rep(1, dimA)
+  } else if (length(d) != dimA) {
+    stop("expecting equal length survival and stage length vectors")
+  }
+  
+  if(any(surv==1)) {
+    warning("replacing survivorship values of 1 with 0.999 to avoid NaNs")
+    surv[surv==1] = 0.999
+  }
+  
+  # Calculate P (survival transition) and G (growth transition) values
+  P <- ((1 - surv^(d-1))/(1 - surv^d))*surv  # See Crouse 1987, Eq. (1)
+  G <- (surv^d*(1 - surv))/(1 - surv^d)  # See Crouse 1987, Eq. (2)
+  
+  # Create the projection matrix and set the diagonal to P.
+  A <- diag(P)
+  
+  # Set the sub-diagonal to G (discarding the last value which is spurious because
+  # the last stage is absorbing).
+  diag(A[-1,-dimA]) <- G[1:(dimA-1)]
+  
+  # Set the first row to the fecundity values, eliding the first entry which we assume
+  # corresponds to a non-reproductive stage.
+  A[1,2:dimA] <- fec[2:dimA]
+  
+  return(A)
+}
 
 sens_vr <- lapply(1:7, function(x) {
   td <- table.3 %>% mutate(surv_adj = ifelse(stage_duration == x, annual_survivorship*1.005, annual_survivorship), 
