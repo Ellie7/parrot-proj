@@ -61,7 +61,7 @@ tortFunc <- function(tortoise)
   g4 <- betaval((tortoise$g[4]), (tortoise$gsd[4]), fx=runif(1))
   g5 <- betaval((tortoise$g[5]), (tortoise$gsd[5]), fx=runif(1))
   g6 <- betaval((tortoise$g[6]), (tortoise$gsd[6]), fx=runif(1))
-  g7 <- betaval((tortoise$g[7]), (tortoise$gsd[7]), fx=runif(1))
+  g7 <- betaval((tortoise$g[7]), ((tortoise$gsd[7])/2), fx=runif(1)) # /2 because SD too large for beta distribution 
   #m
   m6 <- rnorm(1, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
   m7 <- rnorm(1, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
