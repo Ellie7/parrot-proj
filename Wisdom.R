@@ -65,7 +65,7 @@ tortFunc <- function(tortoise)
   #m
   m6 <- rnorm(1, mean = (tortoise$m[6]), sd = (tortoise$msd[6]))
   m7 <- rnorm(1, mean = (tortoise$m[7]), sd = (tortoise$msd[7]))
-  m8 <- rnorm(1, mean = (tortoise$m[8]), sd = (tortoise$msd[8]))
+  m8 <- rnorm(1, mean = (tortoise$m[8]), sd = ((tortoise$msd[8])/2))
   #make matrix
   matrix1 <- matrix(0, nrow = 8, ncol = 8)
   #add Fs
