@@ -102,6 +102,12 @@ tortFunc(tortoise) #tortFunc returns a different matrix each time drawn from bet
 
 # Generating correlated vital rates using an estimated correlation between matrix between vital rates 
 # using chapter 8, box 8.6 matlab code from Morris & Doak 2002 
+
+#table 3 doak 1994 to generate correlation matrix, r function to apply a set of data and get correlation matrix out of it
+#can use set seed function for matlab code line beginning with rand 
+#stnormfx might have been a function converted into R (popbio)
+#Gross et al 1998 -> heather (example used in box 8)
+
 #----- simulation parameters
 #parameters for two vital rates  (s and m)
 # a beta and a lognormal 
