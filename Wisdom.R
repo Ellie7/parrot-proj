@@ -108,6 +108,14 @@ tortFunc(tortoise) #tortFunc returns a different matrix each time drawn from bet
 #stnormfx might have been a function converted into R (popbio)
 #Gross et al 1998 -> heather (example used in box 8)
 
+#table 3 
+demographic_rate <- c("growth2", "growth3", "growth4", "growth5", "growth6", "survival2","survival3","survival4","survival5","survival6","survival7")
+mean <- c(0.208, 0.280, 0.287, 0.269, 0.018, 0.716, 0.839, 0.785, 0.927, 0.867, 0.860)
+SD <- c(0.268, 0.158, 0.261, 0.187, 0.037, 0.232, 0.176, 0.147, 0.071, 0.129, 0.123)
+n <- c(6, 11, 9, 10, 18, 8, 8, 8, 8, 8, 8)
+table3 <- data_frame(demographic_rate, mean, SD, n)
+
+
 #----- simulation parameters
 #parameters for two vital rates  (s and m)
 # a beta and a lognormal 
