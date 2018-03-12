@@ -11,17 +11,17 @@ library(MASS)
 YSA_demog_data_master <- read.csv("YSA_demog_data_master.csv")
 ysa <- YSA_demog_data_master 
 
-ysaFunc <- function (ysa) 
-  
 
+
+ysaFunc <- function (ysa) 
 { 
 #ps
-p1a<- betaval((chicken$s[1]), 0.129, fx=runif(1)) 
+p1a<- betaval(), (), fx=runif(1)) 
  
-p2 <- betaval((chicken$s[5]), (chicken$ssd[5]), fx=runif(1)) 
-p3 <- betaval((chicken$s[6]), (chicken$ssd[6]), fx=runif(1))
+p2 <- betaval(), (), fx=runif(1)) 
+p3 <- betaval(), (), fx=runif(1))
 #f
-f3 <- rnorm(1, mean = (chicken$m[7]), sd = (chicken$msd[7]))
+f3 <- rnorm(1, mean = (), sd = ())
 #g 
 g1 <- 
 g2 <- 
