@@ -11,8 +11,14 @@ library(MASS)
 YSA_demog_data_master <- read.csv("YSA_demog_data_master.csv")
 ysa <- YSA_demog_data_master 
 
+View(ysa)
 
-
+stage <- c("1a", "1b", "1c", "2", "3")
+class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
+stage_duration <- ((27/356), (59/356), (270/356), (23/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, Age 37 months+ (as 7 years)
+ 
+p <- c()
+g <- c()
 ysaFunc <- function (ysa) 
 { 
 #ps
