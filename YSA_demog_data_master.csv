@@ -1,0 +1,68 @@
+Year ,Location,Source,Stage,Trait name,Trait value,Trait variability  ,variability type 
+1990-1999,Margarita,Sanz & Rodriguez Ferraro 2006,,Total nests,346,,
+2006-2008,Bonaire,Sams thesis ,,Total nests,70,,
+1990-1999,Margarita,Sanz & Rodriguez Ferraro 2006,,succesful nests,159,,
+2006-2008,Bonaire,Sams thesis ,,succesful nests,28,,
+1990-1999,Margarita,Sanz & Rodriguez Ferraro 2006,egg ,nests surviving incubation period (%) ,87.9,,
+2006-2008,Bonaire,Sams thesis ,egg ,nests surviving incubation period (%) ,71.4,,
+1990-1999,Margarita,Sanz & Rodriguez Ferraro 2006,nestling ,nests surviving nestling period (%) ,55.8,,
+2006-2008,Bonaire,Sams thesis ,nestling ,nests surviving nestling period (%) ,56,,
+1990-1999,Margarita,Sanz & Rodriguez Ferraro 2006,,nests surviving both periods (%) ,46,,
+2006-2008,Bonaire,Sams thesis ,,nests surviving both periods (%) ,40,,
+1994-1998,Margarita,Sanz & Rodriguez Ferraro 2006,egg ,mean clutch size,3.38,,
+1993-1998,La Blanquilla,Rodriguez Ferraro & Sanz 2007,egg ,mean clutch size,2.24,,
+2006-2008,Bonaire,Sams thesis ,egg ,mean clutch size,3.18,,
+1990-1999,Margarita,Sanz & Rodriguez Ferraro 2006,egg ,hatching success (%),80.5,,
+2006-2008,Bonaire,Sams thesis ,egg ,hatching success (%),60.8,,
+1990-1999,Margarita,Sanz & Rodriguez Ferraro 2006,egg ,hatchability (%),91,,
+2006-2008,Bonaire,Sams thesis ,egg ,hatchability (%),77.4,,
+1990-1999,Margarita,Sanz & Rodriguez Ferraro 2006,fledgling ,fledglings per nesting pair ,1.27,,
+2006-2008,Bonaire,Sams thesis ,fledgling ,fledglings per nesting pair ,0.81,,
+2006,Bonaire,Sams thesis ,egg ,completed clutch size,3.27,0.46,SE
+2007,Bonaire,Sams thesis ,egg ,completed clutch size,3.21,0.29,SE
+2008,Bonaire,Sams thesis ,egg ,completed clutch size,3.13,0.34,SE
+2006-2008,Bonaire,Sams thesis ,egg ,completed clutch size,3.18,0.2,SE
+2006,Bonaire,Sams thesis ,egg ,clutch size at hatching,3.27,0.24,SE
+2007,Bonaire,Sams thesis ,egg ,clutch size at hatching,3.27,0.15,SE
+2008,Bonaire,Sams thesis ,egg ,clutch size at hatching,3.29,0.19,SE
+2006-2008,Bonaire,Sams thesis ,egg ,clutch size at hatching,3.28,0.1,SE
+2006,Bonaire,Sams thesis ,nestling ,brood size at hatching ,2.64,0.36,SE
+2007,Bonaire,Sams thesis ,nestling ,brood size at hatching ,2.59,0.21,SE
+2008,Bonaire,Sams thesis ,nestling ,brood size at hatching ,2.45,0.18,SE
+2006-2008,Bonaire,Sams thesis ,nestling ,brood size at hatching ,2.55,0.13,SE
+2006,Bonaire,Sams thesis ,fledgling ,brood hatch size at fledging ,2.17,0.32,SE
+2007,Bonaire,Sams thesis ,fledgling ,brood hatch size at fledging ,1.91,0.28,SE
+2008,Bonaire,Sams thesis ,fledgling ,brood hatch size at fledging ,1.5,0.2,SE
+2006-2008,Bonaire,Sams thesis ,fledgling ,brood hatch size at fledging ,1.84,0.16,SE
+2006-2008,Bonaire,Rowans thesis ,egg ,total breeding attempts ,59,,
+2006-2008,Bonaire,Rowans thesis ,nestling ,total breeding attempts ,50,,
+2006-2008,Bonaire,Rowans thesis ,fledgling ,total breeding attempts ,28,,
+2006-2008,Bonaire,Rowans thesis ,egg ,total individuals ,209,,
+2006-2008,Bonaire,Rowans thesis ,nestling ,total individuals ,127,,
+2006-2008,Bonaire,Rowans thesis ,fledgling ,total individuals ,63,,
+2006-2008,Bonaire,Rowans thesis ,egg ,individuals per clutch/brood inititiated ,2.99,0.13,SE
+2006-2008,Bonaire,Rowans thesis ,nestling ,individuals per clutch/brood inititiated ,1.81,0.17,SE
+2006-2008,Bonaire,Rowans thesis ,fledgling ,individuals per clutch/brood inititiated ,0.9,0.14,SE
+2006-2008,Bonaire,Rowans thesis ,egg ,clutch/brood size in surviving nests ,3.36,0.093,SE
+2006-2008,Bonaire,Rowans thesis ,nestling ,clutch/brood size in surviving nests ,2.55,0.13,SE
+2006-2008,Bonaire,Rowans thesis ,fledgling ,clutch/brood size in surviving nests ,1.84,0.16,SE
+1990-1999,Margarita,Sanz & Rodriguez-Ferraro 2006,egg ,stage duration,27 days,,
+1990-2000,Margarita,Sanz & Rodriguez-Ferraro 2006,nestling ,stage duration,59 days ,,
+1996-2003,Bonaire,Salinas-Melgoza & Renton 2007,fledgling ,stage duration,To age 12 months,,
+1990-1991,Margarita,Sanz & Grajal 1998,juvenile ,stage duration,Age 13-36 months,,
+,Bonaire,Meghanns report ,adults ,stage duration,Age 37 months+,,
+1990-1999,Margarita/La Blanquilla,R Martin & S Williams (SD from Sanz & Rodriguez-Ferraro 2006),egg ,survival probability ,0.89,0.06,SD
+1990-1999,Margarita/La Blanquilla,R Martin & S Williams (SD from Sanz & Rodriguez-Ferraro 2006),nestling ,survival probability ,0.78,0.07,SD
+1996-2003,Bonaire,Salinas-Melgoza & Renton 2007,fledgling ,survival probability ,0.73,,
+,Bonaire,Beissinger & Bucher 2002,juvenile ,survival probability ,0.9-0.95,,
+,Bonaire,Beissinger & Bucher 2002,adults ,survival probability ,0.9-0.95,,
+1994-2001,Margarita/La Blanquilla,Rodríguez et al. 2004,adults ,% females breeding each year,33-67,,
+1990-1999,Bonaire,R Martin & S Williams (SD from Sanz & Rodriguez-Ferraro 2006),adults ,Fecundity ,3.2,,
+2008,Bonaire,"Williams S, 2008",,initial population size,650,,
+2008,Bonaire,"Williams S, 2008",,initial breeding population,146,,
+1990-1999,Margarita,Average Poaching mortality (27.5) and other mortality (20.6) from Sanz& Rodriguez-Ferraro (2006),,chick survival,51%,,
+1994-2001,Margarita/La Blanquilla,Average of min and max of the interval in Rodriguez et al 2004,fledgling ,fledge survival ,87%,,
+1994-2001,Margarita/La Blanquilla,Average of min and max of the interval in Rodriguez et al 2004,,adult survival ,87%,,
+1990-1999,Margarita,Sanz& Rodriguez-Ferraro (2006),nestling ,#chicks hatched per breeding female,3.09,0.92,SD
+1990-1999,Margarita,estimated from Sanz& Rodriguez-Ferraro (2006),,nest density,1.8 /km2,,
+1994-2001,Margarita/La Blanquilla,Rodriguez et al. 2004,,female:male ratio,01:01,,
