@@ -115,7 +115,6 @@ SD <- c(0.268, 0.158, 0.261, 0.187, 0.037, 0.232, 0.176, 0.147, 0.071, 0.129, 0.
 n <- c(6, 11, 9, 10, 18, 8, 8, 8, 8, 8, 8)
 table3 <- data_frame(demographic_rate, mean, SD, n)
 
-
 #----- simulation parameters
 #parameters for two vital rates  (s and m)
 # a beta and a lognormal 
