@@ -70,8 +70,7 @@ matrix2[1,3] <- (f3)
 #add gs 
 matrix2[2,1] <- g1
 matrix2[3,2] <- g2
-A <- matrix2
-A}
+return(matrix2)}
 
 A <- yellowFunc(yellow)
 
