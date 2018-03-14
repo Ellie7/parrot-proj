@@ -21,7 +21,7 @@ F <- c(0, 0, 0, 0, 0.33)
 
 yellow <- data_frame(stage, class, di, pi, F)
 
-ysaFunc <- function (ysa) 
+ysaFunc <- function (dataSource) 
 { 
 #ps
 p1a<- betaval(), (), fx=runif(1)) 
@@ -48,7 +48,7 @@ return(matrix2)
 
 ############ for now 
 
-yellowFunc <- function (yellow)
+yellowFunc <- function (dataSource)
 {Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
 Gi <- (pi^di*(1 - pi))/(1 - pi^di)
 p1a <- Pi[1]
