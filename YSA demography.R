@@ -29,7 +29,7 @@ matrix(rnorm(4), nrow = 2) # example 2 x 2 matrix of random numbers
 
 # make 10 matrices of random numbers.
 # this could be your yellowFunc
-mat1<-map(1:10, .f = function(x) matrix(rnorm(4), nrow = 2))
+mat1<-map(1:10, .f = function(x) matrix(rnorm(9), nrow = 3))
 
 # use these matrices in mat 1 and get the eigen system for each....
 mat2<-map(mat1, function(x) eigen(x))
