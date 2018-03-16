@@ -22,25 +22,6 @@ F <- c(0, 0, 0, 0, 0.33)
 
 yellow <- data_frame(stage, class, di, pi, F)
 
-
-## Example idea ---------------------------------
-
-matrix(rnorm(4), nrow = 2) # example 2 x 2 matrix of random numbers
-
-# make 10 matrices of random numbers.
-# this could be your yellowFunc
-mat1<-map(1:10, .f = function(x) matrix(rnorm(9), nrow = 3))
-
-# use these matrices in mat 1 and get the eigen system for each....
-mat2<-map(mat1, function(x) eigen(x))
-
-## Might work with yours... but needs your effort ---------------------------------
-
-yellowMats <- map(1:10, function(x) yellowFunc(x)) #makes 10 matrices
-outMats <- map(yellowMats, function(x) ysaFunc(x)) # makes 10 matrices
-eigenOuts <- map(outMats, function(x) eigen(x))
-
-
 ysaFunc <- function (dataSource) 
 { 
 #ps
@@ -62,8 +43,8 @@ matrix2[3,3] <- p3
 #add f
 matrix2[1,3] <- (f3)
 #add gs 
-matrix2[2,1] <- Gi[]
-matrix2[3,2] <- g2
+matrix2[2,1] <- 
+matrix2[3,2] <- Gi[4]
 return(matrix2)
 } 
 
@@ -101,6 +82,23 @@ return(matrix2)}
 
 A <- yellowFunc(yellow)
 A
+
+## Example idea ---------------------------------
+
+matrix(rnorm(4), nrow = 2) # example 2 x 2 matrix of random numbers
+
+# make 10 matrices of random numbers.
+# this could be your yellowFunc
+mat1<-map(1:10, .f = function(x) matrix(rnorm(9), nrow = 3))
+
+# use these matrices in mat 1 and get the eigen system for each....
+mat2<-map(mat1, function(x) eigen(x))
+
+## Might work with yours... but needs your effort ---------------------------------
+
+yellowMats <- map(1:10, function(x) yellowFunc(x)) #makes 10 matrices
+outMats <- map(yellowMats, function(x) ysaFunc(x)) # makes 10 matrices
+eigenOuts <- map(outMats, function(x) eigen(x))
 
 #eigen analysis 
 eigs.A <- eigen(A)
