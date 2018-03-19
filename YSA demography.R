@@ -48,7 +48,22 @@ matrix2[3,2] <- Gi[4]
 return(matrix2)
 } 
 
-ysaFunc()
+## Example idea ---------------------------------
+
+matrix(rnorm(4), nrow = 2) # example 2 x 2 matrix of random numbers
+
+# make 10 matrices of random numbers.
+# this could be your yellowFunc
+mat1<-map(1:10, .f = function(x) matrix(rnorm(9), nrow = 3))
+
+# use these matrices in mat 1 and get the eigen system for each....
+mat2<-map(mat1, function(x) eigen(x))
+
+## Might work with yours... but needs your effort ---------------------------------
+
+yellowMats <- map(1:10, function(x) yellowFunc(x)) #makes 10 matrices
+outMats <- map(yellowMats, function(x) ysaFunc(x)) # makes 10 matrices
+eigenOuts <- map(outMats, function(x) eigen(x))
 
 
 ############ for now 
@@ -83,22 +98,6 @@ return(matrix2)}
 A <- yellowFunc(yellow)
 A
 
-## Example idea ---------------------------------
-
-matrix(rnorm(4), nrow = 2) # example 2 x 2 matrix of random numbers
-
-# make 10 matrices of random numbers.
-# this could be your yellowFunc
-mat1<-map(1:10, .f = function(x) matrix(rnorm(9), nrow = 3))
-
-# use these matrices in mat 1 and get the eigen system for each....
-mat2<-map(mat1, function(x) eigen(x))
-
-## Might work with yours... but needs your effort ---------------------------------
-
-yellowMats <- map(1:10, function(x) yellowFunc(x)) #makes 10 matrices
-outMats <- map(yellowMats, function(x) ysaFunc(x)) # makes 10 matrices
-eigenOuts <- map(outMats, function(x) eigen(x))
 
 #eigen analysis 
 eigs.A <- eigen(A)
