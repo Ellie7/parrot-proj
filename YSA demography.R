@@ -33,8 +33,8 @@ p3 <- betaval((0.925), (0.025), fx=runif(1))
 #f
 f3 <- rnorm(1, mean = (0.33), sd = (0.3)) #should 0.33 be divided by 2? because its the percentage of females #0.3 is random atm 
 #g 
-Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
-Gi <- (pi^di*(1 - pi))/(1 - pi^di)
+Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi #to include or not?
+Gi <- (pi^di*(1 - pi))/(1 - pi^di)           #to include or not?
 matrix2 <- matrix(0, nrow = 3, ncol = 3)
 #add ps 
 matrix2[1,1] <- (p1a*p1b*p1c)# this stage as the survival is from the multiplication of  p1a, p1b and p1c
@@ -47,6 +47,8 @@ matrix2[2,1] <-
 matrix2[3,2] <- Gi[4]
 return(matrix2)
 } 
+
+ysaFunc()
 
 ## Example idea ---------------------------------
 
