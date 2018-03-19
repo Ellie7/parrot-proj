@@ -50,12 +50,8 @@ return(matrix2)
 
 ## Example idea ---------------------------------
 
-matrix(rnorm(4), nrow = 2) # example 2 x 2 matrix of random numbers
-
-# make 10 matrices of random numbers.
-# this could be your yellowFunc
-mat1<-map(1:10, .f = function(x) matrix(rnorm(9), nrow = 3))
-
+# make 10 matrices of random numbers.#for current code these aren't random and are drawn from ysa beta and normal distributed vital rates
+mat1 <- map(1:10, ysaFunc)
 # use these matrices in mat 1 and get the eigen system for each....
 mat2<-map(mat1, function(x) eigen(x))
 
