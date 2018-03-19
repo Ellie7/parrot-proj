@@ -35,7 +35,7 @@ f3 <- rnorm(1, mean = (0.33), sd = (0.3)) #should 0.33 be divided by 2? because 
 #g 
 Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi
 Gi <- (pi^di*(1 - pi))/(1 - pi^di)
-matrix2 <- matrix(0, nrow = 4, ncol = 4)
+matrix2 <- matrix(0, nrow = 3, ncol = 3)
 #add ps 
 matrix2[1,1] <- (p1a*p1b*p1c)# this stage as the survival is from the multiplication of  p1a, p1b and p1c
 matrix2[2,2] <- p2
