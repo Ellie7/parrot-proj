@@ -8,7 +8,9 @@ library(Rmisc)
 library(agricolae)
 library(popbio)
 library(MASS) 
-library(tidyverse)
+library(tidyverse) 
+source(file = "ysa functions.R")
+
 YSA_demog_data_master <- read.csv("YSA_demog_data_master.csv")
 ysa <- YSA_demog_data_master 
 
