@@ -18,9 +18,11 @@ stage <- c("1a", "1b", "1c", "2", "3")
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
 di <- c((27/356), (59/356), (270/356), (23/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, Age 37 months+ (as 7 years)
 pi <- c(0.89, 0.78, 0.73, 0.925, 0.925) #from meghann in YAS demography data csv 
-F <- c(0, 0, 0, 0, 0.33)
+piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025)
+f <- c(0, 0, 0, 0, 3.2) #may need to halve 
+fSD <- c(0, 0, 0, 0, 0.24) # may need to halve 
 
-yellow <- data_frame(stage, class, di, pi, F)
+yellow <- data_frame(stage, class, di, pi, piSD,  F)
 
 ysaFunc <- function (dataSource) 
 { 
@@ -36,10 +38,14 @@ f3 <- rnorm(1, mean = (3.2), sd = (0.24)) #should 3.3 be divided by 2
 Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi #to include or not?
 Gi <- (pi^di*(1 - pi))/(1 - pi^di)           #to include or not?
 matrix2 <- matrix(0, nrow = 3, ncol = 3)
+d1 <- (27/356)+(59/356)+(270/356)
+d2 <- (23/12)
+d3 <-  7
+p1 <- (p1a*p1b*p1c) # this stage as the survival is from the multiplication of  p1a, p1b and p1c
 #add ps 
-matrix2[1,1] <- (p1a*p1b*p1c)# this stage as the survival is from the multiplication of  p1a, p1b and p1c
-matrix2[2,2] <- p2
-matrix2[3,3] <- p3
+matrix2[1,1] <- ((1 - (p1^(d1 - 0.99)))/(1 - (p1^d1)))*p1 #0.99 as doesn't lie 1s 
+matrix2[2,2] <- ((1 - (p2^(d2 - 1)))/(1 - (p2^d2)))*p2
+matrix2[3,3] <- ((1 - (p3^(d3 - 1)))/(1 - (p3^d3)))*p3
 #add f
 matrix2[1,3] <- (f3)
 #add gs 
