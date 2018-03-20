@@ -31,7 +31,7 @@ p1c<- betaval((0.73), (0.07), fx=runif(1)) #0.07 as filler
 p2 <- betaval((0.925), (0.025), fx=runif(1)) # 0.05 or 0.025?
 p3 <- betaval((0.925), (0.025), fx=runif(1))
 #f
-f3 <- rnorm(1, mean = (0.33), sd = (0.3)) #should 0.33 be divided by 2? because its the percentage of females #0.3 is random atm 
+f3 <- rnorm(1, mean = (3.2), sd = (0.24)) #should 3.3 be divided by 2  
 #g 
 Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi #to include or not?
 Gi <- (pi^di*(1 - pi))/(1 - pi^di)           #to include or not?
