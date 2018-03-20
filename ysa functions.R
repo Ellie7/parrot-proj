@@ -34,8 +34,8 @@ ysaFunc <- function (dataSource)
   #add f
   matrix2[1,3] <- f3
   #add gs 
-  matrix2[2,1] <- (p1^d1*(1 - p1))/(1 - p1^d1) 
-  matrix2[3,2] <- (p2^d2*(1 - p2))/(1 - p2^d2) 
+  matrix2[2,1] <- (p1^d1*(1 - p1))/(1 - p1^d1) # G1 #hope correct biology - is G1 appropriate  
+  matrix2[3,2] <- (p2^d2*(1 - p2))/(1 - p2^d2) # G2 #hope correct biology
   return(matrix2)
 } 
 
