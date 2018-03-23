@@ -10,6 +10,13 @@ library(popbio)
 library(MASS) 
 library(tidyverse) 
 
+# Here is your data that will input into the function
+yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
+
+# Here is your function
+# pi, piSD etc are inside the data frame.  You need to specify this
+# for example: dataSource$pi[1] is where pi[1] is located
+
 ysaFunc <- function (dataSource) 
 { 
   #ps
