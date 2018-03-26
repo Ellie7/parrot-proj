@@ -1,19 +1,22 @@
-# Yellow-shouldered amazon  
-rm(list=ls())
-library(dplyr)
-library(ggplot2) 
-library(knitr)
-library(primer)
-library(Rmisc)
-library(agricolae)
+#Yellow-shouldered amazon functions 
 library(popbio)
-library(MASS) 
 library(tidyverse) 
 
-# Here is the data that will input into the function
+# Here is your data that will input into the function
+stage <- c("1a", "1b", "1c", "2", "3")
+class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
+di <- c((27/356), (59/356), (270/356), (23/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, Age 37 months+ (as 7 years)
+pi <- c(0.89, 0.78, 0.73, 0.925, 0.925) #from meghann in YAS demography data csv 
+piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025) # 2nd 0.07 as filler
+f <- c(0, 0, 0, 0, 3.2) #may need to halve 
+fSD <- c(0, 0, 0, 0, 0.24) # may need to halve 
+
 yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
 
-# function 
+# Here is your function
+# pi, piSD etc are inside the data frame.  You need to specify this
+# for example: dataSource$pi[1] is where pi[1] is located
+
 ysaFunc <- function (dataSource) 
 { 
   #ps
@@ -40,7 +43,7 @@ ysaFunc <- function (dataSource)
   
   # construct the matrix using defined parameters above
   matrix2 <- matrix(0, nrow = 3, ncol = 3)
-  matrix2[1,1] <- ((1 - (p1^(d1 - 0.99)))/(1 - (p1^d1)))*p1 #0.99 as doesn't like 1s 
+  matrix2[1,1] <- ((1 - (p1^(d1 - 0.99)))/(1 - (p1^d1)))*p1 #0.99 as doesn't lie 1s 
   matrix2[2,2] <- ((1 - (p2^(d2 - 1)))/(1 - (p2^d2)))*p2
   matrix2[3,3] <- ((1 - (p3^(d3 - 1)))/(1 - (p3^d3)))*p3
   
@@ -54,4 +57,6 @@ ysaFunc <- function (dataSource)
   return(matrix2)
 } 
 
-ysaFunc()
+# use the function
+
+ysaFunc(yellow)
