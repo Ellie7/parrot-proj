@@ -74,7 +74,7 @@ kable(tab_5, caption = "Table 1. Stable stage distribution (wJ) and reproductive
 
 #decresing fecundity and survival by 50%
 yellow_fecAdjust<-mutate(yellow, F = 0.5*F)
-yellow_pi1aAdj <- mutate(yellow, pi = ifelse(stage == "1a", pi * 0.5, pi * 1)) #funny (0.999 because it doesn't like 1s)
+yellow_pi1aAdj <- mutate(yellow, pi = ifelse(stage == "1a", pi * 0.5, pi * 1)) 
 yellow_pi1bAdj <- mutate(yellow, pi = ifelse(stage == "1b", pi * 0.5, pi * 1))
 yellow_pi1cAdj <- mutate(yellow, pi = ifelse(stage == "1c", pi * 0.5, pi * 1))
 yellow_pi2Adj <- mutate(yellow, pi = ifelse(stage == "2", pi * 0.5, pi * 1))
