@@ -154,3 +154,23 @@ graph2b <- graph1b + theme(panel.grid.minor=element_blank(), panel.grid.major=el
 figure1b <- graph2b + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class)
 figure1b 
 
+######## figure 3 
+#the elasticity, or proportional sensitivity of lambda to changes in fecundity F, survival while remaining in the same stage P, and survival 
+# with growth, G. Because the elasticities of these matrix elements sum to 1, they can be compared directly in terms of their contribution to the 
+# population growth rate 
+#sensitivity of projection matrices 
+vw.s <- v %*% t (w) 
+S <- vw.s/as.numeric(v %*% w)
+#elasticity of projection matrices 
+elas <- (A/L1) * S 
+elasticity <- round(elas, 3)
+### figure 3 - plot the proportional sensitivity to changes in F, P and G 
+stage <- c(1:3)
+F <- c(elasticity[1, 1:3])
+P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3])
+G <- c(elasticity[2,1], elasticity[3,2])
+sensitvities <- data.frame(stage, F, P, G)
+sens <- read.csv("cheat for now.csv") 
+#change sensitivites data frame into the correct format 
+fig.3 <- ggplot(sens, aes(x = Stage, y = Elasticity, colour = Vital_rate, Vital_rate)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
+fig.3 + scale_x_discrete(limits=c("E","J","A")) 
