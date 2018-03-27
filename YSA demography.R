@@ -134,7 +134,8 @@ L2i <- Re(eigs.A2i[["values"]][dom.pos.2i])
 dom.pos.3i <- which.max(eigs.A3i[["values"]])
 L3i <- Re(eigs.A3i[["values"]][dom.pos.3i]) 
 
-#plotting figure 1
+#plotting a figure -  Changes in rate of increase r resulting from simulated changes (10%) in fecundity and survival of individual 
+#life history stages  (similar to figure 1a & 1b in crouse 1987)
 lambdas<- c(LFd, L1ad, L1bd, L1cd, L2d, L3d)
 rsa <- log(lambdas)
 class <- c("fecundity", "egg", "nestling", "fledgling", "juvenile", "adult")
