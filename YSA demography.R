@@ -174,3 +174,12 @@ sens <- read.csv("cheat for now.csv")
 #change sensitivites data frame into the correct format 
 fig.3 <- ggplot(sens, aes(x = Stage, y = Elasticity, colour = Vital_rate, Vital_rate)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 + scale_x_discrete(limits=c("E","J","A")) 
+
+############################################################## EFFECTS OF PER CAPITA GROWTH RATE (effects of different lambda)
+mat2
+#finding the first eigenvalue (finite rate of increase)
+dom.pos <- which.max(mat2[["values"]])
+Lambdas <- Re(mat2[["values"]][dom.pos])
+Lambdas
+Lambdas1 <- Re(mat2$values[1])
+
