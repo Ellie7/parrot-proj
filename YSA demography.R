@@ -209,8 +209,6 @@ lambdas <- c(Lb, Lc, Ld, Le, Lf, LFi, L1ai, L1bi, L1ci, L2i, L3i)
 #use sapply to apply geometrix growth function to each lambda, x stands for each lambda, which the funcion uses to 
 # calculate population size
 N.all <-sapply(lambdas, function(x) N0*x^time)
-matplot(time, N.all, xlab="Years", ylab="N", pch = 1:3)
-abline(h=N0, lty = 3)
 text(0.5, 250, expression(lamda > 1), cex=1.2)
 text(0.5, 20, expression(lamda < 1), cex=1.2)
 
