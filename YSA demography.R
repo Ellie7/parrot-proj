@@ -34,8 +34,8 @@ mat1 <- map(1:10, function(x) ysaFunc(yellow))
 # use these matrices in mat 1 and get the eigen system for each....
 mat2<-map(mat1, function(x) eigen(x))
 
-A <- ysaFunc(yellow)
-A
+A <- ysameanFunc(yellow) # for 'mean' matrix 
+A <- ysaFunc(yellow) #for matrix drawn randomly from beta and lognormal distributed vital rates 
 #eigen analysis 
 eigs.A <- eigen(A)
 eigs.A
