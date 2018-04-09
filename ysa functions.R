@@ -60,3 +60,43 @@ ysaFunc <- function (dataSource)
 # use the function
 
 ysaFunc(yellow)
+
+ysameanFunc <- function (dataSource) 
+{ 
+  #ps
+  p1a<- dataSource$pi[1]
+  p1b<- dataSource$pi[2]
+  p1c<- dataSource$pi[3]
+  p2 <- dataSource$pi[4]
+  p3 <- dataSource$pi[5]
+  
+  #f
+  f3 <- dataSource$f[5] #should 3.3 be divided by 2  
+  
+  # Pi <- ((1 - (pi^(di - 1)))/(1 - (pi^di)))*pi ------- equation for Pi's
+  # Gi <- (pi^di*(1 - pi))/(1 - pi^di)           ------- equation for Gi's
+  
+  #d
+  d1 <- dataSource$di[1] + dataSource$di[2] + dataSource$di[3]
+  d2 <- dataSource$di[4]
+  d3 <- dataSource$di[5]
+  
+  # this uses p1's defined above
+  p1 <- (p1a*p1b*p1c) # this stage as the survival is from the multiplication of  p1a, p1b and p1c
+  #add ps 
+  
+  # construct the matrix using defined parameters above
+  matrix2 <- matrix(0, nrow = 3, ncol = 3)
+  matrix2[1,1] <- ((1 - (p1^(d1 - 0.99)))/(1 - (p1^d1)))*p1 #0.99 as doesn't like 1s 
+  matrix2[2,2] <- ((1 - (p2^(d2 - 1)))/(1 - (p2^d2)))*p2
+  matrix2[3,3] <- ((1 - (p3^(d3 - 1)))/(1 - (p3^d3)))*p3
+  
+  #add f
+  matrix2[1,3] <- f3
+  
+  #add gs 
+  matrix2[2,1] <- (p1^d1*(1 - p1))/(1 - p1^d1) 
+  matrix2[3,2] <- (p2^d2*(1 - p2))/(1 - p2^d2) 
+  
+  return(matrix2)
+} 
