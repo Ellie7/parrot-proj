@@ -8,7 +8,8 @@ library(Rmisc)
 library(agricolae)
 library(popbio)
 library(MASS) 
-library(tidyverse) 
+library(tidyverse)
+library(reshape2)
 source(file = "ysa functions.R")
 source(file = "ysa demography.R")
 
@@ -45,4 +46,53 @@ lambdas <- c(Lb, Lc, Ld, Le, Lf, LFi, L1ai, L1bi, L1ci, L2i, L3i)
 #use sapply to apply geometrix growth function to each lambda, x stands for each lambda, which the funcion uses to 
 # calculate population size
 N.all <-sapply(lambdas, function(x) N0*x^time)
-matplot(time, N.all, xlab="Years", ylab="N", pch = 1:3)
+matplot(time, N.all, xlab="Years", ylab="N", pch = 1:3) 
+
+
+#matrix from mean values
+projmat <- ysameanFunc(yellow)
+
+#project this matrix into the future 100 years 
+#assumes starting pop of 2 individuals in each age class
+N0 <- c(100,100,100)
+nits <- 50 #how many years we want to project
+tmp <- matrix(NA, nrow= nits, ncol=3) #number of columns = number of stages 
+collect <- data.frame(tmp)
+names(collect) <- c("E","J","A")
+head(collect)
+
+collect[1,] <- N0
+head(collect)
+
+#make a for loop 
+for (a in 2:nits){
+  collect[a,] <- projmat %*% t(collect[(a-1),]) #t stand for transpose (take the row put it on its side)
+}
+#tail gives the number of individuals in the first 6 years
+head(collect)
+#tail gives the number of individuals in the last 6 years
+tail(collect)
+
+#calculate population growth rate 
+eigen(projmat)$values[1]
+#0.9515817
+
+#calculate the stable age distribution using eigen
+
+Total <- mutate(collect, TotalPop = E+J+A, Time=1:nits)
+Total
+#graph with stage classes
+long<-melt(Total,
+           # this is the fixed variable
+           id.vars = c("Time"),
+           # to stack up
+           measure.vars=c("E","J","A"),
+           # label the stacked categories
+           variable.name = "Stage",
+           # label the stacked values
+           value.name = "Abund")
+# now use ggplot!
+ggplot(long, aes(x =Time, y = log(Abund), group = Stage))+
+  geom_line()+
+  theme_classic() 
+
