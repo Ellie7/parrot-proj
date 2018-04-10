@@ -91,8 +91,10 @@ long<-melt(Total,
            variable.name = "Stage",
            # label the stacked values
            value.name = "Abund")
-# now use ggplot!
+# make graphs 
 ggplot(long, aes(x =Time, y = log(Abund), group = Stage))+
   geom_line()+
   theme_classic() 
-
+ggplot(long, aes(x =Time, y = Abund, group = Stage))+
+  geom_line()+
+  theme_classic()
