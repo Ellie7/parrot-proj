@@ -41,8 +41,8 @@ eigs.A <- eigen(A)
 eigs.A
 #finding the first eigenvalue (finite rate of increase)
 dom.pos <- which.max(eigs.A[["values"]])
-L1 <- Re(eigs.A[["values"]][dom.pos])
-L1
+L1mean <- Re(eigs.A[["values"]][dom.pos])
+L1mean
 lambda <- Re(eigs.A$values[1])
 #=0.9329156
 #finding r 
@@ -175,6 +175,53 @@ sens <- read.csv("cheat for now.csv")
 #change sensitivites data frame into the correct format 
 fig.3 <- ggplot(sens, aes(x = Stage, y = Elasticity, colour = Vital_rate, Vital_rate)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 + scale_x_discrete(limits=c("E","J","A")) 
+
+##### figure 2 
+# Looking at the effect of Age of First Reproduction on Intrinsic rate of Increase (r)
+#-------------- Calculating changes in rate of increase r resulting from subtracting and adding 1 yr to the 
+#calculations of P, and G, for each of the three immature stages.
+yellow_di1 <- mutate(yellow, di = ifelse(stage == "2", di + 1, di * 1))
+yellow_dii1 <- mutate(yellow_di1, di = ifelse(stage == "3", di - 1, di * 1)) # stage 2 as increasing age at which first breeding is = increasing number of years as juvenile
+yellow_di2 <- mutate(yellow, di = ifelse(stage == "2", di + 2, di * 1)) # ^therefore juvenile = birds which have fledged the nest but have not began attempts at breeding
+yellow_dii2 <- mutate(yellow_di2, di = ifelse(stage == "3", di - 2, di * 1)) 
+yellow_di3 <- mutate(yellow, di = ifelse(stage == "2", di + 3, di * 1)) #dii1 = di is stage duration, i1 means increased by 1
+yellow_dii3 <- mutate(yellow_di3, di = ifelse(stage == "3", di - 3, di * 1))
+
+
+#applying my matrix function to the 3 new tables 
+matinc1 <- ysameanFunc(yellow_dii1)
+matinc2 <- ysameanFunc(yellow_dii2)
+matinc3 <- ysameanFunc(yellow_dii3)
+
+#eigenanalyses 
+eigs.matinc1 <- eigen(matinc1)
+eigs.matinc2 <- eigen(matinc2)
+eigs.matinc3 <- eigen(matinc3)
+
+
+#finding the first eigenvalue (finite rate of increase)
+dom.pos.i1 <- which.max(eigs.matinc1[["values"]])
+L1 <- Re(eigs.matinc1[["values"]][dom.pos.i1])
+dom.pos.i2 <- which.max(eigs.matinc2[["values"]])
+L2 <- Re(eigs.matinc2[["values"]][dom.pos.i2])
+dom.pos.i3 <- which.max(eigs.matinc3[["values"]])
+L3 <- Re(eigs.matinc3[["values"]][dom.pos.i3])
+
+#finding r
+r1 <- log(L1)
+r2 <- log(L2)
+r3 <- log(L3)
+
+
+#plotting 
+age <- c(2, 3, 4, 5)
+lambdas<- c(L1mean, L1, L2, L3)
+rs <- log(lambdas)
+table_agerep <- data.frame(age, rs)
+graph <- ggplot(table_agerep, aes(x = age, y = rs)) + geom_line(size=1) + geom_point(size=2)
+graph1 <- graph + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate of Increase (r)")  
+figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+figure2
 
 
 
