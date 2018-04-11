@@ -223,5 +223,3 @@ graph1 <- graph + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate
 figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
 figure2
 
-
-
