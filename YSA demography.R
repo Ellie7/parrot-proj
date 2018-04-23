@@ -176,7 +176,7 @@ F <- c(elasticity[1, 1:3])
 P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3])
 G <- c(elasticity[2,1], elasticity[3,2], NA)
 sensitivities <- data.frame(stage, F, P, G)
-sens <- read.csv("cheat for now.csv") 
+sensitivity <- read.csv("cheat for now.csv") 
 sens <- gather(sensitivities, vr, elas, F, P, G)
 #change sensitivites data frame into the correct format 
 fig.3 <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
