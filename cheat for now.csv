@@ -1,0 +1,9 @@
+Stage,Vital_rate,Elasticity
+E,P,0.01
+J,P,0.102
+A,P,0.314
+E,G,0.194
+J,G,0.194
+E,F,0
+J,F,0
+A,F,0.194
