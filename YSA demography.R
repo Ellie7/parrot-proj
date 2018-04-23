@@ -177,6 +177,7 @@ P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3])
 G <- c(elasticity[2,1], elasticity[3,2])
 sensitvities <- data.frame(stage, F, P, G)
 sens <- read.csv("cheat for now.csv") 
+tidyr::gather(sensitvities, vr, elas, F, P, G)
 #change sensitivites data frame into the correct format 
 fig.3 <- ggplot(sens, aes(x = Stage, y = Elasticity, colour = Vital_rate, Vital_rate)) + geom_line() + geom_point(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 + scale_x_discrete(limits=c("E","J","A")) 
