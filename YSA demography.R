@@ -11,9 +11,12 @@ library(MASS)
 library(tidyverse) 
 source(file = "ysa functions.R")
 
+#inputting data from csv 
 YSA_demog_data_master <- read.csv("YSA_demog_data_master.csv")
 ysa <- YSA_demog_data_master 
 
+#manually creating data frame for now
+#creating columns
 stage <- c("1a", "1b", "1c", "2", "3")
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
 di <- c((27/356), (59/356), (270/356), (23/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, Age 37 months+ (as 7 years)
@@ -21,10 +24,10 @@ pi <- c(0.89, 0.78, 0.73, 0.925, 0.925) #from meghann in YAS demography data csv
 piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025) # 2nd 0.07 as filler for now 
 f <- c(0, 0, 0, 0, 3.2) #may need to halve 3.2 (sex ratio assumed 1:1)
 fSD <- c(0, 0, 0, 0, 0.24) # may need to halve 
-
+# creating dataframe by combining columns 
 yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
 
-## Example idea ---------------------------------
+# making matrices using yellow function 
 ysaFunc(yellow)
 yellow
 #make 10 matrices of random numbers.#for current code these aren't random and are drawn from ysa beta and normal distributed vital rates
@@ -32,8 +35,10 @@ mat1 <- map(1:10, function(x) ysaFunc(yellow))
 # use these matrices in mat 1 and get the eigen system for each....
 mat2<-map(mat1, function(x) eigen(x))
 
+
+#initial calculations using ysaFunc & ysameanFunc to create matrices 
 A <- ysameanFunc(yellow) # for 'mean' matrix 
-A <- ysaFunc(yellow) #for matrix drawn randomly from beta and lognormal distributed vital rates 
+B <- ysaFunc(yellow) #for matrix drawn randomly from beta and lognormal distributed vital rates 
 #eigen analysis 
 eigs.A <- eigen(A)
 eigs.A
