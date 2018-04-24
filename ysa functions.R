@@ -2,7 +2,7 @@
 library(popbio)
 library(tidyverse) 
 
-# Here is your data that will input into the function
+# Here is the data that will input into the function
 stage <- c("1a", "1b", "1c", "2", "3")
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
 di <- c((27/356), (59/356), (270/356), (23/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, Age 37 months+ (as 7 years)
@@ -11,11 +11,16 @@ piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025) # 2nd 0.07 as filler
 f <- c(0, 0, 0, 0, 3.2) #may need to halve 
 fSD <- c(0, 0, 0, 0, 0.24) # may need to halve 
 
+#creating the data frame
 yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
 
-# Here is your function
-# pi, piSD etc are inside the data frame.  You need to specify this
+# Here is the function
+# pi, piSD etc are inside the data frame.  This needs to be specified this
 # for example: dataSource$pi[1] is where pi[1] is located
+
+#--------------------------------------------------------------------------------------------------------------------------------
+# ysaFunc creates a matrix from randomly drawn data, with p values taken from a beta distribution and f values
+# drawn from a lognormal distribution 
 
 ysaFunc <- function (dataSource) 
 { 
@@ -60,6 +65,9 @@ ysaFunc <- function (dataSource)
 # use the function
 
 ysaFunc(yellow)
+
+#--------------------------------------------------------------------------------------------------------------------------------
+# ysameanFunc
 
 ysameanFunc <- function (dataSource) 
 { 
