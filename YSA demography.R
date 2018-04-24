@@ -19,7 +19,8 @@ ysa <- YSA_demog_data_master
 #creating columns
 stage <- c("1a", "1b", "1c", "2", "3")
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
-di <- c((27/356), (59/356), (270/356), (23/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, Age 37 months+ (as 7 years)
+di <- c((27/356), (59/356), (270/356), (23/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, 
+# Age 37 months+ (as 7 years)
 pi <- c(0.89, 0.78, 0.73, 0.925, 0.925) #from meghann in YAS demography data csv 
 piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025) # 2nd 0.07 as filler for now 
 f <- c(0, 0, 0, 0, 3.2) #may need to halve 3.2 (sex ratio assumed 1:1)
@@ -30,7 +31,8 @@ yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
 # making matrices using yellow function 
 ysaFunc(yellow)
 yellow
-#make 10 matrices of random numbers.#for current code these aren't random and are drawn from ysa beta and normal distributed vital rates
+#make 10 matrices of random numbers.#for current code these aren't random and are drawn from ysa beta and normal distributed 
+#vital rates
 mat1 <- map(1:10, function(x) ysaFunc(yellow))
 # use these matrices in mat 1 and get the eigen system for each....
 mat2<-map(mat1, function(x) eigen(x))
@@ -168,7 +170,9 @@ graph1b <- graphb + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)"
 graph2b <- graph1b + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
 figure1b <- graph2b + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class)
 figure1b 
+
 #--------------------------------------------------------------------------------------------------------------------------------
+# similar to crouse figure 3 
 # creating a figure which shows the elasticity, or proportional sensitivity of lambda to changes in fecundity F, survival 
 # while remaining in the same stage P, and survival with growth, G. Because the elasticities of these matrix elements sum to 1, 
 # they can be compared directly in terms of their contribution to the population growth rate 
@@ -180,13 +184,16 @@ eigs.A
 dom.pos <- which.max(eigs.A[["values"]])
 L1mean <- Re(eigs.A[["values"]][dom.pos])
 L1mean
+
 #sensitivity of projection matrices 
 vw.s <- v %*% t (w) 
 S <- vw.s/as.numeric(v %*% w)
+
 #elasticity of projection matrices 
 elas <- (A/L1mean) * S 
 elasticity <- round(elas, 3)
-### figure 3 - plot the proportional sensitivity to changes in F, P and G 
+
+### plotting figure 3 - plot the proportional sensitivity to changes in F, P and G 
 stage <- c("E", "J", "A")
 F <- c(elasticity[1, 1:3])
 P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3])
@@ -197,7 +204,9 @@ sens <- gather(sensitivities, vr, elas, F, P, G)
 #change sensitivites data frame into the correct format 
 fig.3 <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_line() + geom_jitter(size = 4) + labs(x = "Stage", y = "Elasticity")
 fig.3 + scale_x_discrete(limits=c("E","J","A"))
-##### figure 2 
+
+#--------------------------------------------------------------------------------------------------------------------------------
+# similar to crouse figure 2 
 # Looking at the effect of Age of First Reproduction on Intrinsic rate of Increase (r)
 #-------------- Calculating changes in rate of increase r resulting from subtracting and adding 1 yr to the 
 #calculations of P, and G, for each of the three immature stages.
@@ -228,13 +237,13 @@ L2 <- Re(eigs.matinc2[["values"]][dom.pos.i2])
 dom.pos.i3 <- which.max(eigs.matinc3[["values"]])
 L3 <- Re(eigs.matinc3[["values"]][dom.pos.i3])
 
-#finding r
+#finding r (log of lambda)
 r1 <- log(L1)
 r2 <- log(L2)
 r3 <- log(L3)
 
 
-#plotting 
+#plotting the figure 
 age <- c(2, 3, 4, 5)
 lambdas<- c(L1mean, L1, L2, L3)
 rs <- log(lambdas)
