@@ -39,19 +39,23 @@ mat2<-map(mat1, function(x) eigen(x))
 #initial calculations using ysaFunc & ysameanFunc to create matrices 
 A <- ysameanFunc(yellow) # for 'mean' matrix 
 B <- ysaFunc(yellow) #for matrix drawn randomly from beta and lognormal distributed vital rates 
+
 #eigen analysis 
 eigs.A <- eigen(A)
 eigs.A
-#finding the first eigenvalue (finite rate of increase)
+
+#finding the first eigenvalue (finite rate of increase), lambda 
 dom.pos <- which.max(eigs.A[["values"]])
 L1mean <- Re(eigs.A[["values"]][dom.pos])
 L1mean
 lambda <- Re(eigs.A$values[1])
 #=0.9329156
-#finding r 
-r <- log(L1)
+
+#finding r (log of lambda)
+r <- log(L1mean)
 r
-#=0.06944057
+
+#calculating the stable stage distribution 
 w <- Re(eigs.A[["vectors"]][, dom.pos])
 ssd <- w / sum(w)
 stable <- ssd*100
@@ -62,14 +66,21 @@ M <- eigen(t(A))
 v <- Re(M$vectors[,which.max(Re(M$values))])
 RV <- v / v[1]
 RV 
-#creating table 
+#------------------------------------------------------------------
+#creating table of stable stage distribution & reproductive values 
 stage_number <- c(1,2,3)
 class_label <- c("Egg", "Juvenile", "Adult")
 tab_5<- data.frame(stage_number, class_label, stable, RV)
-colnames(tab_5) <- c("Stage number", "Stage Class", "Stable stage distribution (Dominant eigenvector)", "Reproductive values (left eigenvector)" )
+colnames(tab_5) <- c("Stage number", "Stage Class", "Stable stage distribution (Dominant eigenvector)", "Reproductive values 
+                     (left eigenvector)" )
 tab_5
-kable(tab_5, caption = "Table 1. Stable stage distribution (wJ) and reproductive values (v') for the yellow shouldered amazon population matrix.")
+kable(tab_5, caption = "Table 1. Stable stage distribution (wJ) and reproductive values (v') for the yellow shouldered amazon 
+      population matrix.")
 
+#--------------------------------------------------------------------------------------------------------------------------------
+# creating a figure which shows changes in rate of increase r resulting from simulated changes (10%) in fecundity and survival of 
+#individual 
+#life history stages  (similar to figure 1a & 1b in crouse 1987
 #decresing fecundity and survival by 10%
 yellow_fecAdjust<-mutate(yellow, F = 0.9*F)
 yellow_pi1aAdj <- mutate(yellow, pi = ifelse(stage == "1a", pi * 0.9, pi * 1)) 
@@ -157,11 +168,11 @@ graph1b <- graphb + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)"
 graph2b <- graph1b + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
 figure1b <- graph2b + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class)
 figure1b 
-
-######## figure 3 
-#the elasticity, or proportional sensitivity of lambda to changes in fecundity F, survival while remaining in the same stage P, and survival 
-# with growth, G. Because the elasticities of these matrix elements sum to 1, they can be compared directly in terms of their contribution to the 
-# population growth rate 
+#--------------------------------------------------------------------------------------------------------------------------------
+# creating a figure which shows the elasticity, or proportional sensitivity of lambda to changes in fecundity F, survival 
+# while remaining in the same stage P, and survival with growth, G. Because the elasticities of these matrix elements sum to 1, 
+# they can be compared directly in terms of their contribution to the population growth rate 
+#eigen analysis 
 A <- ysameanFunc(yellow)
 eigs.A <- eigen(A)
 eigs.A
