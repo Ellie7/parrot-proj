@@ -67,7 +67,7 @@ ysaFunc <- function (dataSource)
 ysaFunc(yellow)
 
 #--------------------------------------------------------------------------------------------------------------------------------
-# ysameanFunc
+# ysameanFunc creates a matrix based on means, ie the raw values from the data source rather than drawing from distributions
 
 ysameanFunc <- function (dataSource) 
 { 
