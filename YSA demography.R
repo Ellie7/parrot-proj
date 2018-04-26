@@ -203,7 +203,7 @@ sensitivity <- read.csv("cheat for now.csv")
 sens <- gather(sensitivities, vr, elas, F, P, G)
 #change sensitivites data frame into the correct format 
 fig.3 <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_line() + geom_jitter(size = 4) + labs(x = "Stage", y = "Elasticity")
-fig.3 + scale_x_discrete(limits=c("E","J","A"))
+fig.3 + scale_x_discrete(limits=c("E","J","A")) + geom_line()
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 2 
