@@ -40,7 +40,7 @@ Ld <- Re(eigs.D[["values"]][ddom.pos])
 Le <- Re(eigs.E[["values"]][edom.pos])
 Lf <- Re(eigs.F[["values"]][fdom.pos])
 
-N0 <- 100
+N0 <- 600 #for now 
 time <- 0:10
 lambdas <- c(Lb, Lc, Ld, Le, Lf, LFi, L1ai, L1bi, L1ci, L2i, L3i)
 #use sapply to apply geometrix growth function to each lambda, x stands for each lambda, which the funcion uses to 
