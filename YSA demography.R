@@ -253,3 +253,15 @@ graph1 <- graph + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate
 figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
 figure2
 
+#-----------------------------------------------------------------------------------------------------------------------------------
+# some popbio stuff 
+
+image2(A) #mean matrix 
+image2(matinc3)
+?image2() 
+
+elasmat <- elasticity(A)
+image2(elasmat)
+
+sensmat <- sensitivity(A, zero=FALSE)
+image2(sensmat)
