@@ -21,33 +21,42 @@ C <- ysaFunc(yellow)
 D <- ysaFunc(yellow)
 E <- ysaFunc(yellow)
 F <- ysaFunc(yellow)
+mean <- ysameanFunc(yellow)
 
 eigs.B <- eigen(B)
 eigs.C <- eigen(C)
 eigs.D <- eigen(D)
 eigs.E <- eigen(E)
 eigs.F <- eigen(F)
+eigs.mean <- eigen(mean)
 
 bdom.pos <- which.max(eigs.B[["values"]])
 cdom.pos <- which.max(eigs.C[["values"]])
 ddom.pos <- which.max(eigs.D[["values"]])
 edom.pos <- which.max(eigs.E[["values"]])
 fdom.pos <- which.max(eigs.F[["values"]])
+mdom.pos <- which.max(eigs.mean[["values"]])
 
 Lb <- Re(eigs.B[["values"]][bdom.pos])
 Lc <- Re(eigs.C[["values"]][cdom.pos])
 Ld <- Re(eigs.D[["values"]][ddom.pos])
 Le <- Re(eigs.E[["values"]][edom.pos])
 Lf <- Re(eigs.F[["values"]][fdom.pos])
+Lm <- Re(eigs.mean[["values"]][mdom.pos])
 
 N0 <- 600 #for now 
 time <- 0:10
 lambdas <- c(Lb, Lc, Ld, Le, Lf, LFi, L1ai, L1bi, L1ci, L2i, L3i)
+meanlambda <- Lm
+
 #use sapply to apply geometrix growth function to each lambda, x stands for each lambda, which the funcion uses to 
 # calculate population size
 N.all <-sapply(lambdas, function(x) N0*x^time)
 matplot(time, N.all, xlab="Years", ylab="N", pch = 1:3) 
 
+#mean lambda plot 
+N.all <-sapply(meanlambda, function(x) N0*x^time)
+matplot(time, N.all, xlab="Years", ylab="N", pch = 1:3) 
 
 #matrix from mean values
 projmat <- ysameanFunc(yellow)
