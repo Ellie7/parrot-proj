@@ -201,9 +201,15 @@ G <- c(elasticity[2,1], elasticity[3,2], NA)
 sensitivities <- data.frame(stage, F, P, G)
 sensitivity <- read.csv("cheat for now.csv") 
 sens <- gather(sensitivities, vr, elas, F, P, G)
+mutate(sens, "vr" = "Vital rate")
 #change sensitivites data frame into the correct format 
-fig.3 <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_line() + geom_jitter(size = 4) + labs(x = "Stage", y = "Elasticity")
-fig.3 + scale_x_discrete(limits=c("E","J","A")) + geom_line()
+fig <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_line() + geom_jitter(size = 4) + labs(x = "Stage", y = "Elasticity", size = 20)
+fig.3 <- fig + scale_x_discrete(limits=c("E","J","A"), labels=c("Egg", "Juvenile", "Adult"))
+figur.3 <- fig.3 + theme(axis.title = element_text(size = 14))
+figure.3 <- figur.3 + scale_fill_discrete(name = "Vital rate")
+figur.3 + scale_fill_discrete(name="Vital rate",
+                         breaks=c("Egg", "Juvenile", "Adult"),
+                         labels=c("Egg", "Juvenile", "Adult"))
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 2 
