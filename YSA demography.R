@@ -208,8 +208,8 @@ fig.3 <- fig + scale_x_discrete(limits=c("E","J","A"), labels=c("Egg", "Juvenile
 figur.3 <- fig.3 + theme(axis.title = element_text(size = 14))
 figure.3 <- figur.3 + scale_fill_discrete(name = "Vital rate")
 figur.3 + scale_fill_discrete(name="Vital rate",
-                         breaks=c("Egg", "Juvenile", "Adult"),
-                         labels=c("Egg", "Juvenile", "Adult"))
+                              breaks=c("Egg", "Juvenile", "Adult"),
+                              labels=c("Egg", "Juvenile", "Adult"))
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 2 
