@@ -191,7 +191,6 @@ S <- vw.s/as.numeric(v %*% w)
 
 #elasticity of projection matrices 
 elas <- (A/L1mean) * S 
-elasticity <- round(elas, 3)
 
 ### plotting figure 3 - plot the proportional sensitivity to changes in F, P and G 
 stage <- c("E", "J", "A")
