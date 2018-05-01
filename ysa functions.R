@@ -48,7 +48,7 @@ ysaFunc <- function (dataSource)
   
   # construct the matrix using defined parameters above
   matrix2 <- matrix(0, nrow = 3, ncol = 3)
-  matrix2[1,1] <- ((1 - (p1^(d1 - 0.99)))/(1 - (p1^d1)))*p1 #0.99 as doesn't like 1s 
+  matrix2[1,1] <- ((1 - (p1^(d1 - 1)))/(1 - (p1^d1)))*p1 
   matrix2[2,2] <- ((1 - (p2^(d2 - 1)))/(1 - (p2^d2)))*p2
   matrix2[3,3] <- ((1 - (p3^(d3 - 1)))/(1 - (p3^d3)))*p3
   
@@ -95,7 +95,7 @@ ysameanFunc <- function (dataSource)
   
   # construct the matrix using defined parameters above
   matrix2 <- matrix(0, nrow = 3, ncol = 3)
-  matrix2[1,1] <- ((1 - (p1^(d1 - 0.99)))/(1 - (p1^d1)))*p1 #0.99 as doesn't like 1s 
+  matrix2[1,1] <- ((1 - (p1^(d1 - 1)))/(1 - (p1^d1)))*p1  
   matrix2[2,2] <- ((1 - (p2^(d2 - 1)))/(1 - (p2^d2)))*p2
   matrix2[3,3] <- ((1 - (p3^(d3 - 1)))/(1 - (p3^d3)))*p3
   
