@@ -173,7 +173,7 @@ figure1b
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 3 
-# creating a figure which shows the elasticity, or proportional sensitivity of lambda to changes in fecundity F, survival 
+# creating a figure which shows the elasticity, or proportional sensitivity, of lambda to changes in fecundity F, survival 
 # while remaining in the same stage P, and survival with growth, G. Because the elasticities of these matrix elements sum to 1, 
 # they can be compared directly in terms of their contribution to the population growth rate 
 #eigen analysis 
