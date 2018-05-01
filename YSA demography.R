@@ -98,30 +98,30 @@ yellow_pi1cInc <- mutate(yellow, pi = ifelse(stage == "1c", pi * 1.1, pi *1))
 yellow_pi2Inc <- mutate(yellow, pi = ifelse(stage == "2", pi * 1.05, pi *1))
 yellow_pi3Inc <- mutate(yellow, pi = ifelse(stage == "3", pi * 1.05, pi *1))
 #decreases 
-AFd <- ysaFunc(yellow_fecAdjust) 
+AFd <- ysameanFunc(yellow_fecAdjust) 
 eigs.AFd <- eigen(AFd)
-A1ad <- ysaFunc(yellow_pi1aAdj) 
+A1ad <- ysameanFunc(yellow_pi1aAdj) 
 eigs.A1ad <- eigen(A1ad)
-A1bd <- ysaFunc(yellow_pi1bAdj) 
+A1bd <- ysameanFunc(yellow_pi1bAdj) 
 eigs.A1bd <- eigen(A1bd)
-A1cd <- ysaFunc(yellow_pi1cAdj) 
+A1cd <- ysameanFunc(yellow_pi1cAdj) 
 eigs.A1cd <- eigen(A1cd)
-A2d <- ysaFunc(yellow_pi2Adj) 
+A2d <- ysameanFunc(yellow_pi2Adj) 
 eigs.A2d <- eigen(A2d)
-A3d <- ysaFunc(yellow_pi3Adj) 
+A3d <- ysameanFunc(yellow_pi3Adj) 
 eigs.A3d <- eigen(A3d)
 #increases 
-AFi <- ysaFunc(yellow_fecIncrease) 
+AFi <- ysameanFunc(yellow_fecIncrease) 
 eigs.AFi <- eigen(AFi)
-A1ai <- ysaFunc(yellow_pi1aInc) 
+A1ai <- ysameanFunc(yellow_pi1aInc) 
 eigs.A1ai <- eigen(A1ai)
-A1bi <- ysaFunc(yellow_pi1bInc) 
+A1bi <- ysameanFunc(yellow_pi1bInc) 
 eigs.A1bi <- eigen(A1bi)
-A1ci <- ysaFunc(yellow_pi1cInc) 
+A1ci <- ysameanFunc(yellow_pi1cInc) 
 eigs.A1ci <- eigen(A1ci)
-A2i <- ysaFunc(yellow_pi2Inc) 
+A2i <- ysameanFunc(yellow_pi2Inc) 
 eigs.A2i <- eigen(A2i)
-A3i <- ysaFunc(yellow_pi3Inc) 
+A3i <- ysameanFunc(yellow_pi3Inc) 
 eigs.A3i <- eigen(A3i)
 #finding the first eigenvalue (finite rate of increase)
 #decreases
@@ -190,7 +190,8 @@ vw.s <- v %*% t (w)
 S <- vw.s/as.numeric(v %*% w)
 
 #elasticity of projection matrices 
-elas <- (A/L1mean) * S 
+elasticity <- (A/L1mean) * S 
+
 
 ### plotting figure 3 - plot the proportional sensitivity to changes in F, P and G 
 stage <- c("E", "J", "A")
