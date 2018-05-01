@@ -250,7 +250,7 @@ r3 <- log(L3)
 
 
 #plotting the figure 
-age <- c(2, 3, 4, 5)
+age <- c(3, 4, 5, 6)
 lambdas<- c(L1mean, L1, L2, L3)
 rs <- log(lambdas)
 table_agerep <- data.frame(age, rs)
