@@ -157,18 +157,20 @@ lambdas<- c(LFd, L1ad, L1bd, L1cd, L2d, L3d)
 rsa <- log(lambdas)
 class <- c("fecundity", "egg", "nestling", "fledgling", "juvenile", "adult")
 table_decrease <- data.frame(class, rsa)
-grapha <- ggplot(table_decrease, aes(x = class, y = rsa)) + geom_bar(stat = "identity")
-graph1a <- grapha + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") 
-graph2a <- graph1a + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
-figure1a <- graph2a + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class)
+figure1a <- ggplot(table_decrease, aes(x = class, y = rsa)) + geom_bar(stat = "identity")
+figure1a <- figure1a + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") 
+figure1a <- figure1a + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+figure1a <- figure1a + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class) +
+  geom_abline(slope = 0, intercept = r, linetype="dashed")
 figure1a 
 lambdas<- c(LFi, L1ai, L1bi, L1ci, L2i, L3i)
 rsb <- log(lambdas)
 table_decrease <- data.frame(class, rsb)
-graphb <- ggplot(table_decrease, aes(x = class, y = rsb)) + geom_bar(stat = "identity")
-graph1b <- graphb + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") 
-graph2b <- graph1b + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
-figure1b <- graph2b + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class)
+figure1b <- ggplot(table_decrease, aes(x = class, y = rsb)) + geom_bar(stat = "identity")
+figure1b <- figure1b + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") 
+figure1b <- figure1b+ theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+figure1b <- figure1b + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class)+
+  geom_abline(slope = 0, intercept = r, linetype="dashed")
 figure1b 
 
 #--------------------------------------------------------------------------------------------------------------------------------
@@ -202,17 +204,16 @@ P <- c(NA, elasticity[2,2], elasticity[3,3])
 G <- c(elasticity[2,1], elasticity[3,2], NA)
 sensitivities <- data.frame(stage, F, P, G)
 sensitivity <- read.csv("cheat for now.csv") 
-sens <- gather(sensitivities, vr, elas, F, P, G)
+sens <- gather(sensitivities, vr, elasticity, F, P, G)
 mutate(sens, "vr" = "Vital rate")
 #change sensitivites data frame into the correct format 
-fig <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_point(size = 7) + labs(x = "Stage", y = "Elasticity", size = 20)
-fig.3 <- fig + scale_x_discrete(limits=c("E","J","A"), labels=c("Egg", "Juvenile", "Adult"))
-figur.3 <- fig.3 + theme(axis.title = element_text(size = 14))
-figure.3 <- figur.3 + scale_fill_discrete(name = "Vital rate") + ylim(0, max(elas))
-figure.3
-figure.3 + scale_fill_discrete(name="Vital rate",
+fig <- ggplot(sens, aes(x = stage, y = elasticity, colour = vr, vr)) + geom_point(size = 7) + labs(x = "Stage", y = "Elasticity", size = 20)
+fig <- fig + scale_x_discrete(limits=c("E","J","A"), labels=c("Egg", "Juvenile", "Adult"))
+fig <- fig + theme(axis.title = element_text(size = 14))
+fig<- fig + ylim(0, max(elasticity))
+fig <-fig + scale_colour_discrete(name="Vital rate",
                               breaks=c("F", "G", "P"),
-                              labels=c("Reproductive Output", "Survival with growth to the next stage", "Survival while remaining in the same stage"))
+                              labels=c("Reproductive Output", "Survival + growth", "Survival"))
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 2 
@@ -257,9 +258,9 @@ age <- c(3, 4, 5, 6)
 lambdas<- c(L1mean, L1, L2, L3)
 rs <- log(lambdas)
 table_agerep <- data.frame(age, rs)
-graph <- ggplot(table_agerep, aes(x = age, y = rs)) + geom_line(size=1) + geom_point(size=2)
-graph1 <- graph + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate of Increase (r)")  
-figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
+figure2 <- ggplot(table_agerep, aes(x = age, y = rs)) + geom_line(size=1) + geom_point(size=2)
+figure2 <- figure2 + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate of Increase (r)")  
+figure2 <- figure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
   geom_vline(xintercept = 3, linetype = "dashed") +
   annotate("text", x=3.3, y=0.200, label = "base run") +
   theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14))
