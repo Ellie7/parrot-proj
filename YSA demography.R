@@ -256,7 +256,10 @@ rs <- log(lambdas)
 table_agerep <- data.frame(age, rs)
 graph <- ggplot(table_agerep, aes(x = age, y = rs)) + geom_line(size=1) + geom_point(size=2)
 graph1 <- graph + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate of Increase (r)")  
-figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
+  geom_vline(xintercept = 3, linetype = "dashed") +
+  annotate("text", x=3.3, y=0.200, label = "base run") +
+  theme(axis.line = element_line(colour = "black"))
 figure2
 
 #-----------------------------------------------------------------------------------------------------------------------------------
