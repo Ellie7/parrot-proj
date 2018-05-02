@@ -195,21 +195,25 @@ elasticity <- (A/L1mean) * S
 
 ### plotting figure 3 - plot the proportional sensitivity to changes in F, P and G 
 stage <- c("E", "J", "A")
-F <- c(elasticity[1, 1:3])
-P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3])
+#F <- c(elasticity[1, 1:3]) if including F1 & F2 on graph 
+F <- c(NA, NA, elasticity[1,3])
+#P <- c(elasticity[1,1], elasticity[2,2], elasticity[3,3]) if including P1 
+P <- c(NA, elasticity[2,2], elasticity[3,3])
 G <- c(elasticity[2,1], elasticity[3,2], NA)
 sensitivities <- data.frame(stage, F, P, G)
 sensitivity <- read.csv("cheat for now.csv") 
 sens <- gather(sensitivities, vr, elas, F, P, G)
 mutate(sens, "vr" = "Vital rate")
 #change sensitivites data frame into the correct format 
-fig <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_line() + geom_jitter(size = 4) + labs(x = "Stage", y = "Elasticity", size = 20)
+fig <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_point(size = 7) + labs(x = "Stage", y = "Elasticity", size = 20)
 fig.3 <- fig + scale_x_discrete(limits=c("E","J","A"), labels=c("Egg", "Juvenile", "Adult"))
 figur.3 <- fig.3 + theme(axis.title = element_text(size = 14))
-figure.3 <- figur.3 + scale_fill_discrete(name = "Vital rate")
-figur.3 + scale_fill_discrete(name="Vital rate",
-                              breaks=c("Egg", "Juvenile", "Adult"),
-                              labels=c("Egg", "Juvenile", "Adult"))
+figure.3 <- figur.3 + scale_fill_discrete(name = "Vital rate") +
+  ylim(0, max(elas))
+figure.3
+figure.3 + scale_fill_discrete(name="Vital rate",
+                              breaks=c("F", "G", "P"),
+                              labels=c("Reproductive Output", "Survival with growth to the next stage", "Survival while remaining in the same stage"))
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 2 
@@ -259,7 +263,7 @@ graph1 <- graph + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate
 figure2 <- graph1 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
   geom_vline(xintercept = 3, linetype = "dashed") +
   annotate("text", x=3.3, y=0.200, label = "base run") +
-  theme(axis.line = element_line(colour = "black"))
+  theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14))
 figure2
 
 #-----------------------------------------------------------------------------------------------------------------------------------
