@@ -6,6 +6,7 @@ library(tidyverse)
 # pi, piSD etc are inside the data frame.  This needs to be specified this
 # for example: dataSource$pi[1] is where pi[1] is located
 
+
 #--------------------------------------------------------------------------------------------------------------------------------
 # ysaFunc creates a matrix from randomly drawn data, with p values taken from a beta distribution and f values
 # drawn from a lognormal distribution 
@@ -49,10 +50,6 @@ ysaFunc <- function (dataSource)
   
   return(matrix2)
 } 
-
-# use the function
-
-ysaFunc(yellow)
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # ysameanFunc creates a matrix based on means, ie the raw values from the data source rather than drawing from distributions
