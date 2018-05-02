@@ -208,8 +208,7 @@ mutate(sens, "vr" = "Vital rate")
 fig <- ggplot(sens, aes(x = stage, y = elas, colour = vr, vr)) + geom_point(size = 7) + labs(x = "Stage", y = "Elasticity", size = 20)
 fig.3 <- fig + scale_x_discrete(limits=c("E","J","A"), labels=c("Egg", "Juvenile", "Adult"))
 figur.3 <- fig.3 + theme(axis.title = element_text(size = 14))
-figure.3 <- figur.3 + scale_fill_discrete(name = "Vital rate") +
-  ylim(0, max(elas))
+figure.3 <- figur.3 + scale_fill_discrete(name = "Vital rate") + ylim(0, max(elas))
 figure.3
 figure.3 + scale_fill_discrete(name="Vital rate",
                               breaks=c("F", "G", "P"),
