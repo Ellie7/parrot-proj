@@ -84,14 +84,14 @@ kable(tab_5, caption = "Table 1. Stable stage distribution (wJ) and reproductive
 #individual 
 #life history stages  (similar to figure 1a & 1b in crouse 1987
 #decresing fecundity and survival by 10%
-yellow_fecAdjust<-mutate(yellow, F = 0.9*F)
+yellow_fecAdjust<-mutate(yellow, f = 0.9*f)
 yellow_pi1aAdj <- mutate(yellow, pi = ifelse(stage == "1a", pi * 0.9, pi * 1)) 
 yellow_pi1bAdj <- mutate(yellow, pi = ifelse(stage == "1b", pi * 0.9, pi * 1))
 yellow_pi1cAdj <- mutate(yellow, pi = ifelse(stage == "1c", pi * 0.9, pi * 1))
 yellow_pi2Adj <- mutate(yellow, pi = ifelse(stage == "2", pi * 0.9, pi * 1))
 yellow_pi3Adj <- mutate(yellow, pi = ifelse(stage == "3", pi * 0.9, pi * 1))
 #increase in fecundity or an increase in survivorship by 10%
-yellow_fecIncrease<-mutate(yellow, F = 1.5*F)
+yellow_fecIncrease<-mutate(yellow, f = 1.1*f)
 yellow_pi1aInc <- mutate(yellow, pi = ifelse(stage == "1a", pi * 1.1, pi *1))
 yellow_pi1bInc <- mutate(yellow, pi = ifelse(stage == "1b", pi * 1.1, pi *1))
 yellow_pi1cInc <- mutate(yellow, pi = ifelse(stage == "1c", pi * 1.1, pi *1))
@@ -173,6 +173,27 @@ figure1b <- figure1b + theme(axis.text.x = element_text(angle = 45, hjust = 1, v
   geom_abline(slope = 0, intercept = r, linetype="dashed")
 figure1b 
 
+r
+
+rsa
+
+rsb
+
+decrease <- c(-(r-rsa[1]), -(r-rsa[2]), -(r-rsa[3]), -(r-rsa[4]), -(r-rsa[5]), -(r-rsa[6]))
+increase <- c((rsb[1]-r), (rsb[2]-r),(rsb[3]-r), (rsb[4]-r), (rsb[5]-r), (rsb[6]-r))
+clas <- c("fecundity","egg","nestling","fledgling","juvenile","adult")
+data_frame(decrease, increase, class)
+
+bar <- read.csv("C:/Users/Ellie/OneDrive/Documents/1 UNIVERSITY/Level 4/Project & Dissertation/Report/Presentation-Lenovo-PC/bar .csv")
+View(bar)
+bar <- mutate(bar, class = clas) #weird 
+
+figbar <- ggplot(bar, aes(x=class, y=r)) + geom_bar(stat = "identity") + facet_wrap(~change)
+figbar <- figbar + scale_x_discrete(limits=c("fecundity","egg","nestling","fledgling","juvenile","adult"))
+figbar <- figbar + theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+figbar <- figbar + labs(x = "Stage class", y = "Change in r", size = 20)
+
+
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 3 
 # creating a figure which shows the elasticity, or proportional sensitivity, of lambda to changes in fecundity F, survival 
@@ -214,6 +235,8 @@ fig<- fig + ylim(0, max(elasticity))
 fig <-fig + scale_colour_discrete(name="Vital rate",
                               breaks=c("F", "G", "P"),
                               labels=c("Reproductive Output", "Survival + growth", "Survival"))
+fig <- fig + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+fig
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 2 
