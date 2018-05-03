@@ -95,8 +95,8 @@ yellow_fecIncrease<-mutate(yellow, f = 1.1*f)
 yellow_pi1aInc <- mutate(yellow, pi = ifelse(stage == "1a", pi * 1.1, pi *1))
 yellow_pi1bInc <- mutate(yellow, pi = ifelse(stage == "1b", pi * 1.1, pi *1))
 yellow_pi1cInc <- mutate(yellow, pi = ifelse(stage == "1c", pi * 1.1, pi *1))
-yellow_pi2Inc <- mutate(yellow, pi = ifelse(stage == "2", pi * 1.05, pi *1))
-yellow_pi3Inc <- mutate(yellow, pi = ifelse(stage == "3", pi * 1.05, pi *1))
+yellow_pi2Inc <- mutate(yellow, pi = ifelse(stage == "2", max(pi * 1.1, 1), pi *1))
+yellow_pi3Inc <- mutate(yellow, pi = ifelse(stage == "3",  max(pi * 1.1, 1), pi *1))
 #decreases 
 AFd <- ysameanFunc(yellow_fecAdjust) 
 eigs.AFd <- eigen(AFd)
@@ -189,8 +189,8 @@ View(bar)
 bar <- mutate(bar, class = clas) #weird 
 
 figbar <- ggplot(bar, aes(x=class, y=r)) + geom_bar(stat = "identity") + facet_wrap(~change)
-figbar <- figbar + scale_x_discrete(limits=c("fecundity","egg","nestling","fledgling","juvenile","adult"))
 figbar <- figbar + theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+figbar <- figbar + scale_x_discrete(limits=c("fecundity","egg","nestling","fledgling","juvenile","adult"))
 figbar <- figbar + labs(x = "Stage class", y = "Change in r", size = 20)
 
 
