@@ -194,6 +194,7 @@ figbar <- figbar + scale_x_discrete(limits=c("fecundity","egg","nestling","fledg
 figbar <- figbar + labs(x = "Stage class", y = "Change in r", size = 20)
 
 
+
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 3 
 # creating a figure which shows the elasticity, or proportional sensitivity, of lambda to changes in fecundity F, survival 
