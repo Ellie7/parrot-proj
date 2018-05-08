@@ -62,7 +62,7 @@ mat1#almost there
 A <- mat1
 ### making a function which creates the matrix (like the code above just in the form of a function)
 lifetable <- table.3
-myFunc <- function (lifetable) 
+myFunc <- function (dataSource) 
 {
   fecs <- select(lifetable, fecundity)
   pi <- select(lifetable, annual_survivorship)
