@@ -239,6 +239,8 @@ fig <-fig + scale_colour_discrete(name="Vital rate",
 fig <- fig + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
 fig
 
+
+
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 2 
 # Looking at the effect of Age of First Reproduction on Intrinsic rate of Increase (r)
