@@ -18,5 +18,15 @@ yellow
 #make 10 matrices of random numbers.#for current code these aren't random and are drawn from ysa beta and normal distributed 
 #vital rates
 mat1 <- map(1:10, function(x) ysaFunc(yellow))
+
 # use these matrices in mat 1 and get the eigen system for each....
-mat2<-map(mat1, function(x) eigen(x))
+mat2<-map(mat1, function(x) eigen(x)) 
+
+#finding the first eigenvalue (finite rate of increase), lambda for each matrix 
+# dom.pos <- which.max(eigs.A[["values"]]) ----- code for if it was a single matrix
+# L1mean <- Re(eigs.A[["values"]][dom.pos]) ---- code for if it was a single matrix
+mat3 <- map(mat2, function(x) which.max(x[["values"]]))
+
+
+mat4 <- map(mat3, function(x) Re(mat2[["values"]][x]))
+
