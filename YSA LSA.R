@@ -1,0 +1,12 @@
+# Yellow-shouldered amazon life stage simulation analysis 
+rm(list=ls())
+library(dplyr)
+library(ggplot2) 
+library(knitr)
+library(primer)
+library(Rmisc)
+library(agricolae)
+library(popbio)
+library(MASS) 
+library(tidyverse) 
+source(file = "ysa functions.R")
