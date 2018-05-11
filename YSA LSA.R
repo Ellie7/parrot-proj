@@ -29,4 +29,10 @@ mat3 <- map(mat2, function(x) {
 })
 
 #rs 
-mat4 <- map(mat3, function(x) log(x))
+mat4 <- map(mat3, function(x) log(x)) 
+
+##### alternatively 
+map(mat1, eigen.analysis) 
+
+
+
