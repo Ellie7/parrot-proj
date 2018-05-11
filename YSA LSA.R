@@ -23,9 +23,9 @@ mat1 <- map(1:10, function(x) ysaFunc(yellow))
 mat2<-map(mat1, function(x) eigen(x)) 
 
 #finding the first eigenvalue (finite rate of increase), lambda for each matrix 
-# dom.pos <- which.max(eigs.A[["values"]]) ----- code for if it was a single matrix (from YSA demography script)
-# L1mean <- Re(eigs.A[["values"]][dom.pos]) ---- code for if it was a single matrix (from YSA demography script)
-mat3 <- map(mat2, function(x) which.max(x[["values"]]))
+mat3 <- map(mat2, function(x) {
+  dom.pos <- which.max(x[["values"]])
+  Re(x[["values"]][dom.pos])
+})
 
-mat4 <- map(mat3, function(x) Re(mat2[["values"]][x]))
-
+mat4 <- map(mat3, function(x) log(x))
