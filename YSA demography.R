@@ -28,16 +28,6 @@ fSD <- c(0, 0, 0, 0, 0.12) # may need to halve
 # creating dataframe by combining columns 
 yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
 
-# making matrices using yellow function 
-ysaFunc(yellow)
-yellow
-#make 10 matrices of random numbers.#for current code these aren't random and are drawn from ysa beta and normal distributed 
-#vital rates
-mat1 <- map(1:10, function(x) ysaFunc(yellow))
-# use these matrices in mat 1 and get the eigen system for each....
-mat2<-map(mat1, function(x) eigen(x))
-
-
 #initial calculations using ysaFunc & ysameanFunc to create matrices 
 A <- ysameanFunc(yellow) # for 'mean' matrix 
 B <- ysaFunc(yellow) #for matrix drawn randomly from beta and lognormal distributed vital rates 
