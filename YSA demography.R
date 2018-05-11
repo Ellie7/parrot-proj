@@ -21,7 +21,7 @@ stage <- c("1a", "1b", "1c", "2", "3")
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
 di <- c((27/365), (59/365), (279/365), (24/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, 
 # Age 37 months+ (as 7 years)
-pi <- c(0.89, 0.78, 0.73, 0.925, 0.925) #from meghann in YAS demography data csv 
+pi <- c(0.89, 0.78, 0.73, 0.925, 0.925) #from meghann in YAS demography data csv # change fledge surival to 0.87? 
 piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025) # 2nd 0.07 as filler for now 
 f <- c(0, 0, 0, 0, 1.6) #half of 3.2 as sex ratio assumed 1:1
 fSD <- c(0, 0, 0, 0, 0.12) # may need to halve 
