@@ -27,12 +27,11 @@ mat3 <- map(mat2, function(x) {
   dom.pos <- which.max(x[["values"]])
   Re(x[["values"]][dom.pos])
 })
-
 #rs 
 mat4 <- map(mat3, function(x) log(x)) 
 
 ##### alternatively 
-map(mat1, eigen.analysis) 
-
-
+analysis <- map(mat1, eigen.analysis) 
+#rs
+map(analysis, function(x) log(x$lambda1))
 
