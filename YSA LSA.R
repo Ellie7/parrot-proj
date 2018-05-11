@@ -10,3 +10,6 @@ library(popbio)
 library(MASS) 
 library(tidyverse) 
 source(file = "ysa functions.R")
+source(file = "ysa demography.R") 
+
+ysaFunc(yellow)
