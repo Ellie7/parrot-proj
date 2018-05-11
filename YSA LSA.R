@@ -35,3 +35,27 @@ analysis <- map(mat1, eigen.analysis)
 #rs
 map(analysis, function(x) log(x$lambda1))
 
+elasticities <- map(analysis, function(x) x$elasticities)
+
+map(analysis, function(x) x$elasticities
+  G1 <- x$elasticities[2,1] 
+  G2 <- x$elasticities[3,2] 
+  P2 <- x$elasticities[2,2] 
+  P3 <- x$elasticities[3,3] 
+  F3 <- x$elasticities[1,3]
+  )
+map(elasticities, function(x) 
+  G1 <- x[2,1] 
+  G2 <- x[3,2] 
+  P2 <- x[2,2] 
+  P3 <- x[3,3] 
+  F3 <- x[1,3])
+
+ggplot(elasticities, aes(x = vital rate, y = mean(elasticities))
+
+       
+n0 <- c(1, 1, 1)
+stoch.projection(mat1, n0, tmax = 50, nreps = 10, prob = NULL,
+                        nmax = NULL, sumweight = rep(1, length(n0)), verbose=FALSE)
+
+    
