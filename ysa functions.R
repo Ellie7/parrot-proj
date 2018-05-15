@@ -37,6 +37,8 @@ ysaFunc <- function (dataSource)
   
   # construct the matrix using defined parameters above
   matrix2 <- matrix(0, nrow = 3, ncol = 3)
+  dimnames(matrix2) <- list(rownames(matrix2, do.NULL = FALSE, prefix = "row"),
+                            colnames(matrix2, do.NULL = FALSE, prefix = "col"))
   matrix2[1,1] <- ((1 - (p1^(d1 - 1)))/(1 - (p1^d1)))*p1 
   matrix2[2,2] <- ((1 - (p2^(d2 - 1)))/(1 - (p2^d2)))*p2
   matrix2[3,3] <- ((1 - (p3^(d3 - 1)))/(1 - (p3^d3)))*p3
