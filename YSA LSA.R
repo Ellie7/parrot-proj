@@ -44,14 +44,17 @@ out <- map(mat1, eigen.analysis)
 # the eigen analysis outputs for each matrix
 out
 
+#----------------------------------------------------------------------------------------------------------------------------------
+#sensitivities 
 # need this to get the names onto the matrix at the end....
 # only for old skool barplotting.
-use.names <- rownames(out[[1]]$sensitivities)
+use.names.r<- rownames(out[[1]]$sensitivities)
+use.names.c<- colnames(out[[1]]$sensitivities)
 
 # create a data frame where columns are the matrix ID and rows are the elements
 # of the sensitivity matrix
 
-out2 <- map_df(out, function(x) {cbind(c(x$sensitivities))}) 
+out2s <- map_df(out, function(x) {cbind(c(x$sensitivities))}) 
 
 # use rowMeans to get the average sensitivity for each element
 # and the se_fnc to get the se
@@ -60,21 +63,83 @@ out2 <- map_df(out, function(x) {cbind(c(x$sensitivities))})
 se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
 
 # these are the mean and se matrices of sensitivity, in this case.
-mean_sensitivity <- matrix(rowMeans(out2),3,3,
-                           dimnames = list(use.names,use.names))
-se_sensitivity <- matrix(apply(out2, 1, function(x) se_fnc(x)), 3,3)
-
-SE <- cbind(c(se_sensitivity))
-data_frame()
+mean_sensitivity <- matrix(rowMeans(out2s),3,3,
+                           dimnames = list(use.names.r,use.names.c))
+se_sensitivity <- matrix(apply(out2s, 1, function(x) se_fnc(x)), 3,3)
 
 # ggplot figure making
-g_plot_df <- data.frame(expand.grid(stage_A = use.names, stage_B = use.names),
-                        mean_sens = c(mean_sensitivity), se_sens = c(se_sensitivity))
+mat_element <- c(NA, "G1", NA, NA, "P2", "G2", "F3", NA, "P3")
 
-ggplot(g_plot_df, aes(x = stage_A, y = mean_sens, group = stage_B, fill = stage_B))+
+g_plot_dfs <- data.frame(expand.grid(stage_A = use.names.r, stage_B = use.names.c),
+                        mean_sens = c(mean_sensitivity), se_sens = c(se_sensitivity), mat_element)
+
+ggplot(g_plot_dfs, aes(x = stage_A, y = mean_sens, group = stage_B, fill = stage_B))+
   geom_col()+
-  facet_wrap(~stage_B)+ 
+  facet_wrap(~stage_B)
+ + 
   geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens)) 
 
+#without NAs
+clean_s <- na.omit(g_plot_dfs) 
+ggplot(clean, aes(x = mat_element, y = mean_sens, fill = stage_B)) + geom_col() + 
+  geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens))
 
-    
+#----------------------------------------------------------------------------------------------------------------------------------
+# elasticities 
+use.names.r<- rownames(out[[1]]$elasticities)
+use.names.c<- colnames(out[[1]]$elasticities)
+
+# create a data frame where columns are the matrix ID and rows are the elements
+# of the sensitivity matrix
+
+out2e <- map_df(out, function(x) {cbind(c(x$elasticities))}) 
+
+# use rowMeans to get the average elasticity for each element
+# and the se_fnc to get the se
+# and re-create as a matrix
+
+se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
+
+# these are the mean and se matrices of elasticity
+mean_elasticity <- matrix(rowMeans(out2e),3,3,
+                 dimnames = list(use.names.r, use.names.c))
+se_elasticity <- matrix(apply(out2e, 1, function(x) se_fnc(x)), 3,3)
+
+# ggplot figure making
+g_plot_dfe <- data.frame(expand.grid(stage_A = use.names.r, stage_B = use.names.c),
+                        mean_elas = c(mean_elasticity), se_elas = c(se_elasticity))
+
+ggplot(g_plot_df, aes(x = stage_A, y = mean_elas, group = stage_B, fill = stage_B))+
+  geom_col()+
+  facet_wrap(~stage_B) 
++ 
+  geom_errorbar(aes(ymin = mean-se_elas, ymax = mean+se_elas)) 
+
+#---------------------------------------------------------------------------------------------------------------------------------- 
+# lambda
+use.names <- rownames(out[[1]]$lambda1)
+
+# create a data frame where columns are the matrix ID and rows are the elements
+# of the sensitivity matrix
+
+out2l <- map_df(out, function(x) {cbind(c(x$lambda1))}) 
+
+# use rowMeans to get the average lambda
+# and the se_fnc to get the se
+# and re-create as a matrix
+
+se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
+
+# these are the mean and se matrices of lambda
+mean_lambda <- c(matrix(rowMeans(out2e),dimnames = list(use.names,use.names)))
+se_lambda <- matrix(apply(out2l, 1, function(x) se_fnc(x)))
+
+# ggplot figure making
+c(P1, )
+g_plot_dfe <- data.frame(expand.grid(stage_A = use.names, stage_B = use.names),
+                         mean_elas = c(mean_elasticity), se_elas = c(se_elasticity))
+
+ggplot(g_plot_df, aes(x = stage_A, y = mean_elas, group = stage_B, fill = stage_B))+
+  geom_col()+
+  facet_wrap(~stage_B) + 
+  geom_errorbar(aes(ymin = mean-se_elas, ymax = mean+se_elas)) 
