@@ -72,17 +72,23 @@ mat_element <- c(NA, "G1", NA, NA, "P2", "G2", "F3", NA, "P3")
 
 g_plot_dfs <- data.frame(expand.grid(stage_A = use.names.r, stage_B = use.names.c),
                         mean_sens = c(mean_sensitivity), se_sens = c(se_sensitivity), mat_element)
+glimpse(g_plot_dfs)
 
 ggplot(g_plot_dfs, aes(x = stage_A, y = mean_sens, group = stage_B, fill = stage_B))+
   geom_col()+
-  facet_wrap(~stage_B)
- + 
+  facet_wrap(~stage_B) + 
   geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens)) 
 
-#without NAs
+#without NAs & not facet wrapped 
 clean_s <- na.omit(g_plot_dfs) 
-ggplot(clean, aes(x = mat_element, y = mean_sens, fill = stage_B)) + geom_col() + 
-  geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens))
+fig_s <- ggplot(clean, aes(x = mat_element, y = mean_sens, fill = stage_B)) + geom_col() + 
+  scale_x_discrete(limits=c("G1", "P2", "G2", "P3", "F3")) +
+  labs(x = "Matrix Element", y = "Mean Sensitivity") 
+fig_s + scale_fill_discrete(name="Stage Class",
+                        breaks=c("col1", "col2", "col3"),
+                        labels=c("Egg", "Juvenile", "Adult"))
+
++ geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens))
 
 #----------------------------------------------------------------------------------------------------------------------------------
 # elasticities 
@@ -106,13 +112,26 @@ mean_elasticity <- matrix(rowMeans(out2e),3,3,
 se_elasticity <- matrix(apply(out2e, 1, function(x) se_fnc(x)), 3,3)
 
 # ggplot figure making
+mat_element <- c(NA, "G1", NA, NA, "P2", "G2", "F3", NA, "P3")
 g_plot_dfe <- data.frame(expand.grid(stage_A = use.names.r, stage_B = use.names.c),
-                        mean_elas = c(mean_elasticity), se_elas = c(se_elasticity))
+                        mean_elas = c(mean_elasticity), se_elas = c(se_elasticity), mat_element)
 
 ggplot(g_plot_df, aes(x = stage_A, y = mean_elas, group = stage_B, fill = stage_B))+
   geom_col()+
   facet_wrap(~stage_B) 
 + 
+  geom_errorbar(aes(ymin = mean-se_elas, ymax = mean+se_elas)) 
+
+#without NAs
+clean_e <- na.omit(g_plot_dfe) 
+
+fig_e <- ggplot(clean_e, aes(x = mat_element, y = mean_elas, fill = stage_B)) + geom_col()+ 
+  scale_x_discrete(limits=c("G1", "P2", "G2", "P3", "F3")) +
+  labs(x = "Matrix Element", y = "Mean Elasticity") 
+
+fig_e <- fig_e + scale_fill_discrete(name="Stage Class",
+                          breaks=c("col1", "col2", "col3"),
+                          labels=c("Egg", "Juvenile", "Adult")) + 
   geom_errorbar(aes(ymin = mean-se_elas, ymax = mean+se_elas)) 
 
 #---------------------------------------------------------------------------------------------------------------------------------- 
