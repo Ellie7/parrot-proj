@@ -87,7 +87,7 @@ fig_s <- ggplot(clean, aes(x = mat_element, y = mean_sens, fill = stage_B)) + ge
 fig_s + scale_fill_discrete(name="Stage Class",
                         breaks=c("col1", "col2", "col3"),
                         labels=c("Egg", "Juvenile", "Adult")) + 
-  geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens))
+  geom_errorbar(aes(ymin = mean_sens-se_sens, ymax = mean_sens+se_sens))
 
 #----------------------------------------------------------------------------------------------------------------------------------
 # elasticities 
@@ -117,9 +117,9 @@ g_plot_dfe <- data.frame(expand.grid(stage_A = use.names.r, stage_B = use.names.
 
 ggplot(g_plot_df, aes(x = stage_A, y = mean_elas, group = stage_B, fill = stage_B))+
   geom_col()+
-  facet_wrap(~stage_B) 
+  facet_wrap(~stage_B)
 + 
-  geom_errorbar(aes(ymin = mean-se_elas, ymax = mean+se_elas)) 
+  geom_errorbar(aes(ymin = mean_elas-se_elas, ymax = mean_elas+se_elas)) 
 
 #without NAs
 clean_e <- na.omit(g_plot_dfe) 
@@ -131,7 +131,7 @@ fig_e <- ggplot(clean_e, aes(x = mat_element, y = mean_elas, fill = stage_B)) + 
 fig_e <- fig_e + scale_fill_discrete(name="Stage Class",
                           breaks=c("col1", "col2", "col3"),
                           labels=c("Egg", "Juvenile", "Adult")) + 
-  geom_errorbar(aes(ymin = mean-se_elas, ymax = mean+se_elas)) 
+  geom_errorbar(aes(ymin = mean_elas-se_elas, ymax = mean_elas+se_elas)) 
 
 #---------------------------------------------------------------------------------------------------------------------------------- 
 # lambda
