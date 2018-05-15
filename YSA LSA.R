@@ -86,9 +86,8 @@ fig_s <- ggplot(clean, aes(x = mat_element, y = mean_sens, fill = stage_B)) + ge
   labs(x = "Matrix Element", y = "Mean Sensitivity") 
 fig_s + scale_fill_discrete(name="Stage Class",
                         breaks=c("col1", "col2", "col3"),
-                        labels=c("Egg", "Juvenile", "Adult"))
-
-+ geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens))
+                        labels=c("Egg", "Juvenile", "Adult")) + 
+  geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens))
 
 #----------------------------------------------------------------------------------------------------------------------------------
 # elasticities 
