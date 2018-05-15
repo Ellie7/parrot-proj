@@ -72,12 +72,6 @@ mat_element <- c(NA, "G1", NA, NA, "P2", "G2", "F3", NA, "P3")
 
 g_plot_dfs <- data.frame(expand.grid(stage_A = use.names.r, stage_B = use.names.c),
                         mean_sens = c(mean_sensitivity), se_sens = c(se_sensitivity), mat_element)
-glimpse(g_plot_dfs)
-
-ggplot(g_plot_dfs, aes(x = stage_A, y = mean_sens, group = stage_B, fill = stage_B))+
-  geom_col()+
-  facet_wrap(~stage_B) + 
-  geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens)) 
 
 #without NAs & not facet wrapped 
 clean_s <- na.omit(g_plot_dfs) 
@@ -115,12 +109,6 @@ mat_element <- c(NA, "G1", NA, NA, "P2", "G2", "F3", NA, "P3")
 g_plot_dfe <- data.frame(expand.grid(stage_A = use.names.r, stage_B = use.names.c),
                         mean_elas = c(mean_elasticity), se_elas = c(se_elasticity), mat_element)
 
-ggplot(g_plot_df, aes(x = stage_A, y = mean_elas, group = stage_B, fill = stage_B))+
-  geom_col()+
-  facet_wrap(~stage_B)
-+ 
-  geom_errorbar(aes(ymin = mean_elas-se_elas, ymax = mean_elas+se_elas)) 
-
 #without NAs
 clean_e <- na.omit(g_plot_dfe) 
 
@@ -152,12 +140,79 @@ se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
 mean_lambda <- c(matrix(rowMeans(out2e),dimnames = list(use.names,use.names)))
 se_lambda <- matrix(apply(out2l, 1, function(x) se_fnc(x)))
 
-# ggplot figure making
-c(P1, )
-g_plot_dfe <- data.frame(expand.grid(stage_A = use.names, stage_B = use.names),
-                         mean_elas = c(mean_elasticity), se_elas = c(se_elasticity))
 
-ggplot(g_plot_df, aes(x = stage_A, y = mean_elas, group = stage_B, fill = stage_B))+
-  geom_col()+
-  facet_wrap(~stage_B) + 
-  geom_errorbar(aes(ymin = mean-se_elas, ymax = mean+se_elas)) 
+#---------------------------------------------------------------------------------------------------------------------------------- 
+# age at first reproduction plot with error bars 
+
+#calculations of P, and G, for each of the three immature stages.
+yellow_di1 <- mutate(yellow, di = ifelse(stage == "2", di + 1, di * 1))
+yellow_dii1 <- mutate(yellow_di1, di = ifelse(stage == "3", di - 1, di * 1)) # stage 2 as increasing age at which first breeding is = increasing number of years as juvenile
+yellow_di2 <- mutate(yellow, di = ifelse(stage == "2", di + 2, di * 1)) # ^therefore juvenile = birds which have fledged the nest but have not began attempts at breeding
+yellow_dii2 <- mutate(yellow_di2, di = ifelse(stage == "3", di - 2, di * 1)) 
+yellow_di3 <- mutate(yellow, di = ifelse(stage == "2", di + 3, di * 1)) #dii1 = di is stage duration, i1 means increased by 1
+yellow_dii3 <- mutate(yellow_di3, di = ifelse(stage == "3", di - 3, di * 1))
+
+
+#load data, creating groups of matrices with different ages at first breeding 
+mat_inc1 <- map(1:10, function(x) ysaFunc(yellow_dii1))
+mat_inc2 <- map(1:10, function(x) ysaFunc(yellow_dii2))
+mat_inc3 <- map(1:10, function(x) ysaFunc(yellow_dii3))
+names(mat_inc1) <- paste('M', 1:10, sep = '')
+names(mat_inc2) <- paste('M', 1:10, sep = '')
+names(mat_inc3) <- paste('M', 1:10, sep = '')
+
+# use map and eigen.analysis
+out_1 <- map(mat_inc1, eigen.analysis) 
+out_2 <- map(mat_inc2, eigen.analysis)
+out_3 <- map(mat_inc3, eigen.analysis)
+# the eigen analysis outputs for each matrix
+out_1
+out_2
+out_3 
+
+out2_1 <- map_df(out_1, function(x) {cbind(c(x$lambda1))})
+out2_2 <- map_df(out_2, function(x) {cbind(c(x$lambda1))})
+out2_3 <- map_df(out_3, function(x) {cbind(c(x$lambda1))})
+
+
+# these are the mean and se matrices of lambda
+mean_lambda_1 <- c(matrix(rowMeans(out2_1)))
+se_lambda_1 <- matrix(apply(out2_1, 1, function(x) se_fnc(x)))
+mean_lambda_2 <- c(matrix(rowMeans(out2_2)))
+se_lambda_2 <- matrix(apply(out2_2, 1, function(x) se_fnc(x)))
+mean_lambda_3 <- c(matrix(rowMeans(out2_3)))
+se_lambda_3 <- matrix(apply(out2_3, 1, function(x) se_fnc(x)))
+
+# plotting graph
+#making a dataframe to plot 
+
+age <- c(3, 4, 5, 6)
+lambdas<- c(mean_lambda, mean_lambda_1, mean_lambda_2, mean_lambda_3)
+SE <- c(se_lambda, se_lambda_1, se_lambda_2, se_lambda_3)
+rs <- log(lambdas)
+rsSE <- log(SE)
+
+
+# lambda vs repro graph 
+table_agerep <- data.frame(age, lambdas, SE)
+figure2 <- ggplot(table_agerep, aes(x = age, y = lambdas)) + geom_line(size=1) + geom_point(size=3)
+figure2 <- figure2 + labs(x = "Age of First Reproduction (yr)", y = "Population Growth (lambda)")+ 
+  geom_errorbar(aes(ymin = lambdas-SE, ymax = lambdas+SE), width = 0.1)  
+figure2 <- figure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
+  geom_vline(xintercept = 3, linetype = "dashed") +
+  annotate("text", x=3.3, y=1.22, label = "base run") +
+  theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14)) 
+figure2
+
+
+# r vs repro graph 
+rtable_agerep <- data.frame(age, lambdas, SE, rs, rsSE)
+rfigure2 <- ggplot(table_agerep, aes(x = age, y = rs)) + geom_line(size=1) + geom_point(size=3)
+rfigure2 <- rfigure2 + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic Rate of Increase (r)")+ 
+  geom_errorbar(aes(ymin = rs-rsSE, ymax = rs+rsSE), width = 0.1)  
+rfigure2 <- rfigure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
+  geom_vline(xintercept = 3, linetype = "dashed") +
+  annotate("text", x=3.3, y=1.22, label = "base run") +
+  theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14)) 
+rfigure2
+
