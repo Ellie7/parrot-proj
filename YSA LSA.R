@@ -30,24 +30,22 @@ mat3 <- map(mat2, function(x) {
 #rs 
 mat4 <- map(mat3, function(x) log(x)) 
 
-##### alternatively use map and eigen.analysis 
-analysis <- map(mat1, eigen.analysis) 
-
-       
 n0 <- c(1, 1, 1)
 stoch.projection(mat1, n0, tmax = 50, nreps = 10, prob = NULL,
-                        nmax = NULL, sumweight = rep(1, length(n0)), verbose=FALSE)
-# load hudsonia data (list of 4 matrices)
-data('hudsonia')
+                 nmax = NULL, sumweight = rep(1, length(n0)), verbose=FALSE)
+
+####################################### alternatively use map and eigen.analysis 
+# load data (list of 10 matrices)
+mat1 <- map(1:10, function(x) ysaFunc(yellow))
+
 # use map and eigen.analysis
-out<-map(hudsonia, eigen.analysis)
+out <- map(mat1, eigen.analysis) 
 
 # the eigen analysis outputs for each matrix
 out
 
 # need this to get the names onto the matrix at the end....
 # only for old skool barplotting.
-# for hudsonia, its seed, seedlings, tiny etc....
 use.names <- rownames(out[[1]]$sensitivities)
 
 # create a data frame where columns are the matrix ID and rows are the elements
@@ -62,9 +60,9 @@ out2 <- map_df(out, function(x) {cbind(c(x$sensitivities))})
 se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
 
 # these are the mean and se matrices of sensitivity, in this case.
-mean_sensitivity <- matrix(rowMeans(out2),6,6,
+mean_sensitivity <- matrix(rowMeans(out2),3,3,
                            dimnames = list(use.names,use.names))
-se_sensitivity <- matrix(apply(out2, 1, function(x) se_fnc(x)), 6,6)
+se_sensitivity <- matrix(apply(out2, 1, function(x) se_fnc(x)), 3,3)
 
 # ggplot figure making
 g_plot_df <- data.frame(expand.grid(stage_A = use.names, stage_B = use.names),
