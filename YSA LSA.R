@@ -37,7 +37,7 @@ stoch.projection(mat1, n0, tmax = 50, nreps = 10, prob = NULL,
 ####################################### alternatively use map and eigen.analysis 
 # load data (list of 10 matrices)
 mat1 <- map(1:10, function(x) ysaFunc(yellow))
-
+names(mat1) <- paste('M', 1:10, sep = '')
 # use map and eigen.analysis
 out <- map(mat1, eigen.analysis) 
 
@@ -51,7 +51,7 @@ use.names <- rownames(out[[1]]$sensitivities)
 # create a data frame where columns are the matrix ID and rows are the elements
 # of the sensitivity matrix
 
-out2 <- map_df(out, function(x) {cbind(c(x$sensitivities))})
+out2 <- map_df(out, function(x) {cbind(c(x$sensitivities))}) 
 
 # use rowMeans to get the average sensitivity for each element
 # and the se_fnc to get the se
@@ -64,13 +64,17 @@ mean_sensitivity <- matrix(rowMeans(out2),3,3,
                            dimnames = list(use.names,use.names))
 se_sensitivity <- matrix(apply(out2, 1, function(x) se_fnc(x)), 3,3)
 
+SE <- cbind(c(se_sensitivity))
+data_frame()
+
 # ggplot figure making
 g_plot_df <- data.frame(expand.grid(stage_A = use.names, stage_B = use.names),
                         mean_sens = c(mean_sensitivity), se_sens = c(se_sensitivity))
 
 ggplot(g_plot_df, aes(x = stage_A, y = mean_sens, group = stage_B, fill = stage_B))+
   geom_col()+
-  facet_wrap(~stage_B)
+  facet_wrap(~stage_B)+ 
+  geom_errorbar(aes(ymin = mean-se_sens, ymax = mean+se_sens)) 
 
 
     
