@@ -37,7 +37,7 @@ stoch.projection(mat1, n0, tmax = 50, nreps = 10, prob = NULL,
 ####################################### alternatively use map and eigen.analysis 
 # load data (list of 10 matrices)
 mat1 <- map(1:100, function(x) ysaFunc(yellow))
-names(mat1) <- paste('M', 1:10, sep = '')
+names(mat1) <- paste('M', 1:100, sep = '')
 # use map and eigen.analysis
 out <- map(mat1, eigen.analysis) 
 
@@ -137,7 +137,9 @@ out2l <- map_df(out, function(x) {cbind(c(x$lambda1))})
 se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
 
 # these are the mean and se matrices of lambda
-mean_lambda <- c(matrix(rowMeans(out2e),dimnames = list(use.names,use.names)))
+mean_lambda <- c(matrix(rowMeans(out2l),dimnames = list(use.names,use.names)))
+mean(mean_lambda)
+
 se_lambda <- matrix(apply(out2l, 1, function(x) se_fnc(x)))
 
 
