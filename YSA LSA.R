@@ -75,13 +75,13 @@ g_plot_dfs <- data.frame(expand.grid(stage_A = use.names.r, stage_B = use.names.
 
 #without NAs & not facet wrapped 
 clean_s <- na.omit(g_plot_dfs) 
-fig_s <- ggplot(clean, aes(x = mat_element, y = mean_sens, fill = stage_B)) + geom_col() + 
+fig_s <- ggplot(clean_s, aes(x = mat_element, y = mean_sens, fill = stage_B)) + geom_col() + 
   scale_x_discrete(limits=c("G1", "P2", "G2", "P3", "F3")) +
   labs(x = "Matrix Element", y = "Mean Sensitivity") 
 fig_s + scale_fill_discrete(name="Stage Class",
                         breaks=c("col1", "col2", "col3"),
                         labels=c("Egg", "Juvenile", "Adult")) + 
-  geom_errorbar(aes(ymin = mean_sens-se_sens, ymax = mean_sens+se_sens))
+  geom_errorbar(aes(ymin = mean_sens-se_sens, ymax = mean_sens+se_sens), width = 0.3)
 
 #----------------------------------------------------------------------------------------------------------------------------------
 # elasticities 
@@ -119,7 +119,8 @@ fig_e <- ggplot(clean_e, aes(x = mat_element, y = mean_elas, fill = stage_B)) + 
 fig_e <- fig_e + scale_fill_discrete(name="Stage Class",
                           breaks=c("col1", "col2", "col3"),
                           labels=c("Egg", "Juvenile", "Adult")) + 
-  geom_errorbar(aes(ymin = mean_elas-se_elas, ymax = mean_elas+se_elas)) 
+  geom_errorbar(aes(ymin = mean_elas-se_elas, ymax = mean_elas+se_elas), width = 0.4) 
+fig_e
 
 #---------------------------------------------------------------------------------------------------------------------------------- 
 # lambda
@@ -138,7 +139,6 @@ se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
 
 # these are the mean and se matrices of lambda
 mean_lambda <- c(matrix(rowMeans(out2l),dimnames = list(use.names,use.names)))
-mean(mean_lambda)
 
 se_lambda <- matrix(apply(out2l, 1, function(x) se_fnc(x)))
 
@@ -176,7 +176,6 @@ out2_1 <- map_df(out_1, function(x) {cbind(c(x$lambda1))})
 out2_2 <- map_df(out_2, function(x) {cbind(c(x$lambda1))})
 out2_3 <- map_df(out_3, function(x) {cbind(c(x$lambda1))})
 
-
 # these are the mean and se matrices of lambda
 mean_lambda_1 <- c(matrix(rowMeans(out2_1)))
 se_lambda_1 <- matrix(apply(out2_1, 1, function(x) se_fnc(x)))
@@ -202,7 +201,7 @@ figure2 <- figure2 + labs(x = "Age of First Reproduction (yr)", y = "Population 
   geom_errorbar(aes(ymin = lambdas-SE, ymax = lambdas+SE), width = 0.1)  
 figure2 <- figure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
   geom_vline(xintercept = 3, linetype = "dashed") +
-  annotate("text", x=3.3, y=1.22, label = "base run") +
+  annotate("text", x=3.3, y=1.10, label = "base run") +
   theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14)) 
 figure2
 
