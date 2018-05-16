@@ -22,13 +22,13 @@ stage <- c("1a", "1b", "1c", "2", "3")
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
 di <- c((27/365), (59/365), (279/365), (24/12), 10) #27 days, 59 days, To age 12 months, Age 13-36 months, 
 # Age 37 months+ (as 10 years)
-pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.71, 0.925, 0.925) #from life_table_data_master_csv 
+pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.71, 0.925, 0.925) 
+#^from life_table_data_master_csv, 0.71 from Salinas-Melgoza & Renton 2007, 0.925 from 
 piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.07, 0.025, 0.025) # 0.06/0.07/0.07 as filler for now as different now using life_table_data_master_csv
 f <- c(0, 0, 0, 0, 1.6) #half of 3.2 as sex ratio assumed 1:1
 fSD <- c(0, 0, 0, 0, 0.12) # may need to halve 
 # creating dataframe by combining columns 
 yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
-
 
 
 #initial calculations using ysaFunc & ysameanFunc to create matrices 
