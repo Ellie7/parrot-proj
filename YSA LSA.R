@@ -36,7 +36,7 @@ stoch.projection(mat1, n0, tmax = 50, nreps = 10, prob = NULL,
 
 ####################################### alternatively use map and eigen.analysis 
 # load data (list of 10 matrices)
-mat1 <- map(1:10, function(x) ysaFunc(yellow))
+mat1 <- map(1:100, function(x) ysaFunc(yellow))
 names(mat1) <- paste('M', 1:10, sep = '')
 # use map and eigen.analysis
 out <- map(mat1, eigen.analysis) 
