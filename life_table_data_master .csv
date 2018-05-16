@@ -1,0 +1,6 @@
+Year ,Species ,Location,Source,Stage,Trait name,Trait value,Trait variability  ,variability type 
+2006-2014 (not inc 2012) ,A. barbadensis ,Bonaire,Life History 2006-2014 excel sheet - Bonaire data ,egg ,hatching success,0.64,,
+2006-2010,A. barbadensis ,Bonaire,Life History 2006-2014 excel sheet - Bonaire data ,nestling ,nestling survival (fledged/brood size at hatching),0.473636364,,
+1996-2003,A. finchsi ,Mexcio , Salinas-Melgoza & Renton 2007,fledgling,survival ,0.71,95% confidence limit = 0.53-0.95,
+,,,,juvenile,survival (annual?) ,,,
+,,,,adult ,survival (annual?) ,,,
