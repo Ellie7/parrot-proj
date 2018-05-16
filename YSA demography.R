@@ -10,13 +10,11 @@ library(popbio)
 library(MASS) 
 library(tidyverse) 
 source(file = "ysa functions.R")
+source(file = "YSA life history data.R")
 
-#inputting data from csv 
-YSA_demog_data_master <- read.csv("YSA_demog_data_master.csv")
-ysa <- YSA_demog_data_master 
-
-life_table_data_master <- read.csv("life_table_data_master")
-
+#inputting data
+# mean hatchability and mean nestling survival with sample size and standard error 
+total_summary
 
 #manually creating data frame for now
 #creating columns
@@ -24,8 +22,8 @@ stage <- c("1a", "1b", "1c", "2", "3")
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
 di <- c((27/365), (59/365), (279/365), (24/12), 10) #27 days, 59 days, To age 12 months, Age 13-36 months, 
 # Age 37 months+ (as 10 years)
-pi <- c(0.64, 0.47, 0.71, 0.925, 0.925) #from life_table_data_master_csv 
-piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025) # 0.06/0.07/0.07 as filler for now as different now using life_table_data_master_csv
+pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.71, 0.925, 0.925) #from life_table_data_master_csv 
+piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.07, 0.025, 0.025) # 0.06/0.07/0.07 as filler for now as different now using life_table_data_master_csv
 f <- c(0, 0, 0, 0, 1.6) #half of 3.2 as sex ratio assumed 1:1
 fSD <- c(0, 0, 0, 0, 0.12) # may need to halve 
 # creating dataframe by combining columns 
@@ -186,7 +184,7 @@ figbar <- ggplot(bar, aes(x=class, y=r)) + geom_bar(stat = "identity") + facet_w
 figbar <- figbar + theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
 figbar <- figbar + scale_x_discrete(limits=c("fecundity","egg","nestling","fledgling","juvenile","adult"))
 figbar <- figbar + labs(x = "Stage class", y = "Change in r", size = 20)
-
+figbar
 
 
 #--------------------------------------------------------------------------------------------------------------------------------
