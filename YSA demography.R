@@ -15,18 +15,23 @@ source(file = "ysa functions.R")
 YSA_demog_data_master <- read.csv("YSA_demog_data_master.csv")
 ysa <- YSA_demog_data_master 
 
+life_table_data_master <- read.csv("life_table_data_master")
+
+
 #manually creating data frame for now
 #creating columns
 stage <- c("1a", "1b", "1c", "2", "3")
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
-di <- c((27/365), (59/365), (279/365), (24/12), 7) #27 days, 59 days, To age 12 months, Age 13-36 months, 
-# Age 37 months+ (as 7 years)
-pi <- c(0.89, 0.78, 0.73, 0.925, 0.925) #from meghann in YAS demography data csv # change fledge surival to 0.87? 
-piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025) # 2nd 0.07 as filler for now 
+di <- c((27/365), (59/365), (279/365), (24/12), 10) #27 days, 59 days, To age 12 months, Age 13-36 months, 
+# Age 37 months+ (as 10 years)
+pi <- c(0.64, 0.47, 0.71, 0.925, 0.925) #from life_table_data_master_csv 
+piSD <- c(0.06, 0.07, 0.07, 0.025, 0.025) # 0.06/0.07/0.07 as filler for now as different now using life_table_data_master_csv
 f <- c(0, 0, 0, 0, 1.6) #half of 3.2 as sex ratio assumed 1:1
 fSD <- c(0, 0, 0, 0, 0.12) # may need to halve 
 # creating dataframe by combining columns 
 yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
+
+
 
 #initial calculations using ysaFunc & ysameanFunc to create matrices 
 A <- ysameanFunc(yellow) # for 'mean' matrix 
@@ -169,14 +174,13 @@ rsa
 
 rsb
 
-decrease <- c(-(r-rsa[1]), -(r-rsa[2]), -(r-rsa[3]), -(r-rsa[4]), -(r-rsa[5]), -(r-rsa[6]))
-increase <- c((rsb[1]-r), (rsb[2]-r),(rsb[3]-r), (rsb[4]-r), (rsb[5]-r), (rsb[6]-r))
-clas <- c("fecundity","egg","nestling","fledgling","juvenile","adult")
-data_frame(decrease, increase, class)
+r <- c(-(r-rsa[1]), -(r-rsa[2]), -(r-rsa[3]), -(r-rsa[4]), -(r-rsa[5]), -(r-rsa[6]), (rsb[1]-r), (rsb[2]-r),(rsb[3]-r), (rsb[4]-r), (rsb[5]-r), (rsb[6]-r))
+change <- c("decrease", "decrease", "decrease", "decrease", "decrease","decrease",
+            "increase","increase","increase","increase","increase","increase")
+class <- c("fecundity","egg","nestling","fledgling","juvenile","adult","fecundity","egg","nestling","fledgling","juvenile","adult")
 
-bar <- read.csv("C:/Users/Ellie/OneDrive/Documents/1 UNIVERSITY/Level 4/Project & Dissertation/Report/Presentation-Lenovo-PC/bar .csv")
-View(bar)
-bar <- mutate(bar, class = clas) #weird 
+
+bar <- data_frame(class, change, r)
 
 figbar <- ggplot(bar, aes(x=class, y=r)) + geom_bar(stat = "identity") + facet_wrap(~change)
 figbar <- figbar + theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
