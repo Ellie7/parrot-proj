@@ -204,6 +204,167 @@ figure2 <- figure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=el
   theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14)) 
 figure2 + annotate("text", x=3.3, y=1.05, label = "base run") 
 
+#---------------------------------------------------------------------------------------------------------------------------------- 
+# sensitivity to pi i.e. the underlying vital rates
+
+#decresing fecundity and survival by 10%
+yellow_fecAdjust<-mutate(yellow, f = 0.9*f)
+yellow_pi1aAdj <- mutate(yellow, pi = ifelse(stage == "1a", pi * 0.9, pi * 1)) 
+yellow_pi1bAdj <- mutate(yellow, pi = ifelse(stage == "1b", pi * 0.9, pi * 1))
+yellow_pi1cAdj <- mutate(yellow, pi = ifelse(stage == "1c", pi * 0.9, pi * 1))
+yellow_pi2Adj <- mutate(yellow, pi = ifelse(stage == "2", pi * 0.9, pi * 1))
+yellow_pi3Adj <- mutate(yellow, pi = ifelse(stage == "3", pi * 0.9, pi * 1))
+#increase in fecundity or an increase in survivorship by 10%
+yellow_fecIncrease<-mutate(yellow, f = 1.1*f)
+yellow_pi1aInc <- mutate(yellow, pi = ifelse(stage == "1a", pi * 1.1, pi *1))
+yellow_pi1bInc <- mutate(yellow, pi = ifelse(stage == "1b", pi * 1.1, pi *1))
+yellow_pi1cInc <- mutate(yellow, pi = ifelse(stage == "1c", pi * 1.1, pi *1))
+yellow_pi2Inc <- mutate(yellow, pi = ifelse(stage == "2", max(pi * 1.1, 0.99), pi *1)) #can't handle 1s again don't know why
+yellow_pi3Inc <- mutate(yellow, pi = ifelse(stage == "3",  max(pi * 1.1, 0.99), pi *1))
+
+
+#load data, creating groups of matrices with different ages at first breeding 
+mat_decfds <- map(1:10, function(x) ysaFunc(yellow_fecAdjust))
+mat_dec1ads <- map(1:10, function(x) ysaFunc(yellow_pi1aAdj))
+mat_dec1bds <- map(1:10, function(x) ysaFunc(yellow_pi1bAdj))
+mat_dec1cds <- map(1:10, function(x) ysaFunc(yellow_pi1cAdj))
+mat_dec2ds <- map(1:10, function(x) ysaFunc(yellow_pi2Adj))
+mat_dec3ds <- map(1:10, function(x) ysaFunc(yellow_pi3Adj))
+
+mat_incfds <- map(1:10, function(x) ysaFunc(yellow_fecIncrease))
+mat_inc1ads <- map(1:10, function(x) ysaFunc(yellow_pi1aInc))
+mat_inc1bds <- map(1:10, function(x) ysaFunc(yellow_pi1bInc))
+mat_inc1cds <- map(1:10, function(x) ysaFunc(yellow_pi1cInc))
+mat_inc2ds <- map(1:10, function(x) ysaFunc(yellow_pi2Inc))
+mat_inc3ds <- map(1:10, function(x) ysaFunc(yellow_pi3Inc))
+
+
+names(mat_decfds) <- paste('M', 1:10, sep = '')
+names(mat_dec1ads) <- paste('M', 1:10, sep = '')
+names(mat_dec1bds) <- paste('M', 1:10, sep = '')
+names(mat_dec1cds) <- paste('M', 1:10, sep = '')
+names(mat_dec2ds) <- paste('M', 1:10, sep = '')
+names(mat_dec3ds) <- paste('M', 1:10, sep = '')
+names(mat_incfds) <- paste('M', 1:10, sep = '')
+names(mat_inc1ads) <- paste('M', 1:10, sep = '')
+names(mat_inc1bds) <- paste('M', 1:10, sep = '')
+names(mat_inc1cds) <- paste('M', 1:10, sep = '')
+names(mat_inc2ds) <- paste('M', 1:10, sep = '')
+names(mat_inc3ds) <- paste('M', 1:10, sep = '')
+
+# use map and eigen.analysis
+out_df <- map(mat_decfds, eigen.analysis)    
+out_d1a <- map(mat_dec1ads, eigen.analysis)
+out_d1b <- map(mat_dec1bds, eigen.analysis)
+out_d1c <-  map(mat_dec1cds, eigen.analysis)
+out_d2 <-  map(mat_dec2ds, eigen.analysis)
+out_d3 <-  map(mat_dec3ds, eigen.analysis)
+out_if <- map(mat_incfds, eigen.analysis)    
+out_i1a <- map(mat_inc1ads, eigen.analysis)
+out_i1b <- map(mat_inc1bds, eigen.analysis)
+out_i1c <-  map(mat_inc1cds, eigen.analysis)
+out_i2 <-  map(mat_inc2ds, eigen.analysis)
+out_i3 <-  map(mat_inc3ds, eigen.analysis)
+
+# extracting senstivities from each matrix 
+#decreases 
+use.names.rdf<- rownames(out_df[[1]]$lambda1)
+use.names.cdf<- colnames(out_df[[1]]$lambda1)
+use.names.rd1a<- rownames(out_d1a[[1]]$lambda1)
+use.names.cd1a<- colnames(out_d1a[[1]]$lambda1)
+use.names.rd1b<- rownames(out_d1b[[1]]$lambda1)
+use.names.cd1b<- colnames(out_d1b[[1]]$lambda1)
+use.names.rd1c<- rownames(out_d1c[[1]]$lambda1)
+use.names.cd1c<- colnames(out_d1c[[1]]$lambda1)
+use.names.rd2<- rownames(out_d2[[1]]$lambda1)
+use.names.cd2<- colnames(out_d2[[1]]$lambda1)
+use.names.rd3<- rownames(out_d3[[1]]$lambda1)
+use.names.cd3<- colnames(out_d3[[1]]$lambda1)
+#increases
+use.names.rif<- rownames(out_if[[1]]$lambda1)
+use.names.cif<- colnames(out_if[[1]]$lambda1)
+use.names.ri1a<- rownames(out_i1a[[1]]$lambda1)
+use.names.ci1a<- colnames(out_i1a[[1]]$lambda1)
+use.names.ri1b<- rownames(out_i1b[[1]]$lambda1)
+use.names.ci1b<- colnames(out_i1b[[1]]$lambda1)
+use.names.ri1c<- rownames(out_i1c[[1]]$lambda1)
+use.names.ci1c<- colnames(out_i1c[[1]]$lambda1)
+use.names.ri2<- rownames(out_i2[[1]]$lambda1)
+use.names.ci2<- colnames(out_i2[[1]]$lambda1)
+use.names.ri3<- rownames(out_i3[[1]]$lambda1)
+use.names.ci3<- colnames(out_i3[[1]]$lambda1)
+# create a data frame where columns are the matrix ID and rows are the elements
+# of the sensitivity matrix
+
+out2_df <- map_df(out_df, function(x) {cbind(c(x$lambda1))})    
+out2_d1a <- map_df(out_d1a, function(x) {cbind(c(x$lambda1))}) 
+out2_d1b <- map_df(out_d1b, function(x) {cbind(c(x$lambda1))})
+out2_d1c <- map_df(out_d1c, function(x) {cbind(c(x$lambda1))})
+out2_d2 <- map_df(out_d2, function(x) {cbind(c(x$lambda1))})
+out2_d3 <- map_df(out_d3, function(x) {cbind(c(x$lambda1))})
+out2_if <- map_df(out_if, function(x) {cbind(c(x$lambda1))})
+out2_i1a <- map_df(out_i1a, function(x) {cbind(c(x$lambda1))})
+out2_i1b <- map_df(out_i1b, function(x) {cbind(c(x$lambda1))})
+out2_i1c <- map_df(out_i1c, function(x) {cbind(c(x$lambda1))})
+out2_i2 <-  map_df(out_i2, function(x) {cbind(c(x$lambda1))})
+out2_i3 <-  map_df(out_i3, function(x) {cbind(c(x$lambda1))})
+
+# use rowMeans to get the average sensitivity for each element
+# and the se_fnc to get the se
+# and re-create as a matrix
+
+se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
+
+# these are the mean and se matrices of sensitivity, in this case.
+#decreases 
+df_mean_lambda <- c(matrix(rowMeans(out2_df)))
+df_se_lambda <- matrix(apply(out2_df, 1, function(x) se_fnc(x)))
+d1a_mean_lambda <- c(matrix(rowMeans(out2_d1a)))
+d1a_se_lambda <- matrix(apply(out2_d1a, 1, function(x) se_fnc(x)))
+d1b_mean_lambda <- c(matrix(rowMeans(out2_d1b)))
+d1b_se_lambda <- matrix(apply(out2_d1b, 1, function(x) se_fnc(x)))
+d1c_mean_lambda <- c(matrix(rowMeans(out2_d1c)))
+d1c_se_lambda <- matrix(apply(out2_d1c, 1, function(x) se_fnc(x)))
+d2_mean_lambda <- c(matrix(rowMeans(out2_d2)))
+d2_se_lambda <- matrix(apply(out2_d2, 1, function(x) se_fnc(x)))
+d3_mean_lambda <- c(matrix(rowMeans(out2_d3)))
+d3_se_lambda <- matrix(apply(out2_d3, 1, function(x) se_fnc(x)))
+#increases
+if_mean_lambda <- c(matrix(rowMeans(out2_if)))
+if_se_lambda <- matrix(apply(out2_if, 1, function(x) se_fnc(x)))
+i1a_mean_lambda <- c(matrix(rowMeans(out2_i1a)))
+i1a_se_lambda <- matrix(apply(out2_i1a, 1, function(x) se_fnc(x)))
+i1b_mean_lambda <- c(matrix(rowMeans(out2_i1b)))
+i1b_se_lambda <- matrix(apply(out2_i1b, 1, function(x) se_fnc(x)))
+i1c_mean_lambda <- c(matrix(rowMeans(out2_i1c)))
+i1c_se_lambda <- matrix(apply(out2_i1c, 1, function(x) se_fnc(x)))
+i2_mean_lambda <- c(matrix(rowMeans(out2_i2)))
+i2_se_lambda <- matrix(apply(out2_i2, 1, function(x) se_fnc(x)))
+i3_mean_lambda <- c(matrix(rowMeans(out2_i3)))
+i3_se_lambda <- matrix(apply(out2_i3, 1, function(x) se_fnc(x)))
+
+# ggplot figure making
+change_means<- c(-(mean_lambda-df_mean_lambda), -(mean_lambda-d1a_mean_lambda), -(mean_lambda-d1b_mean_lambda),  
+                 -(mean_lambda-d1c_mean_lambda), -(mean_lambda-d2_mean_lambda), -(mean_lambda-d3_mean_lambda),
+                 (if_mean_lambda - mean_lambda), (i1a_mean_lambda- mean_lambda), (i1b_mean_lambda - mean_lambda),  
+                 (i1c_mean_lambda - mean_lambda), (i2_mean_lambda - mean_lambda), (i3_mean_lambda - mean_lambda))
 
 
 
+change_se <- c(df_se_lambda, d1a_se_lambda, d1b_se_lambda,  d1c_se_lambda, d2_se_lambda, d3_se_lambda, 
+               if_se_lambda, i1a_se_lambda, i1b_se_lambda,  i1c_se_lambda, i2_se_lambda, i3_se_lambda)
+
+change <- c("decrease","decrease","decrease","decrease","decrease","decrease",
+            "increase", "increase","increase","increase","increase","increase")
+stage <- c("Fecundity", "Egg", "Nestling", "Fledgling", "Juvenile", "Adult",
+           "Fecundity", "Egg", "Nestling", "Fledgling", "Juvenile", "Adult")
+
+g_plot_under <- data_frame(stage,change, change_means, change_se)
+
+#ggplot 
+figbar_LSA <- ggplot(g_plot_under, aes(x=stage, y=change_means)) + geom_bar(stat = "identity") + facet_wrap(~change)
+figbar_LSA<- figbar_LSA + theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+figbar_LSA <- figbar_LSA + scale_x_discrete(limits=c("Fecundity","Egg","Nestling","Fledgling","Juvenile","Adult"))
+figbar_LSA <- figbar_LSA + labs(x = "Stage class", y = "Change in lambda", size = 20)
+figbar_LSA <- figbar_LSA + geom_errorbar(aes(ymin = change_means-change_se, ymax = change_means+change_se), width = 0.2)  
+figbar_LSA + geom_hline(yintercept = -0.057344, linetype = "dashed") + annotate("text", x=3.3, y=-0.062, label = "lambda = 1") 
