@@ -36,8 +36,8 @@ stoch.projection(mat1, n0, tmax = 50, nreps = 10, prob = NULL,
 
 ####################################### alternatively use map and eigen.analysis 
 # load data (list of 10 matrices)
-mat1 <- map(1:100, function(x) ysaFunc(yellow))
-names(mat1) <- paste('M', 1:100, sep = '')
+mat1 <- map(1:10, function(x) ysaFunc(yellow))
+names(mat1) <- paste('M', 1:10, sep = '')
 # use map and eigen.analysis
 out <- map(mat1, eigen.analysis) 
 
@@ -200,10 +200,9 @@ figure2 <- ggplot(table_agerep, aes(x = age, y = lambdas)) + geom_line(size=1) +
 figure2 <- figure2 + labs(x = "Age of First Reproduction (yr)", y = "Population Growth (lambda)")+ 
   geom_errorbar(aes(ymin = lambdas-SE, ymax = lambdas+SE), width = 0.1)  
 figure2 <- figure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
-  geom_vline(xintercept = 3, linetype = "dashed") +
-  annotate("text", x=3.3, y=1.10, label = "base run") +
+  geom_hline(yintercept = 1, linetype = "dashed") +
   theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14)) 
-figure2
+figure2 + annotate("text", x=3.3, y=1.05, label = "base run") 
 
 
 
