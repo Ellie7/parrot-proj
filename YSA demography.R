@@ -19,14 +19,21 @@ total_summary
 #manually creating data frame for now
 #creating columns
 stage <- c("1a", "1b", "1c", "2", "3")
+# stage classes 
 class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
+#stage durations 
 di <- c((27/365), (59/365), (279/365), (24/12), 10) #27 days, 59 days, To age 12 months, Age 13-36 months, 
-# Age 37 months+ (as 10 years)
-pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.71, 0.925, 0.925) 
-#^from life_table_data_master_csv, 0.71 from Salinas-Melgoza & Renton 2007, 0.925 from 
-piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.07, 0.025, 0.025) # 0.06/0.07/0.07 as filler for now as different now using life_table_data_master_csv
-f <- c(0, 0, 0, 0, 1.6) #half of 3.2 as sex ratio assumed 1:1
-fSD <- c(0, 0, 0, 0, 0.12) # may need to halve 
+# Age 37 months+ (as 10 years -> needs updating and a reference) 
+#pi (survival)
+pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.71, 0.875, 0.875) 
+# ^from life_table_data_master_csv, 0.71 from Salinas-Melgoza & Renton 2007, 0.875 from Rodriguez et al 
+# pi standard errors / SD 
+piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.07, 0.025, 0.025) 
+# ^0.06/0.07/0.07 as filler for now as different now using life_table_data_master_csv
+#reproductive output/fecundity 
+f <- c(0, 0, 0, 0, 1.6) #half of 3.2 as sex ratio assumed 1:1 (Sams thesis)
+#reproductive output/fecundity SEs
+fSD <- c(0, 0, 0, 0, 0.1) # SE sams thesis (halved)
 # creating dataframe by combining columns 
 yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
 
@@ -88,8 +95,8 @@ yellow_fecIncrease<-mutate(yellow, f = 1.1*f)
 yellow_pi1aInc <- mutate(yellow, pi = ifelse(stage == "1a", pi * 1.1, pi *1))
 yellow_pi1bInc <- mutate(yellow, pi = ifelse(stage == "1b", pi * 1.1, pi *1))
 yellow_pi1cInc <- mutate(yellow, pi = ifelse(stage == "1c", pi * 1.1, pi *1))
-yellow_pi2Inc <- mutate(yellow, pi = ifelse(stage == "2", max(pi * 1.1, 1), pi *1))
-yellow_pi3Inc <- mutate(yellow, pi = ifelse(stage == "3",  max(pi * 1.1, 1), pi *1))
+yellow_pi2Inc <- mutate(yellow, pi = ifelse(stage == "2", max(pi * 1.1, 0.99), pi *1)) #can't handle 1s again don't know why
+yellow_pi3Inc <- mutate(yellow, pi = ifelse(stage == "3",  max(pi * 1.1, 0.99), pi *1)) #can't handle 1s again don't know why
 #decreases 
 AFd <- ysameanFunc(yellow_fecAdjust) 
 eigs.AFd <- eigen(AFd)
@@ -148,38 +155,20 @@ L3i <- Re(eigs.A3i[["values"]][dom.pos.3i])
 #life history stages  (similar to figure 1a & 1b in crouse 1987)
 lambdas<- c(LFd, L1ad, L1bd, L1cd, L2d, L3d)
 rsa <- log(lambdas)
-class <- c("fecundity", "egg", "nestling", "fledgling", "juvenile", "adult")
-table_decrease <- data.frame(class, rsa)
-figure1a <- ggplot(table_decrease, aes(x = class, y = rsa)) + geom_bar(stat = "identity")
-figure1a <- figure1a + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") 
-figure1a <- figure1a + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
-figure1a <- figure1a + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class) +
-  geom_abline(slope = 0, intercept = r, linetype="dashed")
-figure1a 
 lambdas<- c(LFi, L1ai, L1bi, L1ci, L2i, L3i)
 rsb <- log(lambdas)
-table_decrease <- data.frame(class, rsb)
-figure1b <- ggplot(table_decrease, aes(x = class, y = rsb)) + geom_bar(stat = "identity")
-figure1b <- figure1b + labs(x = "Stage Class", y = "Intrinsic rate of Increase (r)") 
-figure1b <- figure1b+ theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
-figure1b <- figure1b + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + scale_x_discrete(limits = class)+
-  geom_abline(slope = 0, intercept = r, linetype="dashed")
-figure1b 
-
+#have a look
 r
-
 rsa
-
 rsb
-
+#data frame
 r <- c(-(r-rsa[1]), -(r-rsa[2]), -(r-rsa[3]), -(r-rsa[4]), -(r-rsa[5]), -(r-rsa[6]), (rsb[1]-r), (rsb[2]-r),(rsb[3]-r), (rsb[4]-r), (rsb[5]-r), (rsb[6]-r))
 change <- c("decrease", "decrease", "decrease", "decrease", "decrease","decrease",
             "increase","increase","increase","increase","increase","increase")
 class <- c("fecundity","egg","nestling","fledgling","juvenile","adult","fecundity","egg","nestling","fledgling","juvenile","adult")
-
-
 bar <- data_frame(class, change, r)
 
+#ggplot 
 figbar <- ggplot(bar, aes(x=class, y=r)) + geom_bar(stat = "identity") + facet_wrap(~change)
 figbar <- figbar + theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
 figbar <- figbar + scale_x_discrete(limits=c("fecundity","egg","nestling","fledgling","juvenile","adult"))
