@@ -49,12 +49,17 @@ for (i in 1:sim_len) {
 }
 map(N, sum) %>% unlist %>% plot
 
+
+#use an implementation of the function described above to simulate population trajectories under a range of poaching 
+# probabilities: .01%, 0.1%, 0.5%, 1%
+
+# 0.01% poaching 
 ## Simulation with losses of nests to poaching
 set.seed(20180515)
 sim_len <- 400
 N <- vector(mode = "list", length = sim_len)
 nests = 100
-p_poach <- 0.001
+p_poach <- 0.01
 n <- c(50, 50, 50)
 for (i in 1:sim_len) {
   A <- ysaFuncDD(yellow, n, nests)
@@ -67,3 +72,64 @@ for (i in 1:sim_len) {
   N[[i]] <- n
 }
 map(N, sum) %>% unlist %>% plot
+
+# 0.1% poaching 
+## Simulation with losses of nests to poaching
+set.seed(20180515)
+sim_len <- 400
+N <- vector(mode = "list", length = sim_len)
+nests = 100
+p_poach <- 0.1
+n <- c(50, 50, 50)
+for (i in 1:sim_len) {
+  A <- ysaFuncDD(yellow, n, nests)
+  n <- A %*% n
+  if (nests > 0) {
+    ## Probability of nest loss to poaching
+    p <- runif(0, 1, n = nests)
+    nests <- nests - length(which(p < p_poach))
+  }
+  N[[i]] <- n
+}
+map(N, sum) %>% unlist %>% plot
+
+# 0.5% poaching 
+## Simulation with losses of nests to poaching
+set.seed(20180515)
+sim_len <- 400
+N <- vector(mode = "list", length = sim_len)
+nests = 100
+p_poach <- 0.5
+n <- c(50, 50, 50)
+for (i in 1:sim_len) {
+  A <- ysaFuncDD(yellow, n, nests)
+  n <- A %*% n
+  if (nests > 0) {
+    ## Probability of nest loss to poaching
+    p <- runif(0, 1, n = nests)
+    nests <- nests - length(which(p < p_poach))
+  }
+  N[[i]] <- n
+}
+map(N, sum) %>% unlist %>% plot
+
+# 1% poaching 
+## Simulation with losses of nests to poaching
+set.seed(20180515)
+sim_len <- 400
+N <- vector(mode = "list", length = sim_len)
+nests = 100
+p_poach <- 1
+n <- c(50, 50, 50)
+for (i in 1:sim_len) {
+  A <- ysaFuncDD(yellow, n, nests)
+  n <- A %*% n
+  if (nests > 0) {
+    ## Probability of nest loss to poaching
+    p <- runif(0, 1, n = nests)
+    nests <- nests - length(which(p < p_poach))
+  }
+  N[[i]] <- n
+}
+map(N, sum) %>% unlist %>% plot
+
