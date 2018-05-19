@@ -68,6 +68,11 @@ M <- eigen(t(A))
 v <- Re(M$vectors[,which.max(Re(M$values))])
 RV <- v / v[1]
 RV 
+
+#### or use  eigen.analysis from popbio 
+eigen.analysis(A)
+
+
 #------------------------------------------------------------------
 #creating table of stable stage distribution & reproductive values 
 stage_number <- c(1,2,3)
