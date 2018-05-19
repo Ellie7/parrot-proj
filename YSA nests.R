@@ -39,6 +39,7 @@ A <- ysaFuncDD(yellow, n, threshold, stochastic = FALSE)
 n <- A %*% n 
 
 ## Simulation with density dependence
+# used to find out the carrying capacity for a given threshold number of nests.
 sim_len <- 200
 N <- vector(mode = "list", length = sim_len)
 thres = 150
@@ -53,7 +54,8 @@ map(N, sum) %>% unlist %>% plot
 
 #use an implementation of the function described above to simulate population trajectories under a range of poaching 
 # probabilities: .01%, 0.1%, 0.5%, 1%
-
+# used to simulate the population size under different levels of poaching related nest site loss at say 50 or 100 years in the 
+#future.
 # 0.01% poaching 
 ## Simulation with losses of nests to poaching
 set.seed(20180515)
