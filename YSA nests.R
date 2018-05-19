@@ -23,6 +23,7 @@ library(popbio)
 library(MASS) 
 library(tidyverse) 
 source(file = "ysa functions.R")
+source(file = "YSA demography.R")
 source(file = "YSA life history data.R")
 
 # using ysaFuncDD function 
@@ -62,15 +63,15 @@ nests = 100
 p_poach <- 0.01
 n <- c(50, 50, 50)
 for (i in 1:sim_len) {
-  A <- ysaFuncDD(yellow, n, nests)
-  n <- A %*% n
   if (nests > 0) {
     ## Probability of nest loss to poaching
     p <- runif(0, 1, n = nests)
     nests <- nests - length(which(p < p_poach))
   }
+  A <- ysaFuncDD(yellow, n, nests)
+  n <- A %*% n
   N[[i]] <- n
-}
+} 
 map(N, sum) %>% unlist %>% plot
 
 # 0.1% poaching 
@@ -82,13 +83,13 @@ nests = 100
 p_poach <- 0.1
 n <- c(50, 50, 50)
 for (i in 1:sim_len) {
-  A <- ysaFuncDD(yellow, n, nests)
-  n <- A %*% n
   if (nests > 0) {
     ## Probability of nest loss to poaching
     p <- runif(0, 1, n = nests)
     nests <- nests - length(which(p < p_poach))
   }
+  A <- ysaFuncDD(yellow, n, nests)
+  n <- A %*% n
   N[[i]] <- n
 }
 map(N, sum) %>% unlist %>% plot
@@ -102,13 +103,13 @@ nests = 100
 p_poach <- 0.5
 n <- c(50, 50, 50)
 for (i in 1:sim_len) {
-  A <- ysaFuncDD(yellow, n, nests)
-  n <- A %*% n
   if (nests > 0) {
     ## Probability of nest loss to poaching
     p <- runif(0, 1, n = nests)
     nests <- nests - length(which(p < p_poach))
   }
+  A <- ysaFuncDD(yellow, n, nests)
+  n <- A %*% n
   N[[i]] <- n
 }
 map(N, sum) %>% unlist %>% plot
@@ -122,13 +123,13 @@ nests = 100
 p_poach <- 1
 n <- c(50, 50, 50)
 for (i in 1:sim_len) {
-  A <- ysaFuncDD(yellow, n, nests)
-  n <- A %*% n
   if (nests > 0) {
     ## Probability of nest loss to poaching
     p <- runif(0, 1, n = nests)
     nests <- nests - length(which(p < p_poach))
   }
+  A <- ysaFuncDD(yellow, n, nests)
+  n <- A %*% n
   N[[i]] <- n
 }
 map(N, sum) %>% unlist %>% plot
