@@ -78,10 +78,11 @@ clean_s <- na.omit(g_plot_dfs)
 fig_s <- ggplot(clean_s, aes(x = mat_element, y = mean_sens, fill = stage_B)) + geom_col() + 
   scale_x_discrete(limits=c("G1", "P2", "G2", "P3", "F3")) +
   labs(x = "Matrix Element", y = "Mean Sensitivity") 
-fig_s + scale_fill_discrete(name="Stage Class",
+fig_s <- fig_s + scale_fill_discrete(name="Stage Class",
                         breaks=c("col1", "col2", "col3"),
                         labels=c("Egg", "Juvenile", "Adult")) + 
   geom_errorbar(aes(ymin = mean_sens-se_sens, ymax = mean_sens+se_sens), width = 0.3)
+fig_s + mytheme
 
 #----------------------------------------------------------------------------------------------------------------------------------
 # elasticities 
@@ -120,6 +121,7 @@ fig_e <- fig_e + scale_fill_discrete(name="Stage Class",
                           breaks=c("col1", "col2", "col3"),
                           labels=c("Egg", "Juvenile", "Adult")) + 
   geom_errorbar(aes(ymin = mean_elas-se_elas, ymax = mean_elas+se_elas), width = 0.4) 
+fig_e <- fig_e + mytheme
 fig_e
 
 #---------------------------------------------------------------------------------------------------------------------------------- 
@@ -156,12 +158,12 @@ yellow_dii3 <- mutate(yellow_di3, di = ifelse(stage == "3", di - 3, di * 1))
 
 
 #load data, creating groups of matrices with different ages at first breeding 
-mat_inc1 <- map(1:10, function(x) ysaFunc(yellow_dii1))
-mat_inc2 <- map(1:10, function(x) ysaFunc(yellow_dii2))
-mat_inc3 <- map(1:10, function(x) ysaFunc(yellow_dii3))
-names(mat_inc1) <- paste('M', 1:10, sep = '')
-names(mat_inc2) <- paste('M', 1:10, sep = '')
-names(mat_inc3) <- paste('M', 1:10, sep = '')
+mat_inc1 <- map(1:100, function(x) ysaFunc(yellow_dii1))
+mat_inc2 <- map(1:100, function(x) ysaFunc(yellow_dii2))
+mat_inc3 <- map(1:100, function(x) ysaFunc(yellow_dii3))
+names(mat_inc1) <- paste('M', 1:100, sep = '')
+names(mat_inc2) <- paste('M', 1:100, sep = '')
+names(mat_inc3) <- paste('M', 1:100, sep = '')
 
 # use map and eigen.analysis
 out_1 <- map(mat_inc1, eigen.analysis) 
@@ -199,10 +201,11 @@ table_agerep <- data.frame(age, lambdas, SE)
 figure2 <- ggplot(table_agerep, aes(x = age, y = lambdas)) + geom_line(size=1) + geom_point(size=3)
 figure2 <- figure2 + labs(x = "Age of First Reproduction (yr)", y = "Population Growth (lambda)")+ 
   geom_errorbar(aes(ymin = lambdas-SE, ymax = lambdas+SE), width = 0.1)  
-figure2 <- figure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
+figure2 <- figure2 + mytheme
   geom_hline(yintercept = 1, linetype = "dashed") +
   theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14)) 
-figure2 + annotate("text", x=3.3, y=1.05, label = "base run") 
+figure_2 <- figure2 + annotate("text", x=3.3, y=1.055, label = "base run") 
+figure2
 
 #---------------------------------------------------------------------------------------------------------------------------------- 
 # sensitivity to pi i.e. the underlying vital rates
@@ -224,33 +227,33 @@ yellow_pi3Inc <- mutate(yellow, pi = ifelse(stage == "3",  max(pi * 1.1, 0.99), 
 
 
 #load data, creating groups of matrices with different ages at first breeding 
-mat_decfds <- map(1:10, function(x) ysaFunc(yellow_fecAdjust))
-mat_dec1ads <- map(1:10, function(x) ysaFunc(yellow_pi1aAdj))
-mat_dec1bds <- map(1:10, function(x) ysaFunc(yellow_pi1bAdj))
-mat_dec1cds <- map(1:10, function(x) ysaFunc(yellow_pi1cAdj))
-mat_dec2ds <- map(1:10, function(x) ysaFunc(yellow_pi2Adj))
-mat_dec3ds <- map(1:10, function(x) ysaFunc(yellow_pi3Adj))
+mat_decfds <- map(1:100, function(x) ysaFunc(yellow_fecAdjust))
+mat_dec1ads <- map(1:100, function(x) ysaFunc(yellow_pi1aAdj))
+mat_dec1bds <- map(1:100, function(x) ysaFunc(yellow_pi1bAdj))
+mat_dec1cds <- map(1:100, function(x) ysaFunc(yellow_pi1cAdj))
+mat_dec2ds <- map(1:100, function(x) ysaFunc(yellow_pi2Adj))
+mat_dec3ds <- map(1:100, function(x) ysaFunc(yellow_pi3Adj))
 
-mat_incfds <- map(1:10, function(x) ysaFunc(yellow_fecIncrease))
-mat_inc1ads <- map(1:10, function(x) ysaFunc(yellow_pi1aInc))
-mat_inc1bds <- map(1:10, function(x) ysaFunc(yellow_pi1bInc))
-mat_inc1cds <- map(1:10, function(x) ysaFunc(yellow_pi1cInc))
-mat_inc2ds <- map(1:10, function(x) ysaFunc(yellow_pi2Inc))
-mat_inc3ds <- map(1:10, function(x) ysaFunc(yellow_pi3Inc))
+mat_incfds <- map(1:100, function(x) ysaFunc(yellow_fecIncrease))
+mat_inc1ads <- map(1:100, function(x) ysaFunc(yellow_pi1aInc))
+mat_inc1bds <- map(1:100, function(x) ysaFunc(yellow_pi1bInc))
+mat_inc1cds <- map(1:100, function(x) ysaFunc(yellow_pi1cInc))
+mat_inc2ds <- map(1:100, function(x) ysaFunc(yellow_pi2Inc))
+mat_inc3ds <- map(1:100, function(x) ysaFunc(yellow_pi3Inc))
 
 
-names(mat_decfds) <- paste('M', 1:10, sep = '')
-names(mat_dec1ads) <- paste('M', 1:10, sep = '')
-names(mat_dec1bds) <- paste('M', 1:10, sep = '')
-names(mat_dec1cds) <- paste('M', 1:10, sep = '')
-names(mat_dec2ds) <- paste('M', 1:10, sep = '')
-names(mat_dec3ds) <- paste('M', 1:10, sep = '')
-names(mat_incfds) <- paste('M', 1:10, sep = '')
-names(mat_inc1ads) <- paste('M', 1:10, sep = '')
-names(mat_inc1bds) <- paste('M', 1:10, sep = '')
-names(mat_inc1cds) <- paste('M', 1:10, sep = '')
-names(mat_inc2ds) <- paste('M', 1:10, sep = '')
-names(mat_inc3ds) <- paste('M', 1:10, sep = '')
+names(mat_decfds) <- paste('M', 1:100, sep = '')
+names(mat_dec1ads) <- paste('M', 1:100, sep = '')
+names(mat_dec1bds) <- paste('M', 1:100, sep = '')
+names(mat_dec1cds) <- paste('M', 1:100, sep = '')
+names(mat_dec2ds) <- paste('M', 1:100, sep = '')
+names(mat_dec3ds) <- paste('M', 1:100, sep = '')
+names(mat_incfds) <- paste('M', 1:100, sep = '')
+names(mat_inc1ads) <- paste('M', 1:100, sep = '')
+names(mat_inc1bds) <- paste('M', 1:100, sep = '')
+names(mat_inc1cds) <- paste('M', 1:100, sep = '')
+names(mat_inc2ds) <- paste('M', 1:100, sep = '')
+names(mat_inc3ds) <- paste('M', 1:100, sep = '')
 
 # use map and eigen.analysis
 out_df <- map(mat_decfds, eigen.analysis)    
@@ -360,11 +363,12 @@ stage <- c("Fecundity", "Egg", "Nestling", "Fledgling", "Juvenile", "Adult",
            "Fecundity", "Egg", "Nestling", "Fledgling", "Juvenile", "Adult")
 
 g_plot_under <- data_frame(stage,change, change_means, change_se)
-
+lline <- (1-mean_lambda)
 #ggplot 
 figbar_LSA <- ggplot(g_plot_under, aes(x=stage, y=change_means)) + geom_bar(stat = "identity") + facet_wrap(~change)
+figbar_LSA <- figbar_LSA + mytheme
 figbar_LSA<- figbar_LSA + theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
 figbar_LSA <- figbar_LSA + scale_x_discrete(limits=c("Fecundity","Egg","Nestling","Fledgling","Juvenile","Adult"))
 figbar_LSA <- figbar_LSA + labs(x = "Stage class", y = "Change in lambda", size = 20)
 figbar_LSA <- figbar_LSA + geom_errorbar(aes(ymin = change_means-change_se, ymax = change_means+change_se), width = 0.2)  
-figbar_LSA + geom_hline(yintercept = -0.057344, linetype = "dashed") + annotate("text", x=3.3, y=-0.062, label = "lambda = 1") 
+figbar_LSA + geom_hline(yintercept = lline, linetype = "dashed") + annotate("text", x=3.3, y=-0.058, label = "lambda = 1") 
