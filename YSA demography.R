@@ -84,6 +84,10 @@ tab_5
 kable(tab_5, caption = "Table 1. Stable stage distribution (wJ) and reproductive values (v') for the yellow shouldered amazon 
       population matrix.")
 
+#creating a theme for my graphs so that they are uniform in presentation 
+mytheme <- theme_bw() + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) + 
+  theme(axis.title = element_text(size = 14))
+
 #--------------------------------------------------------------------------------------------------------------------------------
 # creating a figure which shows changes in rate of increase r resulting from simulated changes (10%) in fecundity and survival of 
 #individual 
@@ -168,18 +172,18 @@ rsa
 rsb
 #data frame
 r <- c(-(r-rsa[1]), -(r-rsa[2]), -(r-rsa[3]), -(r-rsa[4]), -(r-rsa[5]), -(r-rsa[6]), (rsb[1]-r), (rsb[2]-r),(rsb[3]-r), (rsb[4]-r), (rsb[5]-r), (rsb[6]-r))
-change <- c("decrease", "decrease", "decrease", "decrease", "decrease","decrease",
-            "increase","increase","increase","increase","increase","increase")
-class <- c("fecundity","egg","nestling","fledgling","juvenile","adult","fecundity","egg","nestling","fledgling","juvenile","adult")
+change <- c("Decrease 10%", "Decrease 10%", "Decrease 10%", "Decrease 10%", "Decrease 10%","Decrease 10%",
+            "Increase 10%","Increase 10%","Increase 10%","Increase 10%","Increase 10%","Increase 10%")
+class <- c("Fecundity","Egg","Nestling","Fledgling","Juvenile","Adult","Fecundity","Egg","Nestling","Fledgling","Juvenile","Adult")
 bar <- data_frame(class, change, r)
 
 #ggplot 
 figbar <- ggplot(bar, aes(x=class, y=r)) + geom_bar(stat = "identity") + facet_wrap(~change)
+figbar <- figbar + mytheme
 figbar <- figbar + theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
-figbar <- figbar + scale_x_discrete(limits=c("fecundity","egg","nestling","fledgling","juvenile","adult"))
+figbar <- figbar + scale_x_discrete(limits=c("Fecundity","Egg","Nestling","Fledgling","Juvenile","Adult"))
 figbar <- figbar + labs(x = "Stage class", y = "Change in r", size = 20)
 figbar
-
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # similar to crouse figure 3 
@@ -215,9 +219,9 @@ sensitivity <- read.csv("cheat for now.csv")
 sens <- gather(sensitivities, vr, elasticity, F, P, G)
 mutate(sens, "vr" = "Vital rate")
 #change sensitivites data frame into the correct format 
-fig <- ggplot(sens, aes(x = stage, y = elasticity, colour = vr, vr)) + geom_point(size = 7) + labs(x = "Stage", y = "Elasticity", size = 20)
+fig <- ggplot(sens, aes(x = stage, y = elasticity, colour = vr, vr)) + geom_point(size = 6) + labs(x = "Stage", y = "Elasticity", size = 20)
+fig <- fig + mytheme
 fig <- fig + scale_x_discrete(limits=c("E","J","A"), labels=c("Egg", "Juvenile", "Adult"))
-fig <- fig + theme(axis.title = element_text(size = 14))
 fig<- fig + ylim(0, max(elasticity))
 fig <-fig + scale_colour_discrete(name="Vital rate",
                               breaks=c("F", "G", "P"),
@@ -271,11 +275,12 @@ lambdas<- c(L1mean, L1, L2, L3)
 rs <- log(lambdas)
 table_agerep <- data.frame(age, rs)
 figure2 <- ggplot(table_agerep, aes(x = age, y = rs)) + geom_line(size=1) + geom_point(size=2)
+figure2 <- figure2 + mytheme
 figure2 <- figure2 + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate of Increase (r)")  
 figure2 <- figure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
-  geom_vline(xintercept = 3, linetype = "dashed") +
-  annotate("text", x=3.3, y=0.200, label = "base run") +
-  theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14))
+  geom_hline(yintercept = 0, linetype = "dashed")+
+  annotate("text", x=3.3, y=0.055, label = "base run") +
+  theme(axis.line = element_line(colour = "black")) 
 figure2
 
 #-----------------------------------------------------------------------------------------------------------------------------------
