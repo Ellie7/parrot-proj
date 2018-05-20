@@ -172,8 +172,8 @@ rsa
 rsb
 #data frame
 r <- c(-(r-rsa[1]), -(r-rsa[2]), -(r-rsa[3]), -(r-rsa[4]), -(r-rsa[5]), -(r-rsa[6]), (rsb[1]-r), (rsb[2]-r),(rsb[3]-r), (rsb[4]-r), (rsb[5]-r), (rsb[6]-r))
-change <- c("Decrease 10%", "Decrease 10%", "Decrease 10%", "Decrease 10%", "Decrease 10%","Decrease 10%",
-            "Increase 10%","Increase 10%","Increase 10%","Increase 10%","Increase 10%","Increase 10%")
+change <- c("(a) Decrease 10%", "(a) Decrease 10%", "(a) Decrease 10%", "(a) Decrease 10%", "(a) Decrease 10%","(a) Decrease 10%",
+            "(b) Increase 10%","(b) Increase 10%","(b) Increase 10%","(b) Increase 10%","(b) Increase 10%","(b) Increase 10%")
 class <- c("Fecundity","Egg","Nestling","Fledgling","Juvenile","Adult","Fecundity","Egg","Nestling","Fledgling","Juvenile","Adult")
 bar <- data_frame(class, change, r)
 
