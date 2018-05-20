@@ -201,7 +201,7 @@ table_agerep <- data.frame(age, lambdas, SE)
 figure2 <- ggplot(table_agerep, aes(x = age, y = lambdas)) + geom_line(size=1) + geom_point(size=3)
 figure2 <- figure2 + labs(x = "Age of First Reproduction (yr)", y = "Population Growth (lambda)")+ 
   geom_errorbar(aes(ymin = lambdas-SE, ymax = lambdas+SE), width = 0.1)  
-figure2 <- figure2 + mytheme
+figure2 <- figure2 + mytheme +
   geom_hline(yintercept = 1, linetype = "dashed") +
   theme(axis.line = element_line(colour = "black")) + theme(axis.title = element_text(size = 14)) 
 figure_2 <- figure2 + annotate("text", x=3.3, y=1.055, label = "base run") 
