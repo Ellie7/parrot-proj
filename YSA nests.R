@@ -136,3 +136,9 @@ for (i in 1:sim_len) {
 }
 map(N, sum) %>% unlist %>% plot
 
+#So you can produce a plot which shows the abundance over time under different poaching scenarios. 
+#And then a table or graph with the pop size at 50 and 100 years as a proportion of that Karrying Kapacity! 
+
+
+
+
