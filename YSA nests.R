@@ -260,12 +260,26 @@ Nb2 <- map(Nb2, sum) %>% unlist
 Nc2 <- map(Nc2, sum) %>% unlist
 Nd2 <- map(Nd2, sum) %>% unlist
 
-N2s <- c(Na2, Nb2, Nc2, Nd2)
+Ns2 <- c(Na2, Nb2, Nc2, Nd2)
 Ind <- c(1:100, 1:100, 1:100, 1:100)
 Poaching <- c(rep("0.01%", 100),rep("0.1%", 100), rep("1.0%", 100),rep("5.0%", 100)) 
-poach <- data_frame(Ns, Ind, Poaching)
+poach2 <- data_frame(Ns2, Ind, Poaching)
 
-poach_plot <- ggplot(poach, aes(x = Ind, y = N2s, group_by(Poaching))) + geom_point(aes(colour = Poaching)) + mytheme +
+poach_plot_200 <- ggplot(poach, aes(x = Ind, y = N2s, group_by(Poaching))) + geom_point(aes(colour = Poaching)) + mytheme +
   labs(x = "Time", y = "Population Size") 
-poach_plot
+poach_plot_200
+
+#-----------------------------------------------------------------------------------------------------------------------------------
+#facet 
+Nsf <- c(Na, Nb, Nc, Nd,Na2, Nb2, Nc2, Nd2)
+Indf <- c(1:100, 1:100, 1:100, 1:100, 1:100, 1:100, 1:100, 1:100)
+Poaching <- c(rep("0.01%", 100),rep("0.1%", 100), rep("1.0%", 100),rep("5.0%", 100),
+              rep("0.01%", 100),rep("0.1%", 100), rep("1.0%", 100),rep("5.0%", 100)) 
+Nests_av <- c(rep("100 Nest Sites",400), rep("200 Nest Sites", 400))
+poach_facet_df <- data_frame(Nsf, Indf, Poaching, Nests_av)
+
+poach_facet <- ggplot(poach_facet_df, aes(x = Indf, y = Nsf, group_by(Poaching))) + geom_point(aes(colour = Poaching)) + facet_wrap(~ Nests_av)
+poach_facet<- poach_facet + mytheme + labs(x = "Time", y = "Population Size") 
+poach_facet
+
 
