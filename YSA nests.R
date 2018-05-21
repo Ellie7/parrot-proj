@@ -51,6 +51,14 @@ for (i in 1:sim_len) {
 }
 map(N, sum) %>% unlist %>% plot
 
+number <- map(N, sum) %>% unlist
+index <- c(1:200) 
+
+dens <- data_frame(number, index)
+
+dens_plot <- ggplot(dens, aes(x = index, y = number)) + geom_point() + mytheme +
+  labs(x = "Time", y = "Population Size") 
+dens_plot + xlim(0,100)
 
 #use an implementation of the function described above to simulate population trajectories under a range of poaching 
 # probabilities: .01%, 0.1%, 0.5%, 1%
@@ -59,8 +67,8 @@ map(N, sum) %>% unlist %>% plot
 # 0.01% poaching 
 ## Simulation with losses of nests to poaching
 set.seed(20180515)
-sim_len <- 400
-N <- vector(mode = "list", length = sim_len)
+sim_len <- 100
+Na <- vector(mode = "list", length = sim_len)
 nests = 100
 p_poach <- 0.01
 n <- c(50, 50, 50)
@@ -72,15 +80,24 @@ for (i in 1:sim_len) {
   }
   A <- ysaFuncDD(yellow, n, nests)
   n <- A %*% n
-  N[[i]] <- n
+  Na[[i]] <- n
 } 
-map(N, sum) %>% unlist %>% plot
+map(Na, sum) %>% unlist %>% plot
+
+number <- map(Na, sum) %>% unlist
+index <- c(1:100) 
+
+dens <- data_frame(number, index)
+
+dens_plot <- ggplot(dens, aes(x = index, y = number)) + geom_point() + mytheme +
+  labs(x = "Time", y = "Population Size") 
+dens_plot + xlim(0,100)
 
 # 0.1% poaching 
 ## Simulation with losses of nests to poaching
 set.seed(20180515)
-sim_len <- 400
-N <- vector(mode = "list", length = sim_len)
+sim_len <- 100
+Nb <- vector(mode = "list", length = sim_len)
 nests = 100
 p_poach <- 0.1
 n <- c(50, 50, 50)
@@ -92,15 +109,15 @@ for (i in 1:sim_len) {
   }
   A <- ysaFuncDD(yellow, n, nests)
   n <- A %*% n
-  N[[i]] <- n
+  Nb[[i]] <- n
 }
-map(N, sum) %>% unlist %>% plot
+map(Nb, sum) %>% unlist %>% plot
 
 # 0.5% poaching 
 ## Simulation with losses of nests to poaching
 set.seed(20180515)
-sim_len <- 400
-N <- vector(mode = "list", length = sim_len)
+sim_len <- 100
+Nc <- vector(mode = "list", length = sim_len)
 nests = 100
 p_poach <- 0.5
 n <- c(50, 50, 50)
@@ -112,15 +129,15 @@ for (i in 1:sim_len) {
   }
   A <- ysaFuncDD(yellow, n, nests)
   n <- A %*% n
-  N[[i]] <- n
+  Nc[[i]] <- n
 }
-map(N, sum) %>% unlist %>% plot
+map(Nc, sum) %>% unlist %>% plot
 
 # 1% poaching 
 ## Simulation with losses of nests to poaching
 set.seed(20180515)
-sim_len <- 400
-N <- vector(mode = "list", length = sim_len)
+sim_len <- 100
+Nd <- vector(mode = "list", length = sim_len)
 nests = 100
 p_poach <- 1
 n <- c(50, 50, 50)
@@ -132,13 +149,25 @@ for (i in 1:sim_len) {
   }
   A <- ysaFuncDD(yellow, n, nests)
   n <- A %*% n
-  N[[i]] <- n
+  Nd[[i]] <- n
 }
-map(N, sum) %>% unlist %>% plot
+map(Nd, sum) %>% unlist %>% plot
 
 #So you can produce a plot which shows the abundance over time under different poaching scenarios. 
 #And then a table or graph with the pop size at 50 and 100 years as a proportion of that Karrying Kapacity! 
 
+Na <- map(Na, sum) %>% unlist
+Nb <- map(Nb, sum) %>% unlist
+Nc <- map(Nc, sum) %>% unlist
+Nd <- map(Nd, sum) %>% unlist
 
+Ns <- c(Na, Nb, Nc, Nd)
+Ind <- c(1:100, 1:100, 1:100, 1:100)
+let<- c(rep("a", 100),rep("b", 100), rep("c", 100),rep("d", 100)) 
+poach <- data_frame(Ns, Ind, let)
+
+poach_plot <- ggplot(poach, aes(x = Ind, y = Ns, group_by(let))) + geom_point() + mytheme +
+  labs(x = "Time", y = "Population Size") 
+poach_plot
 
 
