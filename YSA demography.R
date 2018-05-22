@@ -312,11 +312,4 @@ figure2
 # some popbio stuff 
 
 image2(A) #mean matrix 
-image2(matinc3)
-?image2() 
 
-elasmat <- elasticity(A)
-image2(elasmat)
-
-sensmat <- sensitivity(A, zero=FALSE)
-image2(sensmat)
