@@ -317,10 +317,24 @@ Indf <- c(1:100, 1:100, 1:100, 1:100, 1:100, 1:100, 1:100, 1:100)
 Poaching <- c(rep("0.01%", 100),rep("0.05%", 100), rep("0.1%", 100),rep("1.0%", 100),
               rep("0.01%", 100),rep("0.05%", 100), rep("0.1%", 100),rep("1.0%", 100)) 
 Nests_av <- c(rep("100 Nest Sites",400), rep("200 Nest Sites", 400))
-poach_facet_df <- data_frame(Nsf, Indf, Poaching, Nests_av)
+stable_pop <- c(rep(K100, 400), rep(K200, 400))
+poach_facet_df <- data_frame(Nsf, Indf, Poaching, Nests_av, stable_pop)
 
 poach_facet <- ggplot(poach_facet_df, aes(x = Indf, y = Nsf, group_by(Poaching))) + geom_point(aes(colour = Poaching)) + facet_wrap(~ Nests_av)
 poach_facet<- poach_facet + mytheme + labs(x = "Time (years)", y = "Population Size") 
 poach_facet + geom_vline(xintercept = 50, linetype = "dashed")
 
+#-----------------------------------------------------------------------------------------------------------------------------------
+# make a table (gasp) of the %decrease from stable pop at 50 or 100 years for each sim.
+poach_facet_df
 
+gasp <- subset(poach_facet_df, Indf == 50, select = c(Nsf, Poaching, Nests_av, stable_pop))
+
+gasp <- mutate(gasp, decrease = (((stable_pop-Nsf)/stable_pop)*100))
+
+tab_nest <- subset(gasp, select = c(Poaching, Nests_av, decrease))
+
+colnames(tab_nest) <- c("Poaching", "Threshold", "% Decrease from stable population 50 years on" )
+tab_nest
+kable(tab_nest, caption = "Table x. Percentage decrease in population size 50 years into the future for two different population 
+      thresholds, 100 nest sites and 200 nest sites.")
