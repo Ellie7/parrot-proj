@@ -36,8 +36,8 @@ stoch.projection(mat1, n0, tmax = 50, nreps = 10, prob = NULL,
 
 ####################################### alternatively use map and eigen.analysis 
 # load data (list of 10 matrices)
-mat1 <- map(1:10, function(x) ysaFunc(yellow))
-names(mat1) <- paste('M', 1:10, sep = '')
+mat1 <- map(1:1000, function(x) ysaFunc(yellow))
+names(mat1) <- paste('M', 1:1000, sep = '')
 # use map and eigen.analysis
 out <- map(mat1, eigen.analysis) 
 
@@ -158,12 +158,12 @@ yellow_dii3 <- mutate(yellow_di3, di = ifelse(stage == "3", di - 3, di * 1))
 
 
 #load data, creating groups of matrices with different ages at first breeding 
-mat_inc1 <- map(1:100, function(x) ysaFunc(yellow_dii1))
-mat_inc2 <- map(1:100, function(x) ysaFunc(yellow_dii2))
-mat_inc3 <- map(1:100, function(x) ysaFunc(yellow_dii3))
-names(mat_inc1) <- paste('M', 1:100, sep = '')
-names(mat_inc2) <- paste('M', 1:100, sep = '')
-names(mat_inc3) <- paste('M', 1:100, sep = '')
+mat_inc1 <- map(1:1000, function(x) ysaFunc(yellow_dii1))
+mat_inc2 <- map(1:1000, function(x) ysaFunc(yellow_dii2))
+mat_inc3 <- map(1:1000, function(x) ysaFunc(yellow_dii3))
+names(mat_inc1) <- paste('M', 1:1000, sep = '')
+names(mat_inc2) <- paste('M', 1:1000, sep = '')
+names(mat_inc3) <- paste('M', 1:1000, sep = '')
 
 # use map and eigen.analysis
 out_1 <- map(mat_inc1, eigen.analysis) 
@@ -226,34 +226,34 @@ yellow_pi2Inc <- mutate(yellow, pi = ifelse(stage == "2", max(pi * 1.1, 0.99), p
 yellow_pi3Inc <- mutate(yellow, pi = ifelse(stage == "3",  max(pi * 1.1, 0.99), pi *1))
 
 
-#load data, creating groups of matrices with different ages at first breeding 
-mat_decfds <- map(1:100, function(x) ysaFunc(yellow_fecAdjust))
-mat_dec1ads <- map(1:100, function(x) ysaFunc(yellow_pi1aAdj))
-mat_dec1bds <- map(1:100, function(x) ysaFunc(yellow_pi1bAdj))
-mat_dec1cds <- map(1:100, function(x) ysaFunc(yellow_pi1cAdj))
-mat_dec2ds <- map(1:100, function(x) ysaFunc(yellow_pi2Adj))
-mat_dec3ds <- map(1:100, function(x) ysaFunc(yellow_pi3Adj))
+#load data, creating groups of matrices with altered survival (10% decrease or increase) 
+mat_decfds <- map(1:1000, function(x) ysaFunc(yellow_fecAdjust))
+mat_dec1ads <- map(1:1000, function(x) ysaFunc(yellow_pi1aAdj))
+mat_dec1bds <- map(1:1000, function(x) ysaFunc(yellow_pi1bAdj))
+mat_dec1cds <- map(1:1000, function(x) ysaFunc(yellow_pi1cAdj))
+mat_dec2ds <- map(1:1000, function(x) ysaFunc(yellow_pi2Adj))
+mat_dec3ds <- map(1:1000, function(x) ysaFunc(yellow_pi3Adj))
 
-mat_incfds <- map(1:100, function(x) ysaFunc(yellow_fecIncrease))
-mat_inc1ads <- map(1:100, function(x) ysaFunc(yellow_pi1aInc))
-mat_inc1bds <- map(1:100, function(x) ysaFunc(yellow_pi1bInc))
-mat_inc1cds <- map(1:100, function(x) ysaFunc(yellow_pi1cInc))
-mat_inc2ds <- map(1:100, function(x) ysaFunc(yellow_pi2Inc))
-mat_inc3ds <- map(1:100, function(x) ysaFunc(yellow_pi3Inc))
+mat_incfds <- map(1:1000, function(x) ysaFunc(yellow_fecIncrease))
+mat_inc1ads <- map(1:1000, function(x) ysaFunc(yellow_pi1aInc))
+mat_inc1bds <- map(1:1000, function(x) ysaFunc(yellow_pi1bInc))
+mat_inc1cds <- map(1:1000, function(x) ysaFunc(yellow_pi1cInc))
+mat_inc2ds <- map(1:1000, function(x) ysaFunc(yellow_pi2Inc)) #*
+mat_inc3ds <- map(1:1000, function(x) ysaFunc(yellow_pi3Inc)) #*
 
 
-names(mat_decfds) <- paste('M', 1:100, sep = '')
-names(mat_dec1ads) <- paste('M', 1:100, sep = '')
-names(mat_dec1bds) <- paste('M', 1:100, sep = '')
-names(mat_dec1cds) <- paste('M', 1:100, sep = '')
-names(mat_dec2ds) <- paste('M', 1:100, sep = '')
-names(mat_dec3ds) <- paste('M', 1:100, sep = '')
-names(mat_incfds) <- paste('M', 1:100, sep = '')
-names(mat_inc1ads) <- paste('M', 1:100, sep = '')
-names(mat_inc1bds) <- paste('M', 1:100, sep = '')
-names(mat_inc1cds) <- paste('M', 1:100, sep = '')
-names(mat_inc2ds) <- paste('M', 1:100, sep = '')
-names(mat_inc3ds) <- paste('M', 1:100, sep = '')
+names(mat_decfds) <- paste('M', 1:1000, sep = '')
+names(mat_dec1ads) <- paste('M', 1:1000, sep = '')
+names(mat_dec1bds) <- paste('M', 1:1000, sep = '')
+names(mat_dec1cds) <- paste('M', 1:1000, sep = '')
+names(mat_dec2ds) <- paste('M', 1:1000, sep = '')
+names(mat_dec3ds) <- paste('M', 1:1000, sep = '')
+names(mat_incfds) <- paste('M', 1:1000, sep = '')
+names(mat_inc1ads) <- paste('M', 1:1000, sep = '')
+names(mat_inc1bds) <- paste('M', 1:1000, sep = '')
+names(mat_inc1cds) <- paste('M', 1:1000, sep = '')
+names(mat_inc2ds) <- paste('M', 1:1000, sep = '')
+names(mat_inc3ds) <- paste('M', 1:1000, sep = '')
 
 # use map and eigen.analysis
 out_df <- map(mat_decfds, eigen.analysis)    
