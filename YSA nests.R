@@ -36,13 +36,16 @@ n <- c(100, 100, 100) # population vector
 
 A <- ysaFuncDD(yellow, n, threshold, stochastic = FALSE)  
 
+
+
 n <- A %*% n 
 
 ## Simulation with density dependence
 # used to find out the carrying capacity for a given threshold number of nests.
+#finding out carrying capacity for 100 nests 
 sim_len <- 200
 N <- vector(mode = "list", length = sim_len)
-thres = 150
+thres = 100
 n <- c(50, 50, 50)
 for (i in 1:sim_len) {
   A <- ysaFuncDD(yellow, n, thres)
@@ -54,11 +57,49 @@ map(N, sum) %>% unlist %>% plot
 number <- map(N, sum) %>% unlist
 index <- c(1:200) 
 
+K100 <- max(number)
+
+#finding out carrying capacity for 200 nests 
+sim_len <- 200
+N <- vector(mode = "list", length = sim_len)
+thres = 200
+n <- c(50, 50, 50)
+for (i in 1:sim_len) {
+  A <- ysaFuncDD(yellow, n, thres)
+  n <- A %*% n
+  N[[i]] <- n
+}
+map(N, sum) %>% unlist %>% plot
+
+number2 <- map(N, sum) %>% unlist
+index <- c(1:200) 
+
+K200 <- max(number2)
+
+
+
+
 dens <- data_frame(number, index)
 
 dens_plot <- ggplot(dens, aes(x = index, y = number)) + geom_point() + mytheme +
   labs(x = "Time", y = "Population Size") 
 dens_plot + xlim(0,100)
+
+#carrying capacity for 100 nests 
+K100
+#carrying capacity for 200 nests 
+K200 
+#stable stage disribution
+S <- ysaFunc(yellow)
+eigen_S <- eigen.analysis(S)
+stable_stage <- c(eigen_S$stable.stage)
+stable_stage <- data_frame(stable_stage)
+stable_stage
+#stable stage for 100 nests 
+
+stable_100 <- c((K100 * stable_stage$stable_stage[1]),(K100 * stable_stage$stable_stage[2]), (K100 * stable_stage$stable_stage[3]))
+#stable stage for 200 nests
+stable_200 <- c((K200 * stable_stage$stable_stage[1]),(K200 * stable_stage$stable_stage[2]), (K200 * stable_stage$stable_stage[3]))
 
 #use an implementation of the function described above to simulate population trajectories under a range of poaching 
 # probabilities: .01%, 0.1%, 0.5%, 1%
@@ -71,7 +112,7 @@ sim_len <- 100
 Na <- vector(mode = "list", length = sim_len)
 nests = 100
 p_poach <- 0.01
-n <- c(50, 50, 50)
+n <- stable_100 
 for (i in 1:sim_len) {
   if (nests > 0) {
     ## Probability of nest loss to poaching
@@ -100,7 +141,7 @@ sim_len <- 100
 Nb <- vector(mode = "list", length = sim_len)
 nests = 100
 p_poach <- 0.1
-n <- c(50, 50, 50)
+n <- stable_100
 for (i in 1:sim_len) {
   if (nests > 0) {
     ## Probability of nest loss to poaching
@@ -120,7 +161,7 @@ sim_len <- 100
 Nc <- vector(mode = "list", length = sim_len)
 nests = 100
 p_poach <- 0.5
-n <- c(50, 50, 50)
+n <- stable_100
 for (i in 1:sim_len) {
   if (nests > 0) {
     ## Probability of nest loss to poaching
@@ -140,7 +181,7 @@ sim_len <- 100
 Nd <- vector(mode = "list", length = sim_len)
 nests = 100
 p_poach <- 1
-n <- c(50, 50, 50)
+n <- stable_100
 for (i in 1:sim_len) {
   if (nests > 0) {
     ## Probability of nest loss to poaching
@@ -179,7 +220,7 @@ sim_len <- 100
 Na2 <- vector(mode = "list", length = sim_len)
 nests = 200
 p_poach <- 0.01
-n <- c(50, 50, 50)
+n <- stable_200
 for (i in 1:sim_len) {
   if (nests > 0) {
     ## Probability of nest loss to poaching
@@ -192,14 +233,14 @@ for (i in 1:sim_len) {
 } 
 map(Na2, sum) %>% unlist %>% plot
 
-# 0.1% poaching 
+# 0.05% poaching 
 ## Simulation with losses of nests to poaching
 set.seed(20180515)
 sim_len <- 100
 Nb2 <- vector(mode = "list", length = sim_len)
 nests = 200
-p_poach <- 0.1
-n <- c(50, 50, 50)
+p_poach <- 0.05
+n <- stable_200
 for (i in 1:sim_len) {
   if (nests > 0) {
     ## Probability of nest loss to poaching
@@ -212,14 +253,14 @@ for (i in 1:sim_len) {
 }
 map(Nb2, sum) %>% unlist %>% plot
 
-# 0.5% poaching 
+# 0.1% poaching 
 ## Simulation with losses of nests to poaching
 set.seed(20180515)
 sim_len <- 100
 Nc2 <- vector(mode = "list", length = sim_len)
 nests = 200
-p_poach <- 0.5
-n <- c(50, 50, 50)
+p_poach <- 0.1
+n <- stable_200
 for (i in 1:sim_len) {
   if (nests > 0) {
     ## Probability of nest loss to poaching
@@ -239,7 +280,7 @@ sim_len <- 100
 Nd2 <- vector(mode = "list", length = sim_len)
 nests = 200
 p_poach <- 1
-n <- c(50, 50, 50)
+n <- stable_200
 for (i in 1:sim_len) {
   if (nests > 0) {
     ## Probability of nest loss to poaching
@@ -265,7 +306,7 @@ Ind <- c(1:100, 1:100, 1:100, 1:100)
 Poaching <- c(rep("0.01%", 100),rep("0.1%", 100), rep("1.0%", 100),rep("5.0%", 100)) 
 poach2 <- data_frame(Ns2, Ind, Poaching)
 
-poach_plot_200 <- ggplot(poach, aes(x = Ind, y = N2s, group_by(Poaching))) + geom_point(aes(colour = Poaching)) + mytheme +
+poach_plot_200 <- ggplot(poach, aes(x = Ind, y = Ns2, group_by(Poaching))) + geom_point(aes(colour = Poaching)) + mytheme +
   labs(x = "Time", y = "Population Size") 
 poach_plot_200
 
@@ -273,13 +314,13 @@ poach_plot_200
 #facet 
 Nsf <- c(Na, Nb, Nc, Nd,Na2, Nb2, Nc2, Nd2)
 Indf <- c(1:100, 1:100, 1:100, 1:100, 1:100, 1:100, 1:100, 1:100)
-Poaching <- c(rep("0.01%", 100),rep("0.1%", 100), rep("1.0%", 100),rep("5.0%", 100),
-              rep("0.01%", 100),rep("0.1%", 100), rep("1.0%", 100),rep("5.0%", 100)) 
+Poaching <- c(rep("0.01%", 100),rep("0.05%", 100), rep("0.1%", 100),rep("1.0%", 100),
+              rep("0.01%", 100),rep("0.05%", 100), rep("0.1%", 100),rep("1.0%", 100)) 
 Nests_av <- c(rep("100 Nest Sites",400), rep("200 Nest Sites", 400))
 poach_facet_df <- data_frame(Nsf, Indf, Poaching, Nests_av)
 
 poach_facet <- ggplot(poach_facet_df, aes(x = Indf, y = Nsf, group_by(Poaching))) + geom_point(aes(colour = Poaching)) + facet_wrap(~ Nests_av)
-poach_facet<- poach_facet + mytheme + labs(x = "Time", y = "Population Size") 
-poach_facet
+poach_facet<- poach_facet + mytheme + labs(x = "Time (years)", y = "Population Size") 
+poach_facet + geom_vline(xintercept = 50, linetype = "dashed")
 
 
