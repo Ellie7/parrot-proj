@@ -53,7 +53,9 @@ pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.
 # ^from life_table_data_master_csv, 0.71 from Salinas-Melgoza & Renton 2007, 0.8515s from Tamora's imputation 
 # pi standard errors / SD 
 piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.2, sqrt((1 - pi[4])*pi[4]) - 0.001, sqrt((1 - pi[5])*pi[5]) - 0.001)
-# ^using life_table_data_master_csv, 0.2 from Salinas-Melgoza & Renton 2007, 0.1322s from Tamora's imputation  
+# ^ using life_table_data_master_csv, 0.2 from Salinas-Melgoza & Renton 2007, 0.1322s from Tamora's imputation  
+#^ SD generated from the imputation (0.36363) was too high to generate beta values so you replaced it with a value slightly less 
+# than the maximum allowed value (0.3555892).
 #reproductive output/fecundity 
 f <- c(0, 0, 0, 0, 1.6) #half of 3.2 as sex ratio assumed 1:1 (Sams thesis)
 #reproductive output/fecundity SEs
