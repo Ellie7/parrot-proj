@@ -49,20 +49,17 @@ class <- c("egg", "nestling", "fledgling", "juvenile", "adult")
 di <- c((27/365), (59/365), (279/365), (24/12), 10) #27 days, 59 days, To age 12 months, Age 13-36 months, 
 # Age 37 months+ (as 10 years -> needs updating and a reference) 
 #pi (survival)
-pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.71, 0.875, 0.8515058) 
-# ^from life_table_data_master_csv, 0.71 from Salinas-Melgoza & Renton 2007, 0.875 from Rodriguez et al 2004 
+pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.71, 0.8515058, 0.8515058) 
+# ^from life_table_data_master_csv, 0.71 from Salinas-Melgoza & Renton 2007, 0.8515s from Tamora's imputation 
 # pi standard errors / SD 
-piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.2, 0.075, 0.1322268) # 
-# ^using life_table_data_master_csv, 0.2 from Salinas-Melgoza & Renton 2007, 0.075s from Rodriguez et al 2004 
+piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.2, sqrt(0.1322268), sqrt(0.1322268)) # 
+# ^using life_table_data_master_csv, 0.2 from Salinas-Melgoza & Renton 2007, 0.1322s from Tamora's imputation  
 #reproductive output/fecundity 
 f <- c(0, 0, 0, 0, 1.6) #half of 3.2 as sex ratio assumed 1:1 (Sams thesis)
 #reproductive output/fecundity SEs
 fSD <- c(0, 0, 0, 0, 0.1) # SE sams thesis (halved)
 # creating dataframe by combining columns 
-yellow_orig <- data_frame(stage, class, di, pi, piSD,  f, fSD)
-
-
-
+yellow <- data_frame(stage, class, di, pi, piSD,  f, fSD)
 
 #initial calculations using ysaFunc & ysameanFunc to create matrices 
 A <- ysameanFunc(yellow) # for 'mean' matrix 
