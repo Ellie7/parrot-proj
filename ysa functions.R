@@ -19,7 +19,6 @@ ysaFunc <- function (dataSource)
   p1c<- betaval((dataSource$pi[3]), (dataSource$piSD[3]), fx=runif(1))
   p2 <- betaval((dataSource$pi[4]), (dataSource$piSD[4]), fx=runif(1))
   p3 <- betaval((dataSource$pi[5]), (dataSource$piSD[5]), fx=runif(1))
-  
   #f
   f3 <- rnorm(1, mean = (dataSource$f[5]), sd = (dataSource$fSD[5])) 
   
