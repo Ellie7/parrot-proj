@@ -52,7 +52,7 @@ di <- c((27/365), (59/365), (279/365), (24/12), 10) #27 days, 59 days, To age 12
 pi <- c((total_summary$mean_hatch[1]), (total_summary$mean_nestling_surv[1]), 0.71, 0.8515058, 0.8515058) 
 # ^from life_table_data_master_csv, 0.71 from Salinas-Melgoza & Renton 2007, 0.8515s from Tamora's imputation 
 # pi standard errors / SD 
-piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.2, sqrt(0.1322268), sqrt(0.1322268))
+piSD <- c((total_summary$se_hatch[1]), (total_summary$se_nestling_surv[1]), 0.2, 0.04722409, 0.04722409)
 # ^ using life_table_data_master_csv, 0.2 from Salinas-Melgoza & Renton 2007, 0.1322s from Tamora's imputation  
 #^ SD generated from the imputation (0.36363) was too high to generate beta values so you replaced it with a value slightly less 
 # than the maximum allowed value (0.3555892).
