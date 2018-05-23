@@ -14,11 +14,19 @@ library(tidyverse)
 ysaFunc <- function (dataSource) 
 { 
   #ps
-  p1a<- betaval((dataSource$pi[1]), (dataSource$piSD[1]), fx=runif(1)) 
-  p1b<- betaval((dataSource$pi[2]), (dataSource$piSD[2]), fx=runif(1)) 
-  p1c<- betaval((dataSource$pi[3]), (dataSource$piSD[3]), fx=runif(1))
-  p2 <- betaval((dataSource$pi[4]), (dataSource$piSD[4]), fx=runif(1))
-  p3 <- betaval((dataSource$pi[5]), (dataSource$piSD[5]), fx=runif(1))
+  p <- purrr::map2(dataSource$pi, dataSource$piSD, function(mu, sdev) {
+    ## check if variance < (1-p) * p
+    if (sdev^2 < (1 - mu)*mu) {
+      ## OK to use sdev in betaval function
+      betaval(mu, sdev, fx=runif(1))
+    } else {
+      ## Replace sdev with allowable value
+      betaval(mu, sqrt((1 - mu)*mu) - 0.01, fx=runif(1))      
+    }
+  })
+  names(p) <- c("p1a", "p1b", "p1c", "p2", "p3")
+  ## this adds elements of the list to the current environment
+  list2env(p, envir = environment())
   #f
   f3 <- rnorm(1, mean = (dataSource$f[5]), sd = (dataSource$fSD[5])) 
   
