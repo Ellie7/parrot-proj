@@ -41,6 +41,15 @@ names(mat1) <- paste('M', 1:1000, sep = '')
 # use map and eigen.analysis
 out <- map(mat1, eigen.analysis) 
 
+#FIX hopefully won't need 
+# use map and eigen.analysis
+#out <- map(mat1, function(m) {
+#  if (Matrix::condest(m)$est > 100) {
+#    NULL
+#  } else {
+#    eigen.analysis(m)
+#  }
+# }) 
 # the eigen analysis outputs for each matrix
 out
 
@@ -56,11 +65,18 @@ use.names.c<- colnames(out[[1]]$sensitivities)
 
 out2s <- map_df(out, function(x) {cbind(c(x$sensitivities))}) 
 
+#fix hopefully won't need 
+# create a data frame where columns are the matrix ID and rows are the elements
+# of the sensitivity matrix
+#out2s <- map_df(out, function(x) { if(!is.null(x)) { cbind(c(x$sensitivities)) } else { matrix(rep(NA, 9)) } }) 
+
 # use rowMeans to get the average sensitivity for each element
 # and the se_fnc to get the se
 # and re-create as a matrix
 
 se_fnc <- function(x){sd(x)/sqrt(sum(!is.na(x)))}
+#FIX hopefully won't need 
+#se_fnc <- function(x){sd(x, na.rm = TRUE)/sqrt(sum(!is.na(x)))}
 
 # these are the mean and se matrices of sensitivity, in this case.
 mean_sensitivity <- matrix(rowMeans(out2s),3,3,
