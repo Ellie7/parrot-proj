@@ -76,7 +76,6 @@ dom.pos <- which.max(eigs.A[["values"]])
 L1mean <- Re(eigs.A[["values"]][dom.pos])
 L1mean
 lambda <- Re(eigs.A$values[1])
-#=0.9329156
 
 #finding r (log of lambda)
 r <- log(L1mean)
@@ -304,7 +303,7 @@ figure2 <- figure2 + mytheme
 figure2 <- figure2 + labs(x = "Age of First Reproduction (yr)", y = "Intrinsic rate of Increase (r)")  
 figure2 <- figure2 + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
   geom_hline(yintercept = 0, linetype = "dashed")+
-  annotate("text", x=3.3, y=0.055, label = "base run") +
+  annotate("text", x=3.3, y=0.04, label = "base run") +
   theme(axis.line = element_line(colour = "black")) 
 figure2
 
